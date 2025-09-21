@@ -68,7 +68,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -76,7 +76,7 @@
             "description": "Define the database table structure for storing user information, including fields for username, email, password hash, and roles.",
             "dependencies": [],
             "details": "Use SQL DDL to create a `users` table. Include columns for `id` (PK), `username` (unique), `email` (unique), `password_hash`, `created_at`, `updated_at`. Consider indexing `username` and `email` for performance.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify table creation and column definitions using a database client. Ensure unique constraints are enforced."
           },
           {
@@ -85,7 +85,7 @@
             "description": "Create an API endpoint (`/api/register`) that allows new users to register by providing a username, email, and password. The password should be hashed before storage.",
             "dependencies": [],
             "details": "Develop a POST endpoint. Validate input fields (e.g., email format, password strength, uniqueness of username/email). Hash passwords using a strong algorithm like bcrypt. Store user data in the database.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Use Postman/cURL to send valid and invalid registration requests. Check database for new user entry and correct password hash. Test edge cases like existing username/email."
           },
           {
@@ -94,7 +94,7 @@
             "description": "Create a set of utility functions for generating, signing, and verifying JSON Web Tokens.",
             "dependencies": [],
             "details": "Use a library like `jsonwebtoken`. Define a secure secret key (e.g., from environment variables). Implement functions for `generateToken(payload, expiresIn)` and `verifyToken(token)`. The payload should include user ID and roles.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Unit tests for token generation with various payloads and expiration times. Unit tests for token verification with valid, invalid, and expired tokens. Ensure correct error handling for invalid tokens."
           },
           {
@@ -103,7 +103,7 @@
             "description": "Create an API endpoint (`/api/login`) that authenticates users based on their username/email and password, returning a JWT upon successful login.",
             "dependencies": [],
             "details": "Develop a POST endpoint. Retrieve user from database by username/email. Compare provided password with stored hash. If valid, use the JWT utility to generate and return a token. Handle invalid credentials gracefully.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Use Postman/cURL to send valid and invalid login requests. Verify JWT generation and structure for valid logins. Test with incorrect passwords and non-existent users."
           },
           {
@@ -112,7 +112,7 @@
             "description": "Create a middleware function that protects API routes by verifying the presence and validity of a JWT in the request header.",
             "dependencies": [],
             "details": "Extract token from `Authorization: Bearer <token>` header. Use the `verifyToken` utility. If valid, attach user information (e.g., user ID, roles) to the request object. If invalid or missing, return a 401 Unauthorized response.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Create a dummy protected route. Test access with valid, invalid, expired, and missing JWTs. Verify that user information is correctly attached to the request for valid tokens."
           },
           {
@@ -121,7 +121,7 @@
             "description": "Create a protected API endpoint (`/api/profile`) that returns the authenticated user's profile information.",
             "dependencies": [],
             "details": "Apply the JWT authentication middleware to this route. The endpoint should be a GET request. Fetch user details from the database using the user ID obtained from the verified token (attached by the middleware). Return relevant profile data.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test access with a valid JWT (obtained from login). Test access without a JWT and with an invalid/expired JWT. Verify that the correct user data is returned for authenticated requests and that unauthorized requests are rejected."
           }
         ]
@@ -646,7 +646,7 @@
     ],
     "metadata": {
       "created": "2025-09-21T12:23:29.327Z",
-      "updated": "2025-09-21T15:45:37.329Z",
+      "updated": "2025-09-21T16:03:49.101Z",
       "description": "Tasks for master context"
     }
   }
