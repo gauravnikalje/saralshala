@@ -1,0 +1,197 @@
+### **Comprehensive Product Requirements Document (PRD)**
+
+* **Project:** School Administration Software
+* **Version:** 1.0 (MVP)
+* **Date:** 2025-09-21
+
+---
+
+### **1. Project Vision & Core Objective**
+
+* **Primary Objective:** To digitize the entire workflow of a rural Marathi school of 1200 students and provide an efficient way for the Principal and Teachers to organize their core administrative tasks.
+* **Problem Statement:** The school's current workflow is entirely offline, relying on physical paper registers for attendance, grades, and timetables. This process is time-consuming for teachers, prone to manual errors, and provides zero real-time operational visibility for the Principal. Communicating urgent information is slow and inefficient.
+* **Elevator Pitch:** We are building a simple, mobile-first web app for a rural Marathi school that digitizes their most critical tasks—attendance, timetables, notices, and grades. Unlike bloated, expensive ERP systems, our solution is purpose-built to be so intuitive that teachers can use it without training, giving them more time to teach and providing the Principal with instant oversight.
+* **Target Audience:** The staff of a specific rural Marathi-medium school with ~1200 students. The primary users are teachers and the school Principal, who have limited technical expertise but are comfortable with smartphones.
+* **Market Opportunity:** The main competitors are large, generic School ERP systems that are often too complex, expensive, and feature-heavy for the needs of a smaller, rural school. Their weakness is their "one-size-fits-all" approach. Our product will be better because it is **purpose-built for simplicity and user adoption**, focusing only on the essential features, making it faster, more affordable, and a more beloved choice for its users.
+
+---
+
+### **2. User Personas & Stories**
+
+* **Primary Persona:** **The Teacher ("Mrs. Kulkarni")**. A teacher aged 40-55, whose primary language is Marathi. Her goal is to manage her classroom duties efficiently. Her frustrations are the hours wasted on repetitive paperwork like marking attendance and calculating grades. Her technical skill level is basic; she is proficient with WhatsApp but intimidated by complex software with many menus and options.
+* **Secondary Personas:**
+    * **The Principal ("Mr. Deshpande"):** The head of the school who needs quick, high-level summaries of school operations (attendance, performance) to make informed decisions.
+    * **Admin Staff:** Clerical staff who will handle the initial data entry and occasional administrative updates.
+* **Core User Story:** "As a Teacher, I want to mark attendance for my class on my phone in under two minutes so that I can minimize administrative work and focus on teaching."
+* **Key User Scenarios:**
+    1.  **Marking Attendance:** Teacher logs in -> Dashboard shows the next class -> Taps "Mark Attendance" -> Taps "Mark All Present" -> Untaps the few absent students -> Taps "Save".
+    2.  **Checking Notices:** Teacher logs in -> Sees a new notice alert on the dashboard -> Taps the notice to read the full message -> Taps a "Seen" button to acknowledge.
+    3.  **Entering Grades:** Teacher navigates to Grades -> Selects Class, Subject, and Exam -> Enters marks into a simple, Excel-like table on their phone -> The system saves automatically.
+* **Edge Case Users:** Explicitly **out of scope for V1**. Roles for substitute teachers, Heads of Department, or a Vice-Principal will not be created. These users will use shared credentials from a primary teacher or the Principal on a temporary basis to maintain simplicity.
+
+---
+
+### **3. Core Features & Functionality**
+
+**(Feature Block 1)**
+
+* **Feature Name:** User Authentication
+* **Description:** A secure system for staff to log in.
+* **User Goal:** To ensure only authorized teachers and the Principal can access school data.
+* **Functional Requirements:**
+    * Login with a unique ID and password.
+    * Separate login portals/redirects for Teacher and Principal.
+    * A "Forgot Password" flow is not required for MVP (passwords can be reset by the Principal).
+* **Acceptance Criteria:** A registered teacher can successfully log in and is directed to the Teacher Dashboard. The Principal can log in and is directed to the Principal Dashboard.
+* **Priority:** Must-Have
+
+**(Feature Block 2)**
+
+* **Feature Name:** Teacher Dashboard
+* **Description:** The main landing page for teachers, providing a context-aware overview of their tasks.
+* **User Goal:** To immediately know what they need to do next and see important updates.
+* **Functional Requirements:**
+    * Display the teacher's current/next class based on the timetable.
+    * Provide a one-click button to the most urgent action (e.g., "Mark Attendance").
+    * Show a list of recent unread notices.
+    * Include quick access buttons to other modules (Grades, Timetable).
+* **Acceptance Criteria:** The dashboard loads in under 2.5 seconds and correctly displays the teacher's schedule for the current day.
+* **Priority:** Must-Have
+
+**(Feature Block 3)**
+
+* **Feature Name:** Attendance Module
+* **Description:** A module for teachers to quickly mark daily student attendance.
+* **User Goal:** To replace the physical attendance register with a fast, digital alternative.
+* **Functional Requirements:**
+    * Automatically display the student list for the correct class and period.
+    * Must have a "Mark All Present" button.
+    * Teachers can toggle a student's status between Present and Absent by tapping.
+    * On submission, an SMS alert is sent to the parents of absent students.
+* **Acceptance Criteria:** A teacher can mark attendance for a class of 60 within 2 minutes. An SMS is successfully sent to the parent of an absent student within 10 minutes of submission.
+* **Priority:** Must-Have
+
+**(Feature Block 4)**
+
+* **Feature Name:** Principal Dashboard & Reports
+* **Description:** A high-level overview for the Principal to monitor school-wide activity.
+* **User Goal:** To get instant insight into school performance without manual data collection.
+* **Functional Requirements:**
+    * Display real-time school-wide attendance percentage.
+    * Show a summary of academic performance.
+    * Allow posting of school-wide notices to all teachers.
+    * Generate and export simple reports (Attendance, Grades) in CSV/PDF format.
+* **Acceptance Criteria:** The Principal can view the daily attendance summary for the entire school in under 5 minutes. A notice posted by the Principal is visible to all teachers instantly.
+* **Priority:** Must-Have
+
+**(Feature Block 5)**
+
+* **Feature Name:** Admin Setup Module
+* **Description:** A backend module for the Principal/Admin to manage core school data.
+* **User Goal:** To set up and maintain the school's foundational data without technical help.
+* **Functional Requirements:**
+    * Must support a one-time bulk import of Student and Teacher data from a CSV template.
+    * Must provide an interface to create and manage the master Timetable.
+    * Must allow for creating and managing staff login credentials.
+* **Acceptance Criteria:** The admin can successfully upload a CSV of 1200 students in under 2 minutes. The Principal can create a new teacher account.
+* **Priority:** Must-Have
+
+---
+
+### **4. Technical Requirements & Architecture**
+
+* **Technology Stack:**
+    * **Frontend:** HTML, CSS, JavaScript, Tailwind CSS (via CDN), Alpine.js.
+    * **Backend & Database:** **Supabase** (PostgreSQL).
+* **Hosting & Deployment:** Frontend hosted on **Vercel/Netlify**. Database and backend logic hosted on **Supabase**. A CI/CD pipeline will be set up for automated deployments.
+* **Data Model:** Core data objects are **Students**, **Teachers**, **Classes**, **Timetables**, **AttendanceRecords**, and **Notices**.
+* **Third-Party Integrations:** An **SMS Gateway API** for sending absence alerts to parents.
+* **Scalability:** The initial build is for a single school of ~1200 students. However, the Supabase architecture and generic data models should be designed to allow for a future transition to a multi-tenant system to support other schools.
+* **Performance:**
+    * Teacher Dashboard must load in < 2.5 seconds on a 5 Mbps connection.
+    * Attendance page must load in < 2 seconds.
+    * Public school website can have a load time of ~5 seconds.
+    * All internal app pages should have a total weight of < 1 MB.
+* **Offline Support:** The application must cache the last loaded timetable and notices for offline viewing. The attendance module should allow for offline marking and auto-sync when connectivity is restored.
+* **Cross-Platform Support:** A responsive web application that works flawlessly on desktop (Chrome/Edge) and mobile (Android Chrome).
+
+---
+
+### **5. User Experience (UX) & Design**
+
+* **Design Inspiration & Blueprint:** The provided UI mockup is the **visual golden standard** for the entire application.
+    
+* **Core Design Principles:**
+    * **Layout:** Clean, card-based, with generous white space.
+    * **Hierarchy:** The most important information or action on a page is always the most visually prominent.
+    * **Navigation:** Simple, intuitive, and consistent across all screens.
+* **Brand Guidelines:** The school's official logo and color scheme must be used.
+* **Accessibility:** The design must prioritize high contrast, large font sizes, and big, easily tappable buttons to be accessible for all users.
+* **Localization:** The primary and default language must be **Marathi**. A secondary option for English can be included.
+* **Onboarding:** Users will be onboarded via a single-day, in-person workshop. Simple, printable one-page guides for core tasks will be provided.
+* **User Flow:** The ideal flow is designed for speed: `Login` -> `Dashboard presents immediate task` -> `User taps one button to enter the task screen` -> `User completes task in minimal clicks` -> `User returns to dashboard`.
+
+---
+
+### **6. Data, Analytics, & Reporting**
+
+* **Key Performance Indicators (KPIs):**
+    * **Teacher Adoption:** >90% of teachers use the attendance module daily.
+    * **Efficiency Gain:** Teachers spend 50% less time on paperwork.
+    * **Principal Engagement:** Principal can get a full school attendance report in under 5 minutes.
+    * **Parental Impact:** Overall student attendance improves by 10-20% due to timely SMS alerts.
+* **Analytics:** The system will track core user actions: staff logins, attendance submissions, notices viewed, and reports generated.
+* **Reporting:** The Principal must be able to generate and export daily/weekly attendance reports and class-wise grade summaries.
+* **Data Privacy:** All user data will be handled in compliance with the Indian IT Act and DPDP Act. Access is strictly role-based. All sensitive student data must be encrypted.
+
+---
+
+### **7. Security, Compliance, & Legal**
+
+* **User Authentication:** Role-based access control for Teachers and Principals.
+* **Data Security:** All data must be encrypted at rest (in the database) and in transit (HTTPS/SSL). An audit log will track all access to and exports of sensitive student data.
+* **Compliance:** The software will adhere to the regulations set forth in the IT Act, 2000, and the upcoming Digital Personal Data Protection Act, 2023.
+* **Legal:** A basic Terms of Service and a Privacy Policy will be required.
+
+---
+
+### **8. Launch & Go-to-Market**
+
+* **Launch Plan:** A phased 8-week development plan, culminating in a full school rollout at the end of Week 8.
+* **Beta Program:** A pilot test will be conducted with 1-2 volunteer teachers/classes during Weeks 3-4 to gather early feedback.
+* **User Support:** Post-launch support will be provided via a dedicated WhatsApp number, managed by one of the team members.
+* **Marketing:** Not applicable for this single-client project.
+* **Migration:** A one-time data migration will be performed before launch. Clerical staff will populate standardized Excel/CSV templates from paper registers, which will then be bulk-imported into the system.
+
+---
+
+### **9. Assumptions, Constraints, & Risks**
+
+* **Assumptions:**
+    * We assume all teachers have access to a basic Android smartphone with a mobile data connection during school hours.
+    * We assume the school administration will allocate staff resources for the one-time data entry task.
+* **Constraints:**
+    * **Timeline:** There is a hard deadline of 8 weeks for the MVP launch.
+    * **Budget:** Ongoing monthly costs must be kept within the ₹3,500–₹7,500 range.
+    * **Team:** The project will be built by a two-person team.
+* **Risks:**
+    * **Timeline Risk:** The 8-week schedule is aggressive and leaves little room for unexpected delays.
+    * **Data Quality Risk:** The initial data's accuracy depends on manual entry from paper registers, which could introduce errors.
+    * **Adoption Risk:** Despite training, there may be some resistance to change from staff accustomed to paper-based methods.
+
+---
+
+### **10. Future Scope & V2**
+
+* **Out of Scope for V1:** Parent/Student login portals, fee management, dedicated roles for edge case users (substitutes, HoDs), and WhatsApp API integration (using SMS for V1).
+* **V2 Vision:**
+    * Develop a multi-tenant architecture to offer the software to other schools.
+    * Build a dedicated Parent Portal for viewing grades and attendance records.
+    * Integrate the WhatsApp API for richer notifications.
+    * Create an advanced report card generation module.
+* **Long-Term Vision:** To become the leading simple, affordable, and intuitive school management solution for rural and semi-urban schools in the region.
+
+---
+
+### **11. Open Questions**
+*(This section is intentionally left blank for the project team to fill as new questions arise during development.)*
