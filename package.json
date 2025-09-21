@@ -1,0 +1,26 @@
+{
+  "name": "school-admin-system",
+  "version": "1.0.0",
+  "description": "School Administration System with User Authentication",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Open http://localhost:3000 to test the application\" && node server.js"
+  },
+  "keywords": [
+    "school",
+    "admin",
+    "authentication",
+    "supabase",
+    "education"
+  ],
+  "author": "School Admin Team",
+  "license": "MIT",
+  "devDependencies": {
+    "supabase": "^2.40.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
