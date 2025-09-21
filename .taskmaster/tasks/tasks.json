@@ -9,7 +9,7 @@
         "testStrategy": "Verify that the basic project structure is created and that the frontend can be deployed to Vercel/Netlify.",
         "priority": "high",
         "dependencies": [],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -17,7 +17,7 @@
             "description": "Define the database table structure for storing user information, including credentials and profile data.",
             "dependencies": [],
             "details": "Include fields for `id`, `username` (unique), `email` (unique), `password_hash`, `salt`, `created_at`, `updated_at`, `is_active`. Consider indexing `username` and `email` for performance. Use appropriate data types for each field.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Review schema with team for completeness and correctness. Verify data types, constraints (e.g., unique, not null), and indexing. Create migration scripts and test their execution."
           },
           {
@@ -26,7 +26,7 @@
             "description": "Create a backend API endpoint to handle new user registrations, including data validation and secure password hashing.",
             "dependencies": [],
             "details": "Endpoint should be `POST /api/register`. Validate input fields (`username`, `email`, `password`) for format, length, and uniqueness. Hash password using a strong algorithm (e.g., bcrypt) with a generated salt. Store user data in the database. Return appropriate success/error responses.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Unit tests for input validation, password hashing, and database interaction. Integration tests for successful registration, duplicate username/email errors, and invalid input errors. Use tools like Postman or curl for manual API testing."
           },
           {
@@ -35,7 +35,7 @@
             "description": "Create a backend API endpoint to authenticate users based on their username/email and password, issuing a JWT token upon success.",
             "dependencies": [],
             "details": "Endpoint should be `POST /api/login`. Retrieve user by username or email. Compare provided password with the stored hash using the correct salt. If credentials are valid, generate a JSON Web Token (JWT) containing user ID and roles, and return it. Handle invalid credentials gracefully.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Unit tests for password comparison logic and JWT generation. Integration tests for successful login, incorrect password, non-existent user, and token validity. Test token expiration and refresh mechanisms if implemented."
           },
           {
@@ -44,7 +44,7 @@
             "description": "Create a user interface component for new users to register an account, interacting with the registration API.",
             "dependencies": [],
             "details": "Design an HTML form with fields for username, email, password, and confirm password. Implement client-side validation for input format and password matching. On submission, send data to the `/api/register` endpoint. Display success messages or API error feedback to the user.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Manual testing for form submission, client-side validation, and display of API responses (success/error). Automated UI tests (e.g., Cypress, Playwright) to simulate user registration flow and verify UI updates."
           },
           {
@@ -53,7 +53,7 @@
             "description": "Create a user interface component for existing users to log in, interacting with the login API and handling the JWT token.",
             "dependencies": [],
             "details": "Design an HTML form with fields for username/email and password. Implement client-side validation. On submission, send data to the `/api/login` endpoint. Upon successful login, store the received JWT token (e.g., in local storage) and redirect the user to a protected area of the application.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Manual testing for form submission, client-side validation, and correct handling of API responses (success/failure). Verify that the JWT token is stored correctly and that the user is redirected. Automated UI tests for login flow and token persistence."
           }
         ]
@@ -646,7 +646,7 @@
     ],
     "metadata": {
       "created": "2025-09-21T12:23:29.327Z",
-      "updated": "2025-09-21T12:24:36.916Z",
+      "updated": "2025-09-21T15:45:37.329Z",
       "description": "Tasks for master context"
     }
   }
