@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management - School Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        window.currentLanguage = localStorage.getItem('schoolAdminLanguage') || 'en';
+        window.getText = function(key) { return key; };
+    </script>
+    <style>
+        @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .animated-gradient { background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c); background-size: 400% 400%; animation: gradient 15s ease infinite; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        .drag-over { border-color: #3b82f6; background-color: #eff6ff; }
+    </style>
+</head>
+<body class="min-h-screen animated-gradient">
+    <div x-data="studentManagementApp()" x-init="init()" class="min-h-screen p-4">
+        <header class="mb-8">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-800">Student Data Management</h1>
+                            <p class="text-gray-600">Bulk data management for 1200+ students</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button @click="downloadTemplate()" class="px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg shadow-lg">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Download Template
+                        </button>
+                        <a href="dashboard.html" class="px-6 py-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-lg shadow-lg">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="mb-6">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Total Students</p>
+                                <p class="text-xl font-bold text-gray-800" x-text="students.length"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Active Students</p>
+                                <p class="text-xl font-bold text-gray-800" x-text="students.filter(s => s.status === 'active').length"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Classes</p>
+                                <p class="text-xl font-bold text-gray-800" x-text="getUniqueClasses().length"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Last Upload</p>
+                                <p class="text-lg font-bold text-gray-800" x-text="getLastUploadDate()"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Bulk Upload Students</h3>
+                
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4"
+                     @dragover.prevent="dragOver = true"
+                     @dragleave.prevent="dragOver = false"
+                     @drop.prevent="handleFileDrop($event)"
+                     :class="dragOver ? 'drag-over' : ''">
+                    <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                    <div class="text-lg font-medium text-gray-900 mb-2">Select CSV File</div>
+                    <div class="text-sm text-gray-500 mb-4">Drag and drop your CSV file here, or click to browse</div>
+                    <input type="file" accept=".csv" @change="handleFileSelect($event)" class="hidden" x-ref="fileInput">
+                    <button @click="$refs.fileInput.click()" class="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium">
+                        Choose File
+                    </button>
+                </div>
+
+                <div x-show="selectedFile" class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <div>
+                                <div class="font-medium text-gray-900" x-text="selectedFile?.name"></div>
+                                <div class="text-sm text-gray-500" x-text="formatFileSize(selectedFile?.size)"></div>
+                            </div>
+                        </div>
+                        <button @click="processCSV()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium">
+                            Preview Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="previewData.length > 0" class="mb-6">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Preview: <span x-text="previewData.length"></span> students</h3>
+                    <div class="flex space-x-4">
+                        <button @click="confirmBulkUpload()" class="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium">
+                            Confirm Upload
+                        </button>
+                        <button @click="cancelUpload()" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Roll Number</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Name</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Class</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Email</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Guardian</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <template x-for="(student, index) in previewData.slice(0, 10)" :key="index">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 text-sm text-gray-900" x-text="student.rollNumber"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-900" x-text="student.name"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-900" x-text="student.class"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-900" x-text="student.email"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-900" x-text="student.guardianName"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <div x-show="previewData.length > 10" class="text-center py-4 text-gray-500">
+                        And <span x-text="previewData.length - 10"></span> more students...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">All Students (<span x-text="students.length"></span>)</h3>
+            
+            <div class="mb-4 flex space-x-4">
+                <input type="text" x-model="searchQuery" placeholder="Search students..." class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                <select x-model="classFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">All Classes</option>
+                    <template x-for="cls in getUniqueClasses()" :key="cls">
+                        <option :value="cls" x-text="cls"></option>
+                    </template>
+                </select>
+                <button @click="exportStudents()" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium">
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-medium uppercase">Roll Number</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium uppercase">Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium uppercase">Class</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium uppercase">Email</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium uppercase">Guardian</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium uppercase">Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <template x-for="student in filteredStudents().slice(0, 100)" :key="student.id">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900" x-text="student.rollNumber"></td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-8 w-8">
+                                            <div class="h-8 w-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
+                                                <span class="text-white text-xs font-medium" x-text="student.name.charAt(0)"></span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-gray-900" x-text="student.name"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-medium" x-text="student.class + (student.section ? ' - ' + student.section : '')"></span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900" x-text="student.email"></td>
+                                <td class="px-6 py-4 text-sm text-gray-900" x-text="student.guardianName"></td>
+                                <td class="px-6 py-4 text-sm text-gray-900" x-text="student.phone || student.guardianPhone"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                
+                <div x-show="filteredStudents().length > 100" class="text-center py-4 text-gray-500">
+                    Showing first 100 of <span x-text="filteredStudents().length"></span> students
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function studentManagementApp() {
+            return {
+                user: null, selectedFile: null, previewData: [], dragOver: false, searchQuery: '', classFilter: '', students: [],
+
+                async init() {
+                    const userStr = sessionStorage.getItem('user');
+                    if (userStr) { this.user = JSON.parse(userStr); }
+                    if (!this.user || this.user.role !== 'teacher') { window.location.href = '/login.html'; return; }
+                    this.loadExistingStudents();
+                },
+
+                loadExistingStudents() {
+                    const saved = localStorage.getItem('allStudentsData');
+                    this.students = saved ? JSON.parse(saved) : this.generateSampleData();
+                },
+
+                generateSampleData() {
+                    const classes = ['10A', '10B', '9A', '9B', '8A', '8B', '7A', '7B'];
+                    const names = ['Aarav Sharma', 'Ananya Patel', 'Arjun Reddy', 'Diya Gupta', 'Ishaan Kumar', 'Kavya Singh'];
+                    const data = [];
+                    for (let i = 1; i <= 50; i++) {
+                        const cls = classes[i % classes.length];
+                        const name = names[i % names.length] + ' ' + i;
+                        data.push({
+                            id: i, rollNumber: cls + String(i).padStart(2, '0'), name: name, class: cls, section: 'A',
+                            email: name.toLowerCase().replace(/\s+/g, '.') + '@school.edu.in',
+                            phone: '9876543' + String(i).padStart(3, '0'), guardianName: 'Guardian ' + name,
+                            guardianPhone: '9876544' + String(i).padStart(3, '0'), dateOfBirth: '2010-01-01',
+                            admissionDate: '2024-01-01', address: 'Address ' + i, status: 'active'
+                        });
+                    }
+                    return data;
+                },
+
+                handleFileSelect(event) { this.selectedFile = event.target.files[0]; },
+
+                handleFileDrop(event) {
+                    this.dragOver = false;
+                    const files = event.dataTransfer.files;
+                    if (files.length > 0 && files[0].type === 'text/csv') { this.selectedFile = files[0]; }
+                },
+
+                processCSV() {
+                    if (!this.selectedFile) return;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const csv = e.target.result;
+                        const lines = csv.split('\n');
+                        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                        this.previewData = [];
+                        for (let i = 1; i < lines.length; i++) {
+                            if (lines[i].trim()) {
+                                const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+                                const student = {};
+                                headers.forEach((header, index) => { student[header] = values[index] || ''; });
+                                student.id = Date.now() + i;
+                                student.status = 'active';
+                                this.previewData.push(student);
+                            }
+                        }
+                    };
+                    reader.readAsText(this.selectedFile);
+                },
+
+                confirmBulkUpload() {
+                    this.students = [...this.students, ...this.previewData];
+                    localStorage.setItem('allStudentsData', JSON.stringify(this.students));
+                    localStorage.setItem('lastUploadDate', new Date().toISOString());
+                    alert(`Successfully uploaded ${this.previewData.length} students!`);
+                    this.cancelUpload();
+                },
+
+                cancelUpload() { this.selectedFile = null; this.previewData = []; this.$refs.fileInput.value = ''; },
+
+                downloadTemplate() {
+                    const headers = ['rollNumber', 'name', 'class', 'section', 'email', 'phone', 'guardianName', 'guardianPhone', 'dateOfBirth', 'admissionDate', 'address'];
+                    const sample = 'STD001,John Doe,10A,A,john.doe@school.edu.in,9876543210,Jane Doe,9876543211,2010-01-01,2024-01-01,123 Main St';
+                    const csv = headers.join(',') + '\n' + sample;
+                    const blob = new Blob([csv], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.setAttribute('hidden', ''); a.setAttribute('href', url); a.setAttribute('download', 'student-template.csv');
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                },
+
+                exportStudents() {
+                    const headers = ['rollNumber', 'name', 'class', 'section', 'email', 'phone', 'guardianName', 'guardianPhone', 'dateOfBirth', 'admissionDate', 'address'];
+                    let csv = headers.join(',') + '\n';
+                    this.students.forEach(student => {
+                        const row = headers.map(header => `"${student[header] || ''}"`).join(',');
+                        csv += row + '\n';
+                    });
+                    const blob = new Blob([csv], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.setAttribute('hidden', ''); a.setAttribute('href', url); a.setAttribute('download', `students-export-${new Date().toISOString().split('T')[0]}.csv`);
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                },
+
+                getUniqueClasses() { return [...new Set(this.students.map(s => s.class))].sort(); },
+
+                getLastUploadDate() {
+                    const lastUpload = localStorage.getItem('lastUploadDate');
+                    return lastUpload ? new Date(lastUpload).toLocaleDateString() : 'Never';
+                },
+
+                filteredStudents() {
+                    let filtered = this.students;
+                    if (this.classFilter) { filtered = filtered.filter(s => s.class === this.classFilter); }
+                    if (this.searchQuery) {
+                        const query = this.searchQuery.toLowerCase();
+                        filtered = filtered.filter(s => s.name.toLowerCase().includes(query) || s.rollNumber.toLowerCase().includes(query) || s.email.toLowerCase().includes(query));
+                    }
+                    return filtered;
+                },
+
+                formatFileSize(bytes) {
+                    if (!bytes) return '0 Bytes';
+                    const k = 1024; const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                    const i = Math.floor(Math.log(bytes) / Math.log(k));
+                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                }
+            }
+        }
+    </script>
+</body>
+</html>
