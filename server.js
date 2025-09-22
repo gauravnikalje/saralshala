@@ -94,9 +94,12 @@ server.listen(port, () => {
     console.log(`   • Enhanced login: http://localhost:${port}/login.html`);
     console.log(`   • Forgot password: http://localhost:${port}/forgot-password.html`);
     console.log(`   • Reset password: http://localhost:${port}/reset-password.html`);
-    console.log(`   • Dashboard: http://localhost:${port}/dashboard.html`);
+    console.log(`   • Teacher dashboard: http://localhost:${port}/dashboard.html`);
+    console.log(`   • Principal dashboard: http://localhost:${port}/principal-dashboard.html`);
+    console.log(`   • Teacher profile: http://localhost:${port}/teacher-profile.html`);
     console.log(`\n⚠️  Note: Authentication features are in mock mode for testing`);
-    console.log(`   Use demo credentials: principal@school.com / admin123`);
+    console.log(`   Principal credentials: principal@school.com / admin123`);
+    console.log(`   Teacher credentials: sarah.johnson@school.com / sarah123`);
 });
 
 // Graceful shutdown
