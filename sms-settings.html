@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Settings - School Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="./js/sms-service.js" defer></script>
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-gradient {
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+    </style>
+</head>
+<body class="min-h-screen animated-gradient">
+    <div x-data="smsSettingsApp()" x-init="init()" class="min-h-screen p-4">
+        <header class="mb-8">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-800">SMS Settings</h1>
+                            <p class="text-gray-600">Configure SMS alerts for parent notifications</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="principal-dashboard.html" class="px-6 py-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-lg shadow-lg transform transition-all duration-200 hover:scale-[1.02]">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SMS Configuration -->
+        <div class="mb-8">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <h3 class="text-lg font-bold text-gray-800 mb-6">SMS Service Configuration</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Enable/Disable SMS -->
+                    <div class="col-span-2">
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" x-model="settings.enabled" class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                            <span class="text-lg font-medium text-gray-700">Enable SMS Alerts</span>
+                        </label>
+                        <p class="text-sm text-gray-500 mt-1">Send automatic SMS alerts to parents when students are marked absent</p>
+                    </div>
+
+                    <!-- SMS Provider -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">SMS Provider</label>
+                        <select x-model="settings.provider" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            <option value="demo">Demo SMS (Testing)</option>
+                            <option value="textlocal">TextLocal India</option>
+                            <option value="twilio">Twilio</option>
+                        </select>
+                    </div>
+
+                    <!-- Sender ID -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sender ID</label>
+                        <input type="text" x-model="settings.senderId" placeholder="SCHOOL" maxlength="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <p class="text-xs text-gray-500 mt-1">Maximum 6 characters (alphabetic only)</p>
+                    </div>
+
+                    <!-- API Key -->
+                    <div class="col-span-2" x-show="settings.provider !== 'demo'">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">API Key</label>
+                        <input type="password" x-model="settings.apiKey" placeholder="Enter your SMS provider API key" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <p class="text-xs text-gray-500 mt-1">Get this from your SMS provider dashboard</p>
+                    </div>
+
+                    <!-- Test Phone Number -->
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Test Phone Number</label>
+                        <div class="flex space-x-4">
+                            <input type="tel" x-model="testPhoneNumber" placeholder="+919876543210" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            <button @click="testSMS()" :disabled="!settings.enabled || !testPhoneNumber" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-lg font-medium">
+                                Test SMS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex space-x-4">
+                    <button @click="saveSettings()" class="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium">
+                        Save Settings
+                    </button>
+                    <button @click="resetSettings()" class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium">
+                        Reset to Default
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMS Statistics -->
+        <div class="mb-8">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <h3 class="text-lg font-bold text-gray-800 mb-6">SMS Statistics</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Total Sent</p>
+                                <p class="text-xl font-bold text-gray-800" x-text="statistics.totalSent"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Sent Today</p>
+                                <p class="text-xl font-bold text-gray-800" x-text="statistics.sentToday"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Service Status</p>
+                                <p class="text-lg font-bold" :class="statistics.enabled ? 'text-green-600' : 'text-red-600'" x-text="statistics.enabled ? 'Active' : 'Disabled'"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Last Sent</p>
+                                <p class="text-lg font-bold text-gray-800" x-text="getLastSentTime()"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent SMS Log -->
+        <div class="mb-8">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold text-gray-800">Recent SMS Activity</h3>
+                    <button @click="clearSMSLog()" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium">
+                        Clear Log
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Time</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Phone Number</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Message</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <template x-for="sms in smsLog.slice(0, 10)" :key="sms.timestamp">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 text-sm text-gray-900" x-text="formatDateTime(sms.timestamp)"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-900" x-text="sms.phoneNumber"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-900">
+                                        <div class="max-w-xs truncate" :title="sms.message" x-text="sms.message"></div>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm">
+                                        <span class="px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800" x-text="sms.status"></span>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    
+                    <div x-show="smsLog.length === 0" class="text-center py-8 text-gray-500">
+                        No SMS messages sent yet
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div x-show="showMessage" class="fixed top-4 right-4 z-50">
+            <div class="bg-white rounded-lg shadow-lg p-4 border-l-4" :class="messageType === 'success' ? 'border-green-500' : 'border-red-500'">
+                <div class="flex">
+                    <svg class="w-5 h-5" :class="messageType === 'success' ? 'text-green-400' : 'text-red-400'" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium" :class="messageType === 'success' ? 'text-green-800' : 'text-red-800'" x-text="message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function smsSettingsApp() {
+            return {
+                user: null,
+                settings: {
+                    enabled: false,
+                    provider: 'demo',
+                    apiKey: '',
+                    senderId: 'SCHOOL'
+                },
+                testPhoneNumber: '',
+                statistics: {
+                    totalSent: 0,
+                    sentToday: 0,
+                    enabled: false,
+                    lastSent: null
+                },
+                smsLog: [],
+                showMessage: false,
+                message: '',
+                messageType: 'success',
+                
+                async init() {
+                    const userStr = sessionStorage.getItem('user');
+                    if (userStr) { this.user = JSON.parse(userStr); }
+                    
+                    if (!this.user || this.user.role !== 'principal') {
+                        window.location.href = '/login.html';
+                        return;
+                    }
+                    
+                    this.loadSettings();
+                    this.loadStatistics();
+                    this.loadSMSLog();
+                },
+                
+                loadSettings() {
+                    this.settings.enabled = localStorage.getItem('smsEnabled') === 'true';
+                    this.settings.provider = localStorage.getItem('smsProvider') || 'demo';
+                    this.settings.apiKey = localStorage.getItem('smsApiKey') || '';
+                    this.settings.senderId = localStorage.getItem('smsSenderId') || 'SCHOOL';
+                },
+                
+                saveSettings() {
+                    if (window.SMSService) {
+                        window.SMSService.configure(this.settings);
+                        this.loadStatistics();
+                        this.showSuccessMessage('SMS settings saved successfully!');
+                    } else {
+                        this.showErrorMessage('SMS Service not available');
+                    }
+                },
+                
+                resetSettings() {
+                    this.settings = {
+                        enabled: false,
+                        provider: 'demo',
+                        apiKey: '',
+                        senderId: 'SCHOOL'
+                    };
+                    this.saveSettings();
+                },
+                
+                async testSMS() {
+                    if (!window.SMSService) {
+                        this.showErrorMessage('SMS Service not available');
+                        return;
+                    }
+                    
+                    if (!this.testPhoneNumber) {
+                        this.showErrorMessage('Please enter a test phone number');
+                        return;
+                    }
+                    
+                    try {
+                        const result = await window.SMSService.testSMS(this.testPhoneNumber);
+                        
+                        if (result.success) {
+                            this.showSuccessMessage('Test SMS sent successfully!');
+                            this.loadStatistics();
+                            this.loadSMSLog();
+                        } else {
+                            this.showErrorMessage('Failed to send test SMS: ' + result.error);
+                        }
+                    } catch (error) {
+                        this.showErrorMessage('Error sending test SMS: ' + error.message);
+                    }
+                },
+                
+                loadStatistics() {
+                    if (window.SMSService) {
+                        this.statistics = window.SMSService.getStatistics();
+                    }
+                },
+                
+                loadSMSLog() {
+                    if (window.SMSService) {
+                        this.smsLog = window.SMSService.getSMSLog(20);
+                    }
+                },
+                
+                clearSMSLog() {
+                    if (window.SMSService) {
+                        window.SMSService.clearSMSLog();
+                        this.loadSMSLog();
+                        this.loadStatistics();
+                        this.showSuccessMessage('SMS log cleared successfully!');
+                    }
+                },
+                
+                getLastSentTime() {
+                    if (!this.statistics.lastSent) return 'Never';
+                    return new Date(this.statistics.lastSent).toLocaleDateString();
+                },
+                
+                formatDateTime(timestamp) {
+                    return new Date(timestamp).toLocaleString();
+                },
+                
+                showSuccessMessage(msg) {
+                    this.message = msg;
+                    this.messageType = 'success';
+                    this.showMessage = true;
+                    setTimeout(() => this.showMessage = false, 5000);
+                },
+                
+                showErrorMessage(msg) {
+                    this.message = msg;
+                    this.messageType = 'error';
+                    this.showMessage = true;
+                    setTimeout(() => this.showMessage = false, 5000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
