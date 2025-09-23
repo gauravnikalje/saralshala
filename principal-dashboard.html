@@ -381,6 +381,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- New Section: Upload Home Page Images -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Upload Home Page Images</h3>
+            <div x-data="imageUploader()" class="space-y-4">
+                <div>
+                    <label for="gallery-select" class="block text-sm font-medium text-gray-700">Select Gallery Section</label>
+                    <select x-model="selectedGallery" id="gallery-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                        <option value="hero">Main Slideshow</option>
+                        <option value="sports">Sports</option>
+                        <option value="educational">Educational</option>
+                        <option value="competitive">Competitive</option>
+                        <option value="art">Art</option>
+                        <option value="activities">Activities</option>
+                        <option value="functions">Functions</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="image-upload" class="block text-sm font-medium text-gray-700">Choose an image</label>
+                    <input @change="handleFileSelect" type="file" id="image-upload" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"/>
+                </div>
+                <div x-show="previewUrl" class="mt-4">
+                    <img :src="previewUrl" alt="Image preview" class="w-full h-auto rounded-lg shadow-md max-w-xs mx-auto">
+                </div>
+                <button @click="uploadImage" :disabled="!selectedFile || !selectedGallery" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-gray-400">
+                    Upload Image
+                </button>
+                <p x-text="message" :class="{ 'text-green-500': success, 'text-red-500': !success }" class="text-sm mt-2 text-center"></p>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -437,6 +467,51 @@
                 
                 monitorClasses() {
                     alert('Opening real-time class monitoring system...');
+                }
+            }
+        }
+
+        function imageUploader() {
+            return {
+                open: false,
+                selectedGallery: 'hero',
+                selectedFile: null,
+                previewUrl: '',
+                message: '',
+                success: false,
+                handleFileSelect(event) {
+                    this.selectedFile = event.target.files[0];
+                    if (this.selectedFile) {
+                        this.previewUrl = URL.createObjectURL(this.selectedFile);
+                    }
+                },
+                uploadImage() {
+                    if (!this.selectedFile || !this.selectedGallery) {
+                        this.message = 'Please select a gallery and an image.';
+                        this.success = false;
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const imageUrl = e.target.result;
+                        const galleryKey = `gallery_${this.selectedGallery}`;
+                        
+                        let gallery = JSON.parse(localStorage.getItem(galleryKey)) || [];
+                        gallery.unshift(imageUrl); // Add new image to the beginning
+                        if (gallery.length > 5) {
+                            gallery = gallery.slice(0, 5); // Keep only the 5 most recent images
+                        }
+                        
+                        localStorage.setItem(galleryKey, JSON.stringify(gallery));
+                        
+                        this.message = `Image successfully uploaded to ${this.selectedGallery.charAt(0).toUpperCase() + this.selectedGallery.slice(1)} gallery!`;
+                        this.success = true;
+                        this.selectedFile = null;
+                        this.previewUrl = '';
+                        document.getElementById('image-upload').value = '';
+                    };
+                    reader.readAsDataURL(this.selectedFile);
                 }
             }
         }
