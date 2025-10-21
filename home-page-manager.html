@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page Manager - SaralShala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        [x-cloak] { display: none; }
+        
+        .gallery-section {
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-section:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .gallery-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #4c51bf;
+        }
+        
+        .image-card {
+            position: relative;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .image-card:hover .image-overlay {
+            opacity: 1;
+        }
+        
+        .drag-over {
+            border: 2px dashed #8b5cf6;
+            background-color: #f5f3ff;
+        }
+        
+        .position-badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background-color: rgba(139, 92, 246, 0.9);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800" x-data="homePageManager()" x-init="init()" x-cloak>
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="/dashboard.html" class="text-gray-600 hover:text-gray-800 mr-4">
+                    <i class="fas fa-arrow-left text-2xl"></i>
+                </a>
+                <h1 class="text-3xl font-bold text-purple-700">Home Page Manager</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-600">
+                    <i class="fas fa-user text-purple-600 mr-2"></i>
+                    <span x-text="currentUserName"></span>
+                </span>
+                <button @click="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Manage Home Page Images</h2>
+            <p class="text-gray-600 mb-6">
+                Upload, edit, and organize images displayed on the home page. You can drag and drop images to reorder them.
+            </p>
+            
+            <!-- Status Messages -->
+            <template x-if="statusMessage">
+                <div :class="statusType === 'success' ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'"
+                     class="mb-6 p-4 border rounded-lg text-sm">
+                    <i :class="statusType === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'" class="mr-2"></i>
+                    <span x-text="statusMessage"></span>
+                </div>
+            </template>
+        </div>
+
+        <!-- Gallery Sections -->
+        <div class="space-y-8">
+            <!-- Hero Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Main Slideshow</h3>
+                <div 
+                    @drop.prevent="handleDrop($event, 'hero')"
+                    @dragover.prevent="handleDragOver($event)"
+                    @dragleave.prevent="handleDragLeave($event)"
+                    :class="{'drag-over': isDragging}"
+                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                >
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="(image, index) in heroImages" :key="index">
+                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'hero', index)">
+                                <div class="relative">
+                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
+                                    <img :src="image" alt="Hero image" class="w-full h-48 object-cover">
+                                    <div class="image-overlay">
+                                        <div class="flex space-x-2">
+                                            <button @click="editImage('hero', index)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                                                    title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteImage('hero', index)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                                    title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Image Card -->
+                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                             @click="openUploadModal('hero')">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
+                                <p>Add Image</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sports Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Sports</h3>
+                <div 
+                    @drop.prevent="handleDrop($event, 'sports')"
+                    @dragover.prevent="handleDragOver($event)"
+                    @dragleave.prevent="handleDragLeave($event)"
+                    :class="{'drag-over': isDragging}"
+                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                >
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="(image, index) in sportsImages" :key="index">
+                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'sports', index)">
+                                <div class="relative">
+                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
+                                    <img :src="image" alt="Sports image" class="w-full h-48 object-cover">
+                                    <div class="image-overlay">
+                                        <div class="flex space-x-2">
+                                            <button @click="editImage('sports', index)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                                                    title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteImage('sports', index)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                                    title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Image Card -->
+                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                             @click="openUploadModal('sports')">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
+                                <p>Add Image</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Educational</h3>
+                <div 
+                    @drop.prevent="handleDrop($event, 'educational')"
+                    @dragover.prevent="handleDragOver($event)"
+                    @dragleave.prevent="handleDragLeave($event)"
+                    :class="{'drag-over': isDragging}"
+                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                >
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="(image, index) in educationalImages" :key="index">
+                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'educational', index)">
+                                <div class="relative">
+                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
+                                    <img :src="image" alt="Educational image" class="w-full h-48 object-cover">
+                                    <div class="image-overlay">
+                                        <div class="flex space-x-2">
+                                            <button @click="editImage('educational', index)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                                                    title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteImage('educational', index)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                                    title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Image Card -->
+                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                             @click="openUploadModal('educational')">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
+                                <p>Add Image</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competitive Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Competitive</h3>
+                <div 
+                    @drop.prevent="handleDrop($event, 'competitive')"
+                    @dragover.prevent="handleDragOver($event)"
+                    @dragleave.prevent="handleDragLeave($event)"
+                    :class="{'drag-over': isDragging}"
+                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                >
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="(image, index) in competitiveImages" :key="index">
+                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'competitive', index)">
+                                <div class="relative">
+                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
+                                    <img :src="image" alt="Competitive image" class="w-full h-48 object-cover">
+                                    <div class="image-overlay">
+                                        <div class="flex space-x-2">
+                                            <button @click="editImage('competitive', index)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                                                    title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteImage('competitive', index)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                                    title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Image Card -->
+                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                             @click="openUploadModal('competitive')">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
+                                <p>Add Image</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Art Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Art</h3>
+                <div 
+                    @drop.prevent="handleDrop($event, 'art')"
+                    @dragover.prevent="handleDragOver($event)"
+                    @dragleave.prevent="handleDragLeave($event)"
+                    :class="{'drag-over': isDragging}"
+                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                >
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="(image, index) in artImages" :key="index">
+                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'art', index)">
+                                <div class="relative">
+                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
+                                    <img :src="image" alt="Art image" class="w-full h-48 object-cover">
+                                    <div class="image-overlay">
+                                        <div class="flex space-x-2">
+                                            <button @click="editImage('art', index)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                                                    title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteImage('art', index)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                                    title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Image Card -->
+                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                             @click="openUploadModal('art')">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
+                                <p>Add Image</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activities Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Activities</h3>
+                <div 
+                    @drop.prevent="handleDrop($event, 'activities')"
+                    @dragover.prevent="handleDragOver($event)"
+                    @dragleave.prevent="handleDragLeave($event)"
+                    :class="{'drag-over': isDragging}"
+                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                >
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="(image, index) in activitiesImages" :key="index">
+                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'activities', index)">
+                                <div class="relative">
+                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
+                                    <img :src="image" alt="Activities image" class="w-full h-48 object-cover">
+                                    <div class="image-overlay">
+                                        <div class="flex space-x-2">
+                                            <button @click="editImage('activities', index)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                                                    title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteImage('activities', index)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                                    title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Image Card -->
+                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                             @click="openUploadModal('activities')">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
+                                <p>Add Image</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functions Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Functions</h3>
+                <div 
+                    @drop.prevent="handleDrop($event, 'functions')"
+                    @dragover.prevent="handleDragOver($event)"
+                    @dragleave.prevent="handleDragLeave($event)"
+                    :class="{'drag-over': isDragging}"
+                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                >
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="(image, index) in functionsImages" :key="index">
+                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'functions', index)">
+                                <div class="relative">
+                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
+                                    <img :src="image" alt="Functions image" class="w-full h-48 object-cover">
+                                    <div class="image-overlay">
+                                        <div class="flex space-x-2">
+                                            <button @click="editImage('functions', index)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                                                    title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteImage('functions', index)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                                    title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Image Card -->
+                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                             @click="openUploadModal('functions')">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
+                                <p>Add Image</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div x-show="showUploadModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-cloak>
+        <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Upload Image</h3>
+                <button @click="showUploadModal = false" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Selected Section: <span class="font-semibold capitalize" x-text="currentSection"></span></label>
+                
+                <div class="mt-4">
+                    <label for="image-upload" class="block text-sm font-medium text-gray-700 mb-2">Choose an image</label>
+                    <input @change="handleFileSelect($event)" type="file" id="image-upload" accept="image/*" 
+                           class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
+                </div>
+                
+                <div x-show="previewUrl" class="mt-4">
+                    <img :src="previewUrl" alt="Image preview" class="w-full h-auto rounded-lg shadow-md">
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6">
+                <button @click="showUploadModal = false" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
+                    Cancel
+                </button>
+                <button @click="uploadImage" :disabled="!selectedFile" 
+                        class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition disabled:bg-gray-400">
+                    Upload
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div x-show="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-cloak>
+        <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Edit Image</h3>
+                <button @click="showEditModal = false" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mb-4">
+                <div class="mb-4">
+                    <img :src="editingImage" alt="Edit image" class="w-full h-auto rounded-lg shadow-md">
+                </div>
+                
+                <div class="flex justify-center space-x-3 mt-4">
+                    <button @click="moveImage('up')" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-arrow-up"></i> Move Up
+                    </button>
+                    <button @click="moveImage('down')" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-arrow-down"></i> Move Down
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6">
+                <button @click="showEditModal = false" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
+                    Cancel
+                </button>
+                <button @click="confirmDeleteImage" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition">
+                    <i class="fas fa-trash mr-2"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/auth.js"></script>
+    <script>
+        function homePageManager() {
+            return {
+                // User data
+                currentUser: null,
+                currentUserName: 'Loading...',
+                
+                // Gallery data
+                heroImages: [],
+                sportsImages: [],
+                educationalImages: [],
+                competitiveImages: [],
+                artImages: [],
+                activitiesImages: [],
+                functionsImages: [],
+                
+                // UI state
+                isDragging: false,
+                statusMessage: '',
+                statusType: '',
+                showUploadModal: false,
+                showEditModal: false,
+                currentSection: '',
+                selectedFile: null,
+                previewUrl: '',
+                editingImage: null,
+                editingSection: '',
+                editingIndex: -1,
+                
+                // Drag and drop state
+                dragSourceSection: '',
+                dragSourceIndex: -1,
+                
+                async init() {
+                    try {
+                        console.log('Initializing Home Page Manager');
+                        // Check authentication
+                        if (!authManager.requireAuth() || !authManager.requireHomePageManagerAccess()) {
+                            console.log('Authentication failed or access denied');
+                            return;
+                        }
+                        
+                        this.currentUser = authManager.getCurrentUser();
+                        console.log('Current user:', this.currentUser);
+                        this.currentUserName = this.currentUser.name || this.currentUser.email || 'User';
+                        
+                        this.loadAllGalleries();
+                        console.log('Galleries loaded');
+                    } catch (error) {
+                        console.error('Error initializing Home Page Manager:', error);
+                        this.showStatus('Error initializing page: ' + error.message, 'error');
+                    }
+                },
+                
+                loadAllGalleries() {
+                    this.heroImages = this.loadGallery('hero', [
+                        'https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                        'https://images.pexels.com/photos/1720184/pexels-photo-1720184.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                        'https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                    ]);
+                    
+                    this.sportsImages = this.loadGallery('sports', [
+                        'https://images.pexels.com/photos/163452/basketball-dunk-blue-game-163452.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/47730/the-ball-stadion-football-the-pitch-47730.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=600'
+                    ]);
+                    
+                    this.educationalImages = this.loadGallery('educational', [
+                        'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/3771045/pexels-photo-3771045.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/4144144/pexels-photo-4144144.jpeg?auto=compress&cs=tinysrgb&w=600'
+                    ]);
+                    
+                    this.competitiveImages = this.loadGallery('competitive', [
+                        'https://images.pexels.com/photos/269883/pexels-photo-269883.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/2128033/pexels-photo-2128033.jpeg?auto=compress&cs=tinysrgb&w=600'
+                    ]);
+                    
+                    this.artImages = this.loadGallery('art', [
+                        'https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/1269968/pexels-photo-1269968.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/7599735/pexels-photo-7599735.jpeg?auto=compress&cs=tinysrgb&w=600'
+                    ]);
+                    
+                    this.activitiesImages = this.loadGallery('activities', [
+                        'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/8472739/pexels-photo-8472739.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/3992933/pexels-photo-3992933.jpeg?auto=compress&cs=tinysrgb&w=600'
+                    ]);
+                    
+                    this.functionsImages = this.loadGallery('functions', [
+                        'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/951527/pexels-photo-951527.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        'https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg?auto=compress&cs=tinysrgb&w=600'
+                    ]);
+                },
+                
+                loadGallery(key, defaults) {
+                    try {
+                        const storedImages = localStorage.getItem(`gallery_${key}`);
+                        if (storedImages) {
+                            return JSON.parse(storedImages);
+                        }
+                        return defaults;
+                    } catch (error) {
+                        console.error(`Error loading gallery ${key}:`, error);
+                        return defaults;
+                    }
+                },
+                
+                saveGallery(key, images) {
+                    try {
+                        localStorage.setItem(`gallery_${key}`, JSON.stringify(images));
+                    } catch (error) {
+                        console.error(`Error saving gallery ${key}:`, error);
+                        this.showStatus('Error saving images: ' + error.message, 'error');
+                    }
+                },
+                
+                handleDragStart(event, section, index) {
+                    this.dragSourceSection = section;
+                    this.dragSourceIndex = index;
+                    event.dataTransfer.setData('text/plain', `${section}|${index}`);
+                },
+                
+                handleDragOver(event) {
+                    this.isDragging = true;
+                    event.preventDefault();
+                },
+                
+                handleDragLeave(event) {
+                    this.isDragging = false;
+                },
+                
+                handleDrop(event, targetSection) {
+                    this.isDragging = false;
+                    event.preventDefault();
+                    
+                    const data = event.dataTransfer.getData('text/plain');
+                    if (!data) return;
+                    
+                    const [sourceSection, sourceIndexStr] = data.split('|');
+                    const sourceIndex = parseInt(sourceIndexStr);
+                    
+                    if (sourceSection === targetSection) {
+                        // Reordering within the same section
+                        this.reorderImages(targetSection, sourceIndex, event);
+                    } else {
+                        // Moving between sections
+                        this.moveImageBetweenSections(sourceSection, sourceIndex, targetSection);
+                    }
+                },
+                
+                reorderImages(section, sourceIndex, event) {
+                    const images = this[`${section}Images`];
+                    // Get the parent container of the drop target
+                    const container = event.target.closest('.grid');
+                    
+                    if (!container) return;
+                    
+                    // Get all image cards in the container
+                    const imageCards = Array.from(container.querySelectorAll('.image-card'));
+                    
+                    // Find the drop target (the element we're dropping onto)
+                    let targetElement = null;
+                    let targetIndex = -1;
+                    
+                    // Check if we have a specific drop target
+                    if (event.target.closest('.image-card')) {
+                        targetElement = event.target.closest('.image-card');
+                        targetIndex = imageCards.indexOf(targetElement);
+                    } else {
+                        // If dropped on the container itself, add to the end
+                        targetIndex = imageCards.length;
+                    }
+                    
+                    // If we couldn't determine a target index, default to the end
+                    if (targetIndex === -1) {
+                        targetIndex = images.length;
+                    }
+                    
+                    // Don't do anything if dropping on the same position
+                    if (sourceIndex === targetIndex) {
+                        return;
+                    }
+                    
+                    // Remove the image from its original position
+                    const [movedImage] = images.splice(sourceIndex, 1);
+                    
+                    // Insert it at the new position
+                    // Adjust targetIndex if we're moving from a lower index to a higher one
+                    const adjustedTargetIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+                    images.splice(adjustedTargetIndex, 0, movedImage);
+                    
+                    // Save the updated gallery
+                    this.saveGallery(section, images);
+                    
+                    // Update the UI
+                    this[`${section}Images`] = [...images];
+                    
+                    this.showStatus('Image reordered successfully!', 'success');
+                },
+                
+                moveImageBetweenSections(sourceSection, sourceIndex, targetSection) {
+                    const sourceImages = this[`${sourceSection}Images`];
+                    const targetImages = this[`${targetSection}Images`];
+                    
+                    // Get the image to move
+                    const [movedImage] = sourceImages.splice(sourceIndex, 1);
+                    
+                    // Add it to the target section
+                    targetImages.push(movedImage);
+                    
+                    // Save both galleries
+                    this.saveGallery(sourceSection, sourceImages);
+                    this.saveGallery(targetSection, targetImages);
+                    
+                    // Update the UI
+                    this[`${sourceSection}Images`] = [...sourceImages];
+                    this[`${targetSection}Images`] = [...targetImages];
+                    
+                    this.showStatus(`Image moved to ${targetSection} section!`, 'success');
+                },
+                
+                openUploadModal(section) {
+                    this.currentSection = section;
+                    this.selectedFile = null;
+                    this.previewUrl = '';
+                    this.showUploadModal = true;
+                },
+                
+                handleFileSelect(event) {
+                    const file = event.target.files[0];
+                    this.selectedFile = file;
+                    if (this.selectedFile) {
+                        this.previewUrl = URL.createObjectURL(this.selectedFile);
+                    }
+                },
+                
+                uploadImage() {
+                    if (!this.selectedFile) {
+                        this.showStatus('Please select an image to upload', 'error');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const imageUrl = e.target.result;
+                        const images = this[`${this.currentSection}Images`];
+                        
+                        // Add the new image to the beginning of the array
+                        images.unshift(imageUrl);
+                        
+                        // Save the updated gallery
+                        this.saveGallery(this.currentSection, images);
+                        
+                        // Update the UI
+                        this[`${this.currentSection}Images`] = [...images];
+                        
+                        this.showStatus('Image uploaded successfully!', 'success');
+                        this.showUploadModal = false;
+                        this.selectedFile = null;
+                        this.previewUrl = '';
+                    };
+                    reader.readAsDataURL(this.selectedFile);
+                },
+                
+                editImage(section, index) {
+                    this.editingSection = section;
+                    this.editingIndex = index;
+                    this.editingImage = this[`${section}Images`][index];
+                    this.showEditModal = true;
+                },
+                
+                moveImage(direction) {
+                    const images = this[`${this.editingSection}Images`];
+                    const currentIndex = this.editingIndex;
+                    
+                    if (direction === 'up' && currentIndex > 0) {
+                        // Swap with previous image
+                        [images[currentIndex - 1], images[currentIndex]] = [images[currentIndex], images[currentIndex - 1]];
+                        this.editingIndex = currentIndex - 1;
+                    } else if (direction === 'down' && currentIndex < images.length - 1) {
+                        // Swap with next image
+                        [images[currentIndex + 1], images[currentIndex]] = [images[currentIndex], images[currentIndex + 1]];
+                        this.editingIndex = currentIndex + 1;
+                    }
+                    
+                    // Save the updated gallery
+                    this.saveGallery(this.editingSection, images);
+                    
+                    // Update the UI
+                    this[`${this.editingSection}Images`] = [...images];
+                    this.editingImage = images[this.editingIndex];
+                    
+                    this.showStatus('Image moved successfully!', 'success');
+                },
+                
+                deleteImage(section, index) {
+                    this.editingSection = section;
+                    this.editingIndex = index;
+                    this.confirmDeleteImage();
+                },
+                
+                confirmDeleteImage() {
+                    const images = this[`${this.editingSection}Images`];
+                    
+                    // Remove the image
+                    images.splice(this.editingIndex, 1);
+                    
+                    // Save the updated gallery
+                    this.saveGallery(this.editingSection, images);
+                    
+                    // Update the UI
+                    this[`${this.editingSection}Images`] = [...images];
+                    
+                    this.showStatus('Image deleted successfully!', 'success');
+                    this.showEditModal = false;
+                },
+                
+                showStatus(message, type) {
+                    this.statusMessage = message;
+                    this.statusType = type;
+                    setTimeout(() => {
+                        this.statusMessage = '';
+                    }, 3000);
+                },
+                
+                async logout() {
+                    authManager.clearCurrentUser();
+                    window.location.href = '/login.html';
+                }
+            }
+        }
+        
+        // Attach to window for Alpine.js
+        window.homePageManager = homePageManager;
+    </script>
+</body>
+</html>
