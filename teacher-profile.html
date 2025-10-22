@@ -118,7 +118,12 @@
             
             <!-- Personal Information -->
             <div class="bg-white rounded-2xl shadow-2xl p-6 fade-in">
-                <h2 class="text-xl font-bold text-gray-800 mb-6">Personal Information</h2>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Personal Information</h2>
+                    <button @click="openHomePageManager()" class="px-3 py-1 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white text-sm font-semibold rounded-lg shadow-lg">
+                        Home Manager
+                    </button>
+                </div>
                 <div class="space-y-4">
                     <div class="flex items-center space-x-4">
                         <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
@@ -361,6 +366,10 @@
                 logout() {
                     sessionStorage.removeItem('user');
                     window.location.href = '/login.html';
+                },
+                
+                openHomePageManager() {
+                    window.location.href = 'home-page-manager.html';
                 }
             }
         }

@@ -249,12 +249,27 @@
                 loadGallery(key, defaults) {
                     const storedImages = localStorage.getItem(`gallery_${key}`);
                     if (storedImages) {
-                        const images = JSON.parse(storedImages);
-                        // Ensure there are always 5 images
-                        while (images.length < 5) {
-                            images.push(defaults[images.length]);
+                        try {
+                            const images = JSON.parse(storedImages);
+                            // Handle both array of strings and array of objects
+                            const imageUrls = images.map(img => {
+                                if (typeof img === 'string') {
+                                    return img;
+                                } else if (typeof img === 'object' && img.url) {
+                                    return img.url;
+                                }
+                                return null;
+                            }).filter(url => url !== null);
+                            
+                            // Ensure there are always 5 images by filling with defaults if needed
+                            while (imageUrls.length < 5) {
+                                imageUrls.push(defaults[imageUrls.length] || defaults[0]);
+                            }
+                            return imageUrls.slice(0, 5); // Limit to 5 images
+                        } catch (error) {
+                            console.error(`Error loading gallery ${key}:`, error);
+                            return defaults;
                         }
-                        return images.slice(0, 5);
                     }
                     return defaults;
                 }
@@ -274,6 +289,11 @@
                 }
             }
         }
+
+        // Listen for storage changes to update galleries in real-time
+        window.addEventListener('storage', function() {
+            location.reload();
+        });
     </script>
     <style>
         .gallery-section {

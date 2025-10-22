@@ -7,76 +7,34 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <style>
         [x-cloak] { display: none; }
         
-        .gallery-section {
-            border: 1px solid #e2e8f0;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            background-color: #ffffff;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .gallery-section:hover {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
-        .gallery-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 1rem;
-            color: #4c51bf;
-        }
-        
         .image-card {
-            position: relative;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-        
-        .image-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            @apply relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-grab active:cursor-grabbing;
         }
         
         .image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            @apply absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100 gap-2;
         }
         
-        .image-card:hover .image-overlay {
-            opacity: 1;
+        .slider-input::-webkit-slider-thumb {
+            @apply appearance-none w-6 h-6 rounded-full bg-purple-600 cursor-pointer;
+        }
+        
+        .slider-input::-moz-range-thumb {
+            @apply w-6 h-6 rounded-full bg-purple-600 cursor-pointer border-0;
         }
         
         .drag-over {
-            border: 2px dashed #8b5cf6;
-            background-color: #f5f3ff;
+            @apply border-purple-500 bg-purple-50;
         }
         
         .position-badge {
-            position: absolute;
-            top: 0.5rem;
-            left: 0.5rem;
-            background-color: rgba(139, 92, 246, 0.9);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
+            @apply absolute top-2 left-2 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full;
         }
     </style>
 </head>
@@ -103,415 +61,277 @@
     </header>
 
     <main class="container mx-auto px-6 py-8">
+        <!-- Status Messages -->
+        <template x-if="statusMessage">
+            <div :class="statusType === 'success' ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'"
+                 class="mb-6 p-4 border rounded-lg text-sm">
+                <i :class="statusType === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'" class="mr-2"></i>
+                <span x-text="statusMessage"></span>
+            </div>
+        </template>
+
+        <!-- Page Header -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Manage Home Page Images</h2>
-            <p class="text-gray-600 mb-6">
-                Upload, edit, and organize images displayed on the home page. You can drag and drop images to reorder them.
+            <p class="text-gray-600 mb-4">
+                Upload, edit, and organize images displayed on the home page. Edit images by cropping, resizing, and adjusting colors.
             </p>
-            
-            <!-- Status Messages -->
-            <template x-if="statusMessage">
-                <div :class="statusType === 'success' ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'"
-                     class="mb-6 p-4 border rounded-lg text-sm">
-                    <i :class="statusType === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'" class="mr-2"></i>
-                    <span x-text="statusMessage"></span>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-blue-50 p-3 rounded-lg">
+                    <p class="text-sm text-gray-600">Total Images</p>
+                    <p class="text-2xl font-bold text-blue-600" x-text="getAllImages().length"></p>
                 </div>
-            </template>
+                <div class="bg-purple-50 p-3 rounded-lg">
+                    <p class="text-sm text-gray-600">Active Sections</p>
+                    <p class="text-2xl font-bold text-purple-600" x-text="getActiveSections().length"></p>
+                </div>
+                <div class="bg-green-50 p-3 rounded-lg">
+                    <p class="text-sm text-gray-600">Last Updated</p>
+                    <p class="text-sm font-bold text-green-600" x-text="lastUpdated || 'Never'"></p>
+                </div>
+                <div class="bg-indigo-50 p-3 rounded-lg">
+                    <button @click="saveAllOrder()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded text-sm font-semibold">
+                        <i class="fas fa-save mr-1"></i>Save All
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Gallery Sections -->
         <div class="space-y-8">
-            <!-- Hero Section -->
-            <div class="gallery-section">
-                <h3 class="gallery-title">Main Slideshow</h3>
-                <div 
-                    @drop.prevent="handleDrop($event, 'hero')"
-                    @dragover.prevent="handleDragOver($event)"
-                    @dragleave.prevent="handleDragLeave($event)"
-                    :class="{'drag-over': isDragging}"
-                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
-                >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="(image, index) in heroImages" :key="index">
-                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'hero', index)">
-                                <div class="relative">
-                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
-                                    <img :src="image" alt="Hero image" class="w-full h-48 object-cover">
-                                    <div class="image-overlay">
-                                        <div class="flex space-x-2">
-                                            <button @click="editImage('hero', index)" 
-                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button @click="deleteImage('hero', index)" 
-                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        
-                        <!-- Add Image Card -->
-                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
-                             @click="openUploadModal('hero')">
-                            <div class="text-center text-gray-500">
-                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
-                                <p>Add Image</p>
-                            </div>
-                        </div>
+            <template x-for="section in sections" :key="section.id">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-purple-700" x-text="section.title"></h3>
+                        <span class="text-sm text-gray-600 font-semibold" x-text="`${getImagesBySection(section.id).length} images`"></span>
                     </div>
-                </div>
-            </div>
 
-            <!-- Sports Section -->
-            <div class="gallery-section">
-                <h3 class="gallery-title">Sports</h3>
-                <div 
-                    @drop.prevent="handleDrop($event, 'sports')"
-                    @dragover.prevent="handleDragOver($event)"
-                    @dragleave.prevent="handleDragLeave($event)"
-                    :class="{'drag-over': isDragging}"
-                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
-                >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="(image, index) in sportsImages" :key="index">
-                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'sports', index)">
-                                <div class="relative">
-                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
-                                    <img :src="image" alt="Sports image" class="w-full h-48 object-cover">
-                                    <div class="image-overlay">
-                                        <div class="flex space-x-2">
-                                            <button @click="editImage('sports', index)" 
-                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+                    <div 
+                        @drop.prevent="handleDrop($event, section.id)"
+                        @dragover.prevent="isDragging = true"
+                        @dragleave.prevent="isDragging = false"
+                        :class="{'drag-over': isDragging}"
+                        class="min-h-[250px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
+                    >
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <template x-for="(image, index) in getImagesBySection(section.id)" :key="image.id">
+                                <div class="image-card" draggable="true" @dragstart="handleDragStart($event, section.id, image.id)">
+                                    <div class="relative">
+                                        <div class="position-badge" x-text="`${index + 1}`"></div>
+                                        <img :src="image.url" :alt="image.title" class="w-full h-48 object-cover">
+                                        <div class="image-overlay">
+                                            <button @click="editImage(image, section.id)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full transition"
                                                     title="Edit">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="fas fa-edit text-lg"></i>
                                             </button>
-                                            <button @click="deleteImage('sports', index)" 
-                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+                                            <button @click="deleteImage(image, section.id)" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-full transition"
                                                     title="Delete">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-trash text-lg"></i>
                                             </button>
                                         </div>
                                     </div>
+                                    <div class="p-3 bg-gray-50">
+                                        <p class="text-xs text-gray-600 truncate" x-text="image.title || 'Untitled'"></p>
+                                    </div>
                                 </div>
-                            </div>
-                        </template>
-                        
-                        <!-- Add Image Card -->
-                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
-                             @click="openUploadModal('sports')">
-                            <div class="text-center text-gray-500">
-                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
-                                <p>Add Image</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </template>
 
-            <!-- Educational Section -->
-            <div class="gallery-section">
-                <h3 class="gallery-title">Educational</h3>
-                <div 
-                    @drop.prevent="handleDrop($event, 'educational')"
-                    @dragover.prevent="handleDragOver($event)"
-                    @dragleave.prevent="handleDragLeave($event)"
-                    :class="{'drag-over': isDragging}"
-                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
-                >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="(image, index) in educationalImages" :key="index">
-                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'educational', index)">
-                                <div class="relative">
-                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
-                                    <img :src="image" alt="Educational image" class="w-full h-48 object-cover">
-                                    <div class="image-overlay">
-                                        <div class="flex space-x-2">
-                                            <button @click="editImage('educational', index)" 
-                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button @click="deleteImage('educational', index)" 
-                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                            <!-- Add New Image Card -->
+                            <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
+                                 @click="openUploadModal(section.id)">
+                                <div class="text-center text-gray-500">
+                                    <i class="fas fa-cloud-upload-alt text-4xl mb-2"></i>
+                                    <p class="font-semibold">Upload Image</p>
                                 </div>
-                            </div>
-                        </template>
-                        
-                        <!-- Add Image Card -->
-                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
-                             @click="openUploadModal('educational')">
-                            <div class="text-center text-gray-500">
-                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
-                                <p>Add Image</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Competitive Section -->
-            <div class="gallery-section">
-                <h3 class="gallery-title">Competitive</h3>
-                <div 
-                    @drop.prevent="handleDrop($event, 'competitive')"
-                    @dragover.prevent="handleDragOver($event)"
-                    @dragleave.prevent="handleDragLeave($event)"
-                    :class="{'drag-over': isDragging}"
-                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
-                >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="(image, index) in competitiveImages" :key="index">
-                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'competitive', index)">
-                                <div class="relative">
-                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
-                                    <img :src="image" alt="Competitive image" class="w-full h-48 object-cover">
-                                    <div class="image-overlay">
-                                        <div class="flex space-x-2">
-                                            <button @click="editImage('competitive', index)" 
-                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button @click="deleteImage('competitive', index)" 
-                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        
-                        <!-- Add Image Card -->
-                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
-                             @click="openUploadModal('competitive')">
-                            <div class="text-center text-gray-500">
-                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
-                                <p>Add Image</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Art Section -->
-            <div class="gallery-section">
-                <h3 class="gallery-title">Art</h3>
-                <div 
-                    @drop.prevent="handleDrop($event, 'art')"
-                    @dragover.prevent="handleDragOver($event)"
-                    @dragleave.prevent="handleDragLeave($event)"
-                    :class="{'drag-over': isDragging}"
-                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
-                >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="(image, index) in artImages" :key="index">
-                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'art', index)">
-                                <div class="relative">
-                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
-                                    <img :src="image" alt="Art image" class="w-full h-48 object-cover">
-                                    <div class="image-overlay">
-                                        <div class="flex space-x-2">
-                                            <button @click="editImage('art', index)" 
-                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button @click="deleteImage('art', index)" 
-                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        
-                        <!-- Add Image Card -->
-                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
-                             @click="openUploadModal('art')">
-                            <div class="text-center text-gray-500">
-                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
-                                <p>Add Image</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Activities Section -->
-            <div class="gallery-section">
-                <h3 class="gallery-title">Activities</h3>
-                <div 
-                    @drop.prevent="handleDrop($event, 'activities')"
-                    @dragover.prevent="handleDragOver($event)"
-                    @dragleave.prevent="handleDragLeave($event)"
-                    :class="{'drag-over': isDragging}"
-                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
-                >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="(image, index) in activitiesImages" :key="index">
-                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'activities', index)">
-                                <div class="relative">
-                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
-                                    <img :src="image" alt="Activities image" class="w-full h-48 object-cover">
-                                    <div class="image-overlay">
-                                        <div class="flex space-x-2">
-                                            <button @click="editImage('activities', index)" 
-                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button @click="deleteImage('activities', index)" 
-                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        
-                        <!-- Add Image Card -->
-                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
-                             @click="openUploadModal('activities')">
-                            <div class="text-center text-gray-500">
-                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
-                                <p>Add Image</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Functions Section -->
-            <div class="gallery-section">
-                <h3 class="gallery-title">Functions</h3>
-                <div 
-                    @drop.prevent="handleDrop($event, 'functions')"
-                    @dragover.prevent="handleDragOver($event)"
-                    @dragleave.prevent="handleDragLeave($event)"
-                    :class="{'drag-over': isDragging}"
-                    class="min-h-[200px] border-2 border-dashed border-gray-300 rounded-lg p-4 transition-all"
-                >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="(image, index) in functionsImages" :key="index">
-                            <div class="image-card" draggable="true" @dragstart="handleDragStart($event, 'functions', index)">
-                                <div class="relative">
-                                    <div class="position-badge">Pos: <span x-text="index + 1"></span></div>
-                                    <img :src="image" alt="Functions image" class="w-full h-48 object-cover">
-                                    <div class="image-overlay">
-                                        <div class="flex space-x-2">
-                                            <button @click="editImage('functions', index)" 
-                                                    class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button @click="deleteImage('functions', index)" 
-                                                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        
-                        <!-- Add Image Card -->
-                        <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg h-48 cursor-pointer hover:bg-gray-50 transition-colors"
-                             @click="openUploadModal('functions')">
-                            <div class="text-center text-gray-500">
-                                <i class="fas fa-plus-circle text-3xl mb-2"></i>
-                                <p>Add Image</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </template>
         </div>
     </main>
 
     <!-- Upload Modal -->
     <div x-show="showUploadModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-cloak>
         <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-800">Upload Image</h3>
-                <button @click="showUploadModal = false" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Upload Image</h3>
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Selected Section: <span class="font-semibold capitalize" x-text="currentSection"></span></label>
-                
-                <div class="mt-4">
-                    <label for="image-upload" class="block text-sm font-medium text-gray-700 mb-2">Choose an image</label>
-                    <input @change="handleFileSelect($event)" type="file" id="image-upload" accept="image/*" 
-                           class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
-                </div>
-                
-                <div x-show="previewUrl" class="mt-4">
-                    <img :src="previewUrl" alt="Image preview" class="w-full h-auto rounded-lg shadow-md">
-                </div>
+                <label for="image-upload" class="block text-sm font-medium text-gray-700 mb-2">Choose Image</label>
+                <input @change="handleFileSelect($event)" type="file" id="image-upload" accept="image/*" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg">
             </div>
-            
-            <div class="flex justify-end space-x-3 mt-6">
-                <button @click="showUploadModal = false" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
-                    Cancel
-                </button>
-                <button @click="uploadImage" :disabled="!selectedFile" 
-                        class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition disabled:bg-gray-400">
-                    Upload
-                </button>
+            <div x-show="previewUrl" class="mb-4">
+                <img :src="previewUrl" alt="Preview" class="w-full h-48 object-cover rounded-lg">
+            </div>
+            <div class="flex justify-end gap-3">
+                <button @click="showUploadModal = false" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button @click="uploadImage()" :disabled="!selectedFile" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 disabled:bg-gray-400">Upload</button>
             </div>
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div x-show="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-cloak>
-        <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
+    <!-- Edit Modal with Full Editing -->
+    <div x-show="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto" x-cloak>
+        <div class="bg-white rounded-lg shadow-xl p-6 max-w-2xl w-full mx-4 my-8">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-800">Edit Image</h3>
-                <button @click="showEditModal = false" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
+                <h2 class="text-2xl font-bold text-purple-700">Edit Image</h2>
+                <button @click="closeEditModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
                 </button>
             </div>
-            
-            <div class="mb-4">
-                <div class="mb-4">
-                    <img :src="editingImage" alt="Edit image" class="w-full h-auto rounded-lg shadow-md">
-                </div>
-                
-                <div class="flex justify-center space-x-3 mt-4">
-                    <button @click="moveImage('up')" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-                        <i class="fas fa-arrow-up"></i> Move Up
-                    </button>
-                    <button @click="moveImage('down')" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-                        <i class="fas fa-arrow-down"></i> Move Down
-                    </button>
+
+            <!-- Image Preview -->
+            <div class="mb-6">
+                <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                    <img id="editPreview" :src="editingImage?.url" style="max-width: 100%; max-height: 400px;" class="mx-auto">
                 </div>
             </div>
-            
-            <div class="flex justify-end space-x-3 mt-6">
-                <button @click="showEditModal = false" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
-                    Cancel
+
+            <!-- Edit Tabs -->
+            <div class="flex gap-2 mb-4 border-b border-gray-200 overflow-x-auto">
+                <button @click="editMode = 'crop'" :class="editMode === 'crop' ? 'border-b-2 border-purple-600 text-purple-600' : 'text-gray-600'"
+                        class="pb-2 font-semibold px-4 transition-colors whitespace-nowrap">
+                    <i class="fas fa-crop-alt mr-2"></i>Crop
                 </button>
-                <button @click="confirmDeleteImage" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition">
-                    <i class="fas fa-trash mr-2"></i> Delete
+                <button @click="editMode = 'resize'" :class="editMode === 'resize' ? 'border-b-2 border-purple-600 text-purple-600' : 'text-gray-600'"
+                        class="pb-2 font-semibold px-4 transition-colors whitespace-nowrap">
+                    <i class="fas fa-expand mr-2"></i>Resize
+                </button>
+                <button @click="editMode = 'adjust'" :class="editMode === 'adjust' ? 'border-b-2 border-purple-600 text-purple-600' : 'text-gray-600'"
+                        class="pb-2 font-semibold px-4 transition-colors whitespace-nowrap">
+                    <i class="fas fa-sliders-h mr-2"></i>Adjust
+                </button>
+                <button @click="editMode = 'rotate'" :class="editMode === 'rotate' ? 'border-b-2 border-purple-600 text-purple-600' : 'text-gray-600'"
+                        class="pb-2 font-semibold px-4 transition-colors whitespace-nowrap">
+                    <i class="fas fa-redo mr-2"></i>Rotate
+                </button>
+                <button @click="editMode = 'info'" :class="editMode === 'info' ? 'border-b-2 border-purple-600 text-purple-600' : 'text-gray-600'"
+                        class="pb-2 font-semibold px-4 transition-colors whitespace-nowrap">
+                    <i class="fas fa-info-circle mr-2"></i>Info
+                </button>
+            </div>
+
+            <!-- Crop Mode -->
+            <template x-if="editMode === 'crop'">
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-600"><i class="fas fa-info-circle mr-2 text-blue-500"></i>Use your mouse to select the area you want to keep</p>
+                    <button @click="initCropper()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">
+                        <i class="fas fa-edit mr-2"></i>Start Cropping
+                    </button>
+                </div>
+            </template>
+
+            <!-- Resize Mode -->
+            <template x-if="editMode === 'resize'">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Width (pixels)</label>
+                        <input type="number" x-model.number="imageEdit.width" min="100" max="2000" @input="updatePreview()"
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            <input type="checkbox" x-model="imageEdit.maintainAspect" class="mr-2" @input="updatePreview()">
+                            Maintain Aspect Ratio
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Height (pixels)</label>
+                        <input type="number" x-model.number="imageEdit.height" min="100" max="2000" @input="updatePreview()"
+                               :disabled="imageEdit.maintainAspect"
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">
+                    </div>
+                </div>
+            </template>
+
+            <!-- Adjust Mode -->
+            <template x-if="editMode === 'adjust'">
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-700">Brightness</label>
+                            <span class="text-gray-500" x-text="`${imageEdit.brightness}%`"></span>
+                        </div>
+                        <input type="range" x-model.number="imageEdit.brightness" min="0" max="200" step="5" @input="updatePreview()"
+                               class="slider-input w-full">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-700">Contrast</label>
+                            <span class="text-gray-500" x-text="`${imageEdit.contrast}%`"></span>
+                        </div>
+                        <input type="range" x-model.number="imageEdit.contrast" min="0" max="200" step="5" @input="updatePreview()"
+                               class="slider-input w-full">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-700">Saturation</label>
+                            <span class="text-gray-500" x-text="`${imageEdit.saturation}%`"></span>
+                        </div>
+                        <input type="range" x-model.number="imageEdit.saturation" min="0" max="200" step="5" @input="updatePreview()"
+                               class="slider-input w-full">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-700">Hue</label>
+                            <span class="text-gray-500" x-text="`${imageEdit.hue}°`"></span>
+                        </div>
+                        <input type="range" x-model.number="imageEdit.hue" min="0" max="360" step="5" @input="updatePreview()"
+                               class="slider-input w-full">
+                    </div>
+                    <button @click="resetAdjustments()" class="w-full bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400">
+                        <i class="fas fa-redo mr-2"></i>Reset Adjustments
+                    </button>
+                </div>
+            </template>
+
+            <!-- Rotate Mode -->
+            <template x-if="editMode === 'rotate'">
+                <div class="space-y-4">
+                    <div class="flex gap-2">
+                        <button @click="rotateImage(90)" class="flex-1 bg-gray-200 py-2 rounded-lg hover:bg-gray-300 font-semibold">
+                            <i class="fas fa-redo-alt mr-2"></i>90° CW
+                        </button>
+                        <button @click="rotateImage(-90)" class="flex-1 bg-gray-200 py-2 rounded-lg hover:bg-gray-300 font-semibold">
+                            <i class="fas fa-undo-alt mr-2"></i>90° CCW
+                        </button>
+                    </div>
+                    <div class="flex gap-2">
+                        <button @click="flipImage('horizontal')" class="flex-1 bg-gray-200 py-2 rounded-lg hover:bg-gray-300 font-semibold">
+                            <i class="fas fa-exchange-alt mr-2"></i>Flip H
+                        </button>
+                        <button @click="flipImage('vertical')" class="flex-1 bg-gray-200 py-2 rounded-lg hover:bg-gray-300 font-semibold">
+                            <i class="fas fa-arrows-alt-v mr-2"></i>Flip V
+                        </button>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Info Mode -->
+            <template x-if="editMode === 'info'">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                        <input type="text" x-model="imageEdit.title" placeholder="Image title..."
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                        <textarea x-model="imageEdit.description" placeholder="Image description..." rows="3"
+                                  class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex gap-3">
+                <button @click="saveChanges()" class="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 font-semibold">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+                <button @click="closeEditModal()" class="flex-1 bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-500 font-semibold">
+                    <i class="fas fa-times mr-2"></i>Cancel
                 </button>
             </div>
         </div>
@@ -521,263 +341,163 @@
     <script>
         function homePageManager() {
             return {
-                // User data
-                currentUser: null,
-                currentUserName: 'Loading...',
-                
-                // Gallery data
-                heroImages: [],
-                sportsImages: [],
-                educationalImages: [],
-                competitiveImages: [],
-                artImages: [],
-                activitiesImages: [],
-                functionsImages: [],
-                
-                // UI state
+                sections: [
+                    { id: 'hero', title: '🎬 Main Slideshow' },
+                    { id: 'sports', title: '⚽ Sports' },
+                    { id: 'educational', title: '📚 Educational' },
+                    { id: 'competitive', title: '🏆 Competitive' },
+                    { id: 'art', title: '🎨 Art' },
+                    { id: 'activities', title: '🎭 Activities' },
+                    { id: 'functions', title: '🎉 Functions' }
+                ],
+                images: {},
                 isDragging: false,
-                statusMessage: '',
-                statusType: '',
                 showUploadModal: false,
                 showEditModal: false,
-                currentSection: '',
+                currentSectionId: '',
                 selectedFile: null,
                 previewUrl: '',
                 editingImage: null,
                 editingSection: '',
-                editingIndex: -1,
-                
-                // Drag and drop state
+                editMode: 'crop',
+                cropper: null,
+                statusMessage: '',
+                statusType: '',
+                lastUpdated: '',
                 dragSourceSection: '',
-                dragSourceIndex: -1,
-                
+                dragSourceImageId: '',
+                imageEdit: {
+                    width: 0,
+                    height: 0,
+                    maintainAspect: true,
+                    brightness: 100,
+                    contrast: 100,
+                    saturation: 100,
+                    hue: 0,
+                    rotation: 0,
+                    flipH: false,
+                    flipV: false,
+                    title: '',
+                    description: ''
+                },
+
                 async init() {
                     try {
-                        console.log('Initializing Home Page Manager');
-                        // Check authentication
                         if (!authManager.requireAuth() || !authManager.requireHomePageManagerAccess()) {
-                            console.log('Authentication failed or access denied');
                             return;
                         }
-                        
-                        this.currentUser = authManager.getCurrentUser();
-                        console.log('Current user:', this.currentUser);
-                        this.currentUserName = this.currentUser.name || this.currentUser.email || 'User';
-                        
                         this.loadAllGalleries();
-                        console.log('Galleries loaded');
                     } catch (error) {
-                        console.error('Error initializing Home Page Manager:', error);
-                        this.showStatus('Error initializing page: ' + error.message, 'error');
+                        console.error('Error initializing:', error);
+                        this.showStatus('Error initializing page', 'error');
                     }
                 },
-                
+
                 loadAllGalleries() {
-                    this.heroImages = this.loadGallery('hero', [
-                        'https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                        'https://images.pexels.com/photos/1720184/pexels-photo-1720184.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                        'https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-                    ]);
-                    
-                    this.sportsImages = this.loadGallery('sports', [
-                        'https://images.pexels.com/photos/163452/basketball-dunk-blue-game-163452.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/47730/the-ball-stadion-football-the-pitch-47730.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=600'
-                    ]);
-                    
-                    this.educationalImages = this.loadGallery('educational', [
-                        'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/3771045/pexels-photo-3771045.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/4144144/pexels-photo-4144144.jpeg?auto=compress&cs=tinysrgb&w=600'
-                    ]);
-                    
-                    this.competitiveImages = this.loadGallery('competitive', [
-                        'https://images.pexels.com/photos/269883/pexels-photo-269883.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/2128033/pexels-photo-2128033.jpeg?auto=compress&cs=tinysrgb&w=600'
-                    ]);
-                    
-                    this.artImages = this.loadGallery('art', [
-                        'https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/1269968/pexels-photo-1269968.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/7599735/pexels-photo-7599735.jpeg?auto=compress&cs=tinysrgb&w=600'
-                    ]);
-                    
-                    this.activitiesImages = this.loadGallery('activities', [
-                        'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/8472739/pexels-photo-8472739.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/3992933/pexels-photo-3992933.jpeg?auto=compress&cs=tinysrgb&w=600'
-                    ]);
-                    
-                    this.functionsImages = this.loadGallery('functions', [
-                        'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/951527/pexels-photo-951527.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        'https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg?auto=compress&cs=tinysrgb&w=600'
-                    ]);
-                },
-                
-                loadGallery(key, defaults) {
-                    try {
-                        const storedImages = localStorage.getItem(`gallery_${key}`);
-                        if (storedImages) {
-                            return JSON.parse(storedImages);
+                    this.sections.forEach(section => {
+                        const stored = localStorage.getItem(`gallery_${section.id}`);
+                        if (stored) {
+                            try {
+                                this.images[section.id] = JSON.parse(stored);
+                            } catch (e) {
+                                this.images[section.id] = [];
+                            }
+                        } else {
+                            this.images[section.id] = [];
                         }
-                        return defaults;
-                    } catch (error) {
-                        console.error(`Error loading gallery ${key}:`, error);
-                        return defaults;
-                    }
+                    });
                 },
-                
-                saveGallery(key, images) {
-                    try {
-                        localStorage.setItem(`gallery_${key}`, JSON.stringify(images));
-                    } catch (error) {
-                        console.error(`Error saving gallery ${key}:`, error);
-                        this.showStatus('Error saving images: ' + error.message, 'error');
-                    }
+
+                saveGallery(sectionId) {
+                    localStorage.setItem(`gallery_${sectionId}`, JSON.stringify(this.images[sectionId]));
+                    this.lastUpdated = new Date().toLocaleTimeString();
                 },
-                
-                handleDragStart(event, section, index) {
-                    this.dragSourceSection = section;
-                    this.dragSourceIndex = index;
-                    event.dataTransfer.setData('text/plain', `${section}|${index}`);
+
+                saveAllOrder() {
+                    this.sections.forEach(section => {
+                        this.saveGallery(section.id);
+                    });
+                    this.showStatus('All images saved successfully!', 'success');
                 },
-                
-                handleDragOver(event) {
-                    this.isDragging = true;
-                    event.preventDefault();
+
+                getImagesBySection(sectionId) {
+                    return this.images[sectionId] || [];
                 },
-                
-                handleDragLeave(event) {
+
+                getActiveSections() {
+                    return this.sections.filter(s => this.getImagesBySection(s.id).length > 0);
+                },
+
+                getAllImages() {
+                    let total = 0;
+                    this.sections.forEach(s => {
+                        total += (this.images[s.id] || []).length;
+                    });
+                    return new Array(total);
+                },
+
+                handleDragStart(event, sectionId, imageId) {
+                    this.dragSourceSection = sectionId;
+                    this.dragSourceImageId = imageId;
+                    event.dataTransfer.effectAllowed = 'move';
+                },
+
+                handleDrop(event, targetSectionId) {
                     this.isDragging = false;
-                },
-                
-                handleDrop(event, targetSection) {
-                    this.isDragging = false;
                     event.preventDefault();
                     
-                    const data = event.dataTransfer.getData('text/plain');
-                    if (!data) return;
-                    
-                    const [sourceSection, sourceIndexStr] = data.split('|');
-                    const sourceIndex = parseInt(sourceIndexStr);
-                    
-                    if (sourceSection === targetSection) {
-                        // Reordering within the same section
-                        this.reorderImages(targetSection, sourceIndex, event);
-                    } else {
-                        // Moving between sections
-                        this.moveImageBetweenSections(sourceSection, sourceIndex, targetSection);
+                    if (this.dragSourceSection !== targetSectionId) {
+                        const sourceImages = this.images[this.dragSourceSection];
+                        const targetImages = this.images[targetSectionId];
+                        const image = sourceImages.find(img => img.id === this.dragSourceImageId);
+                        
+                        if (image) {
+                            sourceImages.splice(sourceImages.indexOf(image), 1);
+                            targetImages.push(image);
+                            this.saveGallery(this.dragSourceSection);
+                            this.saveGallery(targetSectionId);
+                            this.showStatus('Image moved successfully!', 'success');
+                        }
                     }
                 },
-                
-                reorderImages(section, sourceIndex, event) {
-                    const images = this[`${section}Images`];
-                    // Get the parent container of the drop target
-                    const container = event.target.closest('.grid');
-                    
-                    if (!container) return;
-                    
-                    // Get all image cards in the container
-                    const imageCards = Array.from(container.querySelectorAll('.image-card'));
-                    
-                    // Find the drop target (the element we're dropping onto)
-                    let targetElement = null;
-                    let targetIndex = -1;
-                    
-                    // Check if we have a specific drop target
-                    if (event.target.closest('.image-card')) {
-                        targetElement = event.target.closest('.image-card');
-                        targetIndex = imageCards.indexOf(targetElement);
-                    } else {
-                        // If dropped on the container itself, add to the end
-                        targetIndex = imageCards.length;
-                    }
-                    
-                    // If we couldn't determine a target index, default to the end
-                    if (targetIndex === -1) {
-                        targetIndex = images.length;
-                    }
-                    
-                    // Don't do anything if dropping on the same position
-                    if (sourceIndex === targetIndex) {
-                        return;
-                    }
-                    
-                    // Remove the image from its original position
-                    const [movedImage] = images.splice(sourceIndex, 1);
-                    
-                    // Insert it at the new position
-                    // Adjust targetIndex if we're moving from a lower index to a higher one
-                    const adjustedTargetIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
-                    images.splice(adjustedTargetIndex, 0, movedImage);
-                    
-                    // Save the updated gallery
-                    this.saveGallery(section, images);
-                    
-                    // Update the UI
-                    this[`${section}Images`] = [...images];
-                    
-                    this.showStatus('Image reordered successfully!', 'success');
-                },
-                
-                moveImageBetweenSections(sourceSection, sourceIndex, targetSection) {
-                    const sourceImages = this[`${sourceSection}Images`];
-                    const targetImages = this[`${targetSection}Images`];
-                    
-                    // Get the image to move
-                    const [movedImage] = sourceImages.splice(sourceIndex, 1);
-                    
-                    // Add it to the target section
-                    targetImages.push(movedImage);
-                    
-                    // Save both galleries
-                    this.saveGallery(sourceSection, sourceImages);
-                    this.saveGallery(targetSection, targetImages);
-                    
-                    // Update the UI
-                    this[`${sourceSection}Images`] = [...sourceImages];
-                    this[`${targetSection}Images`] = [...targetImages];
-                    
-                    this.showStatus(`Image moved to ${targetSection} section!`, 'success');
-                },
-                
-                openUploadModal(section) {
-                    this.currentSection = section;
+
+                openUploadModal(sectionId) {
+                    this.currentSectionId = sectionId;
                     this.selectedFile = null;
                     this.previewUrl = '';
                     this.showUploadModal = true;
                 },
-                
+
                 handleFileSelect(event) {
                     const file = event.target.files[0];
                     this.selectedFile = file;
-                    if (this.selectedFile) {
-                        this.previewUrl = URL.createObjectURL(this.selectedFile);
+                    if (file) {
+                        this.previewUrl = URL.createObjectURL(file);
                     }
                 },
-                
+
                 uploadImage() {
                     if (!this.selectedFile) {
-                        this.showStatus('Please select an image to upload', 'error');
+                        this.showStatus('Please select an image', 'error');
                         return;
                     }
-                    
+
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        const imageUrl = e.target.result;
-                        const images = this[`${this.currentSection}Images`];
+                        const image = {
+                            id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                            url: e.target.result,
+                            title: this.selectedFile.name,
+                            description: '',
+                            uploadedAt: new Date().toISOString()
+                        };
                         
-                        // Add the new image to the beginning of the array
-                        images.unshift(imageUrl);
+                        if (!this.images[this.currentSectionId]) {
+                            this.images[this.currentSectionId] = [];
+                        }
                         
-                        // Save the updated gallery
-                        this.saveGallery(this.currentSection, images);
-                        
-                        // Update the UI
-                        this[`${this.currentSection}Images`] = [...images];
-                        
+                        this.images[this.currentSectionId].unshift(image);
+                        this.saveGallery(this.currentSectionId);
                         this.showStatus('Image uploaded successfully!', 'success');
                         this.showUploadModal = false;
                         this.selectedFile = null;
@@ -785,76 +505,163 @@
                     };
                     reader.readAsDataURL(this.selectedFile);
                 },
-                
-                editImage(section, index) {
-                    this.editingSection = section;
-                    this.editingIndex = index;
-                    this.editingImage = this[`${section}Images`][index];
+
+                editImage(image, sectionId) {
+                    this.editingImage = { ...image };
+                    this.editingSection = sectionId;
+                    this.imageEdit = {
+                        width: 800,
+                        height: 600,
+                        maintainAspect: true,
+                        brightness: 100,
+                        contrast: 100,
+                        saturation: 100,
+                        hue: 0,
+                        rotation: 0,
+                        flipH: false,
+                        flipV: false,
+                        title: image.title || '',
+                        description: image.description || ''
+                    };
+                    this.editMode = 'info';
                     this.showEditModal = true;
                 },
-                
-                moveImage(direction) {
-                    const images = this[`${this.editingSection}Images`];
-                    const currentIndex = this.editingIndex;
-                    
-                    if (direction === 'up' && currentIndex > 0) {
-                        // Swap with previous image
-                        [images[currentIndex - 1], images[currentIndex]] = [images[currentIndex], images[currentIndex - 1]];
-                        this.editingIndex = currentIndex - 1;
-                    } else if (direction === 'down' && currentIndex < images.length - 1) {
-                        // Swap with next image
-                        [images[currentIndex + 1], images[currentIndex]] = [images[currentIndex], images[currentIndex + 1]];
-                        this.editingIndex = currentIndex + 1;
-                    }
-                    
-                    // Save the updated gallery
-                    this.saveGallery(this.editingSection, images);
-                    
-                    // Update the UI
-                    this[`${this.editingSection}Images`] = [...images];
-                    this.editingImage = images[this.editingIndex];
-                    
-                    this.showStatus('Image moved successfully!', 'success');
-                },
-                
-                deleteImage(section, index) {
-                    this.editingSection = section;
-                    this.editingIndex = index;
-                    this.confirmDeleteImage();
-                },
-                
-                confirmDeleteImage() {
-                    const images = this[`${this.editingSection}Images`];
-                    
-                    // Remove the image
-                    images.splice(this.editingIndex, 1);
-                    
-                    // Save the updated gallery
-                    this.saveGallery(this.editingSection, images);
-                    
-                    // Update the UI
-                    this[`${this.editingSection}Images`] = [...images];
-                    
-                    this.showStatus('Image deleted successfully!', 'success');
+
+                closeEditModal() {
                     this.showEditModal = false;
+                    this.editingImage = null;
+                    if (this.cropper) {
+                        this.cropper.destroy();
+                        this.cropper = null;
+                    }
                 },
-                
+
+                initCropper() {
+                    const image = document.getElementById('editPreview');
+                    if (this.cropper) {
+                        this.cropper.destroy();
+                    }
+                    this.cropper = new Cropper(image, {
+                        aspectRatio: NaN,
+                        autoCropArea: 1,
+                        responsive: true,
+                        guides: true,
+                        highlight: true,
+                        cropBoxMovable: true,
+                        cropBoxResizable: true
+                    });
+                },
+
+                async updatePreview() {
+                    try {
+                        const canvas = await this.generateEditedImage();
+                        const previewImg = document.getElementById('editPreview');
+                        if (previewImg) {
+                            previewImg.src = canvas.toDataURL('image/jpeg', 0.9);
+                        }
+                    } catch (error) {
+                        console.error('Error updating preview:', error);
+                    }
+                },
+
+                rotateImage(angle) {
+                    this.imageEdit.rotation = (this.imageEdit.rotation + angle) % 360;
+                    this.updatePreview();
+                },
+
+                flipImage(direction) {
+                    if (direction === 'horizontal') {
+                        this.imageEdit.flipH = !this.imageEdit.flipH;
+                    } else {
+                        this.imageEdit.flipV = !this.imageEdit.flipV;
+                    }
+                    this.updatePreview();
+                },
+
+                resetAdjustments() {
+                    this.imageEdit.brightness = 100;
+                    this.imageEdit.contrast = 100;
+                    this.imageEdit.saturation = 100;
+                    this.imageEdit.hue = 0;
+                    this.updatePreview();
+                },
+
+                async generateEditedImage() {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.src = this.editingImage.url;
+
+                    return new Promise((resolve) => {
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = this.imageEdit.width;
+                            canvas.height = this.imageEdit.height;
+                            const ctx = canvas.getContext('2d');
+
+                            ctx.filter = `brightness(${this.imageEdit.brightness}%) contrast(${this.imageEdit.contrast}%) saturate(${this.imageEdit.saturation}%) hue-rotate(${this.imageEdit.hue}deg)`;
+                            
+                            ctx.save();
+                            ctx.translate(canvas.width / 2, canvas.height / 2);
+                            ctx.rotate((this.imageEdit.rotation * Math.PI) / 180);
+                            if (this.imageEdit.flipH) ctx.scale(-1, 1);
+                            if (this.imageEdit.flipV) ctx.scale(1, -1);
+                            ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+                            ctx.restore();
+
+                            resolve(canvas);
+                        };
+                    });
+                },
+
+                async saveChanges() {
+                    try {
+                        const canvas = await this.generateEditedImage();
+                        const editedUrl = canvas.toDataURL('image/jpeg', 0.9);
+                        
+                        const images = this.images[this.editingSection];
+                        const imageIndex = images.findIndex(img => img.id === this.editingImage.id);
+                        
+                        if (imageIndex !== -1) {
+                            images[imageIndex].url = editedUrl;
+                            images[imageIndex].title = this.imageEdit.title;
+                            images[imageIndex].description = this.imageEdit.description;
+                            this.saveGallery(this.editingSection);
+                            this.showStatus('Image saved successfully!', 'success');
+                            this.closeEditModal();
+                        }
+                    } catch (error) {
+                        console.error('Save error:', error);
+                        this.showStatus('Failed to save image', 'error');
+                    }
+                },
+
+                deleteImage(image, sectionId) {
+                    if (confirm('Are you sure you want to delete this image?')) {
+                        const images = this.images[sectionId];
+                        const index = images.findIndex(img => img.id === image.id);
+                        if (index !== -1) {
+                            images.splice(index, 1);
+                            this.saveGallery(sectionId);
+                            this.showStatus('Image deleted successfully!', 'success');
+                        }
+                    }
+                },
+
                 showStatus(message, type) {
                     this.statusMessage = message;
                     this.statusType = type;
                     setTimeout(() => {
                         this.statusMessage = '';
-                    }, 3000);
+                    }, 4000);
                 },
-                
-                async logout() {
+
+                logout() {
                     authManager.clearCurrentUser();
                     window.location.href = '/login.html';
                 }
             }
         }
-        
-        // Attach to window for Alpine.js
+
         window.homePageManager = homePageManager;
     </script>
 </body>

@@ -276,12 +276,17 @@
                         
                         if (credential && credential.password === this.password) {
                             // Store user info in sessionStorage
-                            sessionStorage.setItem('user', JSON.stringify({
+                            const userInfo = {
                                 email: this.email,
                                 role: credential.role,
                                 name: this.email === 'sarah.johnson@school.com' ? 'Sarah Johnson' : 
                                       this.email === 'teacher@school.com' ? 'Teacher User' : 'Principal User'
-                            }));
+                            };
+                            
+                            sessionStorage.setItem('user', JSON.stringify(userInfo));
+                            
+                            // Also store in localStorage for the Home Page Manager
+                            localStorage.setItem('currentUser', JSON.stringify(userInfo));
                             
                             this.successMessage = 'Login successful! Redirecting...';
                             setTimeout(() => {
