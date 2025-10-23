@@ -18,7 +18,8 @@
             "dependencies": [],
             "details": "Include fields for `id`, `username` (unique), `email` (unique), `password_hash`, `salt`, `created_at`, `updated_at`, `is_active`. Consider indexing `username` and `email` for performance. Use appropriate data types for each field.",
             "status": "done",
-            "testStrategy": "Review schema with team for completeness and correctness. Verify data types, constraints (e.g., unique, not null), and indexing. Create migration scripts and test their execution."
+            "testStrategy": "Review schema with team for completeness and correctness. Verify data types, constraints (e.g., unique, not null), and indexing. Create migration scripts and test their execution.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -27,7 +28,8 @@
             "dependencies": [],
             "details": "Endpoint should be `POST /api/register`. Validate input fields (`username`, `email`, `password`) for format, length, and uniqueness. Hash password using a strong algorithm (e.g., bcrypt) with a generated salt. Store user data in the database. Return appropriate success/error responses.",
             "status": "done",
-            "testStrategy": "Unit tests for input validation, password hashing, and database interaction. Integration tests for successful registration, duplicate username/email errors, and invalid input errors. Use tools like Postman or curl for manual API testing."
+            "testStrategy": "Unit tests for input validation, password hashing, and database interaction. Integration tests for successful registration, duplicate username/email errors, and invalid input errors. Use tools like Postman or curl for manual API testing.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -36,7 +38,8 @@
             "dependencies": [],
             "details": "Endpoint should be `POST /api/login`. Retrieve user by username or email. Compare provided password with the stored hash using the correct salt. If credentials are valid, generate a JSON Web Token (JWT) containing user ID and roles, and return it. Handle invalid credentials gracefully.",
             "status": "done",
-            "testStrategy": "Unit tests for password comparison logic and JWT generation. Integration tests for successful login, incorrect password, non-existent user, and token validity. Test token expiration and refresh mechanisms if implemented."
+            "testStrategy": "Unit tests for password comparison logic and JWT generation. Integration tests for successful login, incorrect password, non-existent user, and token validity. Test token expiration and refresh mechanisms if implemented.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -45,7 +48,8 @@
             "dependencies": [],
             "details": "Design an HTML form with fields for username, email, password, and confirm password. Implement client-side validation for input format and password matching. On submission, send data to the `/api/register` endpoint. Display success messages or API error feedback to the user.",
             "status": "done",
-            "testStrategy": "Manual testing for form submission, client-side validation, and display of API responses (success/error). Automated UI tests (e.g., Cypress, Playwright) to simulate user registration flow and verify UI updates."
+            "testStrategy": "Manual testing for form submission, client-side validation, and display of API responses (success/error). Automated UI tests (e.g., Cypress, Playwright) to simulate user registration flow and verify UI updates.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -54,9 +58,13 @@
             "dependencies": [],
             "details": "Design an HTML form with fields for username/email and password. Implement client-side validation. On submission, send data to the `/api/login` endpoint. Upon successful login, store the received JWT token (e.g., in local storage) and redirect the user to a protected area of the application.",
             "status": "done",
-            "testStrategy": "Manual testing for form submission, client-side validation, and correct handling of API responses (success/failure). Verify that the JWT token is stored correctly and that the user is redirected. Automated UI tests for login flow and token persistence."
+            "testStrategy": "Manual testing for form submission, client-side validation, and correct handling of API responses (success/failure). Verify that the JWT token is stored correctly and that the user is redirected. Automated UI tests for login flow and token persistence.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 2,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "No further expansion needed for this task as it is foundational and its subtasks are already well-defined and in progress."
       },
       {
         "id": 2,
@@ -66,7 +74,7 @@
         "testStrategy": "Test login functionality for both Teacher and Principal roles. Verify correct redirection to respective dashboards. Test password reset functionality.",
         "priority": "high",
         "dependencies": [
-          1
+          "1"
         ],
         "status": "done",
         "subtasks": [
@@ -77,7 +85,8 @@
             "dependencies": [],
             "details": "Use SQL DDL to create a `users` table. Include columns for `id` (PK), `username` (unique), `email` (unique), `password_hash`, `created_at`, `updated_at`. Consider indexing `username` and `email` for performance.",
             "status": "done",
-            "testStrategy": "Verify table creation and column definitions using a database client. Ensure unique constraints are enforced."
+            "testStrategy": "Verify table creation and column definitions using a database client. Ensure unique constraints are enforced.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -86,7 +95,8 @@
             "dependencies": [],
             "details": "Develop a POST endpoint. Validate input fields (e.g., email format, password strength, uniqueness of username/email). Hash passwords using a strong algorithm like bcrypt. Store user data in the database.",
             "status": "done",
-            "testStrategy": "Use Postman/cURL to send valid and invalid registration requests. Check database for new user entry and correct password hash. Test edge cases like existing username/email."
+            "testStrategy": "Use Postman/cURL to send valid and invalid registration requests. Check database for new user entry and correct password hash. Test edge cases like existing username/email.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -95,7 +105,8 @@
             "dependencies": [],
             "details": "Use a library like `jsonwebtoken`. Define a secure secret key (e.g., from environment variables). Implement functions for `generateToken(payload, expiresIn)` and `verifyToken(token)`. The payload should include user ID and roles.",
             "status": "done",
-            "testStrategy": "Unit tests for token generation with various payloads and expiration times. Unit tests for token verification with valid, invalid, and expired tokens. Ensure correct error handling for invalid tokens."
+            "testStrategy": "Unit tests for token generation with various payloads and expiration times. Unit tests for token verification with valid, invalid, and expired tokens. Ensure correct error handling for invalid tokens.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -104,7 +115,8 @@
             "dependencies": [],
             "details": "Develop a POST endpoint. Retrieve user from database by username/email. Compare provided password with stored hash. If valid, use the JWT utility to generate and return a token. Handle invalid credentials gracefully.",
             "status": "done",
-            "testStrategy": "Use Postman/cURL to send valid and invalid login requests. Verify JWT generation and structure for valid logins. Test with incorrect passwords and non-existent users."
+            "testStrategy": "Use Postman/cURL to send valid and invalid login requests. Verify JWT generation and structure for valid logins. Test with incorrect passwords and non-existent users.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -113,7 +125,8 @@
             "dependencies": [],
             "details": "Extract token from `Authorization: Bearer <token>` header. Use the `verifyToken` utility. If valid, attach user information (e.g., user ID, roles) to the request object. If invalid or missing, return a 401 Unauthorized response.",
             "status": "done",
-            "testStrategy": "Create a dummy protected route. Test access with valid, invalid, expired, and missing JWTs. Verify that user information is correctly attached to the request for valid tokens."
+            "testStrategy": "Create a dummy protected route. Test access with valid, invalid, expired, and missing JWTs. Verify that user information is correctly attached to the request for valid tokens.",
+            "parentId": "undefined"
           },
           {
             "id": 6,
@@ -122,9 +135,13 @@
             "dependencies": [],
             "details": "Apply the JWT authentication middleware to this route. The endpoint should be a GET request. Fetch user details from the database using the user ID obtained from the verified token (attached by the middleware). Return relevant profile data.",
             "status": "done",
-            "testStrategy": "Test access with a valid JWT (obtained from login). Test access without a JWT and with an invalid/expired JWT. Verify that the correct user data is returned for authenticated requests and that unauthorized requests are rejected."
+            "testStrategy": "Test access with a valid JWT (obtained from login). Test access without a JWT and with an invalid/expired JWT. Verify that the correct user data is returned for authenticated requests and that unauthorized requests are rejected.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 7,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "Expand subtask 2.5 'Implement Principal-Managed Password Reset Functionality' to explicitly include the design and implementation of a secure backend function (e.g., Supabase Edge Function) to handle Supabase Admin API calls for password resets, ensuring no admin keys are exposed client-side. Also, add a new subtask for defining Supabase Row Level Security (RLS) policies for user roles to enforce access control at the database level."
       },
       {
         "id": 3,
@@ -134,7 +151,7 @@
         "testStrategy": "Verify that the dashboard loads correctly, displays the correct schedule, and that the quick access buttons are functional.",
         "priority": "high",
         "dependencies": [
-          2
+          "2"
         ],
         "status": "done",
         "subtasks": [
@@ -145,7 +162,8 @@
             "dependencies": [],
             "details": "Consider fields like `id (PK)`, `username (unique, string)`, `email (unique, string)`, `password_hash (string)`, `salt (string)`, `created_at (timestamp)`, `updated_at (timestamp)`, `is_active (boolean)`. Decide on a hashing algorithm (e.g., bcrypt).",
             "status": "done",
-            "testStrategy": "Review schema definition with team, ensure all necessary fields are present and correctly typed. Verify uniqueness constraints."
+            "testStrategy": "Review schema definition with team, ensure all necessary fields are present and correctly typed. Verify uniqueness constraints.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -154,7 +172,8 @@
             "dependencies": [],
             "details": "Use a POST request. Validate incoming data (email format, password strength, username availability). Hash the password using the chosen algorithm before storing it. Return appropriate success/error messages.",
             "status": "done",
-            "testStrategy": "Unit tests for input validation and password hashing logic. Integration tests to register a new user and verify data persistence in the database. Test edge cases like duplicate emails/usernames."
+            "testStrategy": "Unit tests for input validation and password hashing logic. Integration tests to register a new user and verify data persistence in the database. Test edge cases like duplicate emails/usernames.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -163,7 +182,8 @@
             "dependencies": [],
             "details": "Use a POST request. Verify provided username/email and password against stored credentials. If valid, generate a JWT containing user ID and roles, setting an appropriate expiration time. Return the JWT in the response body.",
             "status": "done",
-            "testStrategy": "Unit tests for password verification and JWT generation logic. Integration tests for successful login, invalid credentials, and verifying the structure and content of the generated JWT."
+            "testStrategy": "Unit tests for password verification and JWT generation logic. Integration tests for successful login, invalid credentials, and verifying the structure and content of the generated JWT.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -172,7 +192,8 @@
             "dependencies": [],
             "details": "Extract the JWT from the `Authorization: Bearer <token>` header. Verify the token's signature using the secret key. Check for token expiration. Decode the payload and attach relevant user data (e.g., `userId`, `roles`) to the request object (`req.user`). Handle invalid/expired tokens by returning 401/403 errors.",
             "status": "done",
-            "testStrategy": "Unit tests for token parsing, signature verification, and expiration checks. Integration tests by calling protected endpoints with valid, invalid, and expired tokens, ensuring correct access/denial."
+            "testStrategy": "Unit tests for token parsing, signature verification, and expiration checks. Integration tests by calling protected endpoints with valid, invalid, and expired tokens, ensuring correct access/denial.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -181,9 +202,13 @@
             "dependencies": [],
             "details": "Create a GET endpoint (e.g., `/api/profile`) that utilizes the JWT validation middleware. If authenticated, return basic user data (e.g., username, email) retrieved from the `req.user` object. If not authenticated, the middleware should prevent access.",
             "status": "done",
-            "testStrategy": "Integration tests to access the endpoint with and without a valid JWT. Verify that access is granted with a valid token and denied with an invalid or missing token. Confirm that the correct user data is returned when authenticated."
+            "testStrategy": "Integration tests to access the endpoint with and without a valid JWT. Verify that access is granted with a valid token and denied with an invalid or missing token. Confirm that the correct user data is returned when authenticated.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 6,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "No further expansion needed. The existing subtasks are well-defined and cover the scope of the Teacher Dashboard development."
       },
       {
         "id": 4,
@@ -193,7 +218,7 @@
         "testStrategy": "Test the attendance marking process, including the \"Mark All Present\" button and individual student toggling. Verify that SMS alerts are sent successfully.",
         "priority": "high",
         "dependencies": [
-          3
+          "3"
         ],
         "status": "done",
         "subtasks": [
@@ -204,7 +229,8 @@
             "dependencies": [],
             "details": "Use `npm init -y` or `yarn init -y` to start the project. Install `express` for the web server, `bcryptjs` for password hashing, `jsonwebtoken` for JWT creation and verification, and `dotenv` for environment variable management. Create a basic `server.js` or `app.js` file to start the Express application.",
             "status": "done",
-            "testStrategy": "Verify that all required packages are listed in `package.json` and that the basic Express server can start without errors (e.g., by running `node server.js`)."
+            "testStrategy": "Verify that all required packages are listed in `package.json` and that the basic Express server can start without errors (e.g., by running `node server.js`).",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -213,7 +239,8 @@
             "dependencies": [],
             "details": "Implement a POST route for `/api/register`. In the route handler, receive `username` and `password` from the request body. Use `bcryptjs.hash()` to hash the password with a salt. Store the user (username and hashed password) in a temporary in-memory array or a mock database. Ensure basic validation for input fields and handle duplicate usernames.",
             "status": "done",
-            "testStrategy": "Use a tool like Postman or Insomnia to send POST requests to `/api/register`. Test with valid data (expect 201 Created), missing fields (expect 400 Bad Request), and an existing username (expect 409 Conflict). Verify that passwords are not stored in plain text."
+            "testStrategy": "Use a tool like Postman or Insomnia to send POST requests to `/api/register`. Test with valid data (expect 201 Created), missing fields (expect 400 Bad Request), and an existing username (expect 409 Conflict). Verify that passwords are not stored in plain text.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -222,7 +249,8 @@
             "dependencies": [],
             "details": "Implement a POST route for `/api/login`. Receive `username` and `password`. Retrieve the user's stored hashed password. Use `bcryptjs.compare()` to verify the provided password against the stored hash. If credentials are valid, generate a JWT using `jsonwebtoken.sign()`, including the user's ID in the payload and signing it with a secret key loaded from environment variables. Return the JWT in the response.",
             "status": "done",
-            "testStrategy": "Use Postman/Insomnia. Test with correct credentials (expect 200 OK and a JWT). Test with incorrect password or non-existent username (expect 401 Unauthorized). Verify the structure of the returned JWT."
+            "testStrategy": "Use Postman/Insomnia. Test with correct credentials (expect 200 OK and a JWT). Test with incorrect password or non-existent username (expect 401 Unauthorized). Verify the structure of the returned JWT.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -231,7 +259,8 @@
             "dependencies": [],
             "details": "Create a middleware function (e.g., `authMiddleware.js`). It should check for an `Authorization` header in the format `Bearer <token>`. Extract the token and use `jsonwebtoken.verify()` with the secret key to validate it. If valid, decode the user information from the token and attach it to the `req` object (e.g., `req.user`). If invalid or missing, send a 401 Unauthorized or 403 Forbidden response.",
             "status": "done",
-            "testStrategy": "Create a dummy protected route. Test accessing it without a token, with an invalid/expired token, and with a valid token. Verify that the middleware correctly allows access for valid tokens and denies for invalid/missing ones, returning appropriate HTTP status codes."
+            "testStrategy": "Create a dummy protected route. Test accessing it without a token, with an invalid/expired token, and with a valid token. Verify that the middleware correctly allows access for valid tokens and denies for invalid/missing ones, returning appropriate HTTP status codes.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -240,9 +269,13 @@
             "dependencies": [],
             "details": "Implement a GET route for `/api/profile`. Apply the JWT authentication middleware created in Subtask 4 to this route. In the route handler, access the user information attached by the middleware (e.g., `req.user`) and return it as part of the response to confirm successful authentication and data retrieval.",
             "status": "done",
-            "testStrategy": "Use Postman/Insomnia. First, attempt to access `/api/profile` without any token (should result in 401/403). Then, log in via `/api/login` to obtain a valid JWT. Use this JWT in the `Authorization` header to access `/api/profile` (should result in 200 OK and return the user's profile data)."
+            "testStrategy": "Use Postman/Insomnia. First, attempt to access `/api/profile` without any token (should result in 401/403). Then, log in via `/api/login` to obtain a valid JWT. Use this JWT in the `Authorization` header to access `/api/profile` (should result in 200 OK and return the user's profile data).",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 7,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "No further expansion needed. The existing subtasks are well-defined and cover the scope of the Attendance Module implementation."
       },
       {
         "id": 5,
@@ -252,7 +285,7 @@
         "testStrategy": "Verify that the dashboard displays the correct attendance percentage and that notices can be posted. Test report generation and export functionality.",
         "priority": "high",
         "dependencies": [
-          2
+          "2"
         ],
         "status": "done",
         "subtasks": [
@@ -263,7 +296,8 @@
             "dependencies": [],
             "details": "Create `users` table (id, username, email, password_hash, role_id, created_at, updated_at), `roles` table (id, name), and `sessions` table (id, user_id, token, expires_at, created_at). Use PostgreSQL. Ensure proper indexing for performance.",
             "status": "done",
-            "testStrategy": "Review schema with team for completeness and correctness. Verify all necessary fields are present and data types are appropriate. Run DDL scripts in a test environment."
+            "testStrategy": "Review schema with team for completeness and correctness. Verify all necessary fields are present and data types are appropriate. Run DDL scripts in a test environment.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -272,7 +306,8 @@
             "dependencies": [],
             "details": "Create `POST /api/register` endpoint. Validate input (email format, password strength). Hash password using bcrypt. Store user data in the `users` table. Handle duplicate username/email errors. Return a success message or validation errors.",
             "status": "done",
-            "testStrategy": "Unit tests for password hashing and input validation. Integration tests for successful registration, registration with existing username/email, and registration with invalid input (e.g., weak password, invalid email format)."
+            "testStrategy": "Unit tests for password hashing and input validation. Integration tests for successful registration, registration with existing username/email, and registration with invalid input (e.g., weak password, invalid email format).",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -281,7 +316,8 @@
             "dependencies": [],
             "details": "Create `POST /api/login` endpoint. Accept username/email and password. Verify password against stored hash. Generate a JWT or similar secure, expiring session token. Store token in the `sessions` table. Return the token upon successful login. Implement token invalidation on logout.",
             "status": "done",
-            "testStrategy": "Unit tests for password verification and token generation. Integration tests for successful login, failed login (incorrect credentials), token expiry, and logout functionality. Test with valid and invalid tokens for protected routes."
+            "testStrategy": "Unit tests for password verification and token generation. Integration tests for successful login, failed login (incorrect credentials), token expiry, and logout functionality. Test with valid and invalid tokens for protected routes.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -290,7 +326,8 @@
             "dependencies": [],
             "details": "Implement `GET /api/profile` to return authenticated user's non-sensitive data (username, email, role). Implement `PUT /api/profile` to allow updates to fields like username or email (requiring re-authentication or password confirmation for sensitive changes). Ensure endpoints are protected by authentication middleware.",
             "status": "done",
-            "testStrategy": "Integration tests for authenticated profile retrieval and update. Test unauthorized access attempts. Verify data consistency after updates. Test edge cases like updating with existing email/username."
+            "testStrategy": "Integration tests for authenticated profile retrieval and update. Test unauthorized access attempts. Verify data consistency after updates. Test edge cases like updating with existing email/username.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -299,7 +336,8 @@
             "dependencies": [],
             "details": "Create `POST /api/forgot-password` (accepts email, generates a unique, time-limited reset token, sends email with reset link). Create `POST /api/reset-password` (accepts token and new password, validates token, updates password hash). Ensure tokens are single-use and expire.",
             "status": "done",
-            "testStrategy": "Unit tests for token generation and validation. Integration tests for the entire workflow: requesting reset, using a valid token, using an expired/invalid token, and successfully resetting the password. Verify email sending mechanism."
+            "testStrategy": "Unit tests for token generation and validation. Integration tests for the entire workflow: requesting reset, using a valid token, using an expired/invalid token, and successfully resetting the password. Verify email sending mechanism.",
+            "parentId": "undefined"
           },
           {
             "id": 6,
@@ -308,9 +346,13 @@
             "dependencies": [],
             "details": "Create a middleware function that checks the authenticated user's role against a list of required roles for a specific route. Apply this middleware to protected routes (e.g., admin-only endpoints). Deny access with an appropriate HTTP status code (e.g., 403 Forbidden) if the user's role is insufficient.",
             "status": "done",
-            "testStrategy": "Integration tests for various user roles (e.g., admin, regular user) attempting to access protected and unprotected endpoints. Verify correct access/denial based on role. Test with unauthenticated requests."
+            "testStrategy": "Integration tests for various user roles (e.g., admin, regular user) attempting to access protected and unprotected endpoints. Verify correct access/denial based on role. Test with unauthenticated requests.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 7,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "Expand subtask 5.5 'Implement Report Generation and Export (Attendance & Grades)' into two distinct subtasks: one for implementing CSV export functionality (e.g., for attendance) and another for implementing PDF export functionality (e.g., for grades), each focusing on data retrieval, formatting, and client-side library integration. Consider adding a subtask for optimizing data retrieval for potentially large reports."
       },
       {
         "id": 6,
@@ -320,7 +362,7 @@
         "testStrategy": "Test the CSV import functionality. Verify that new teacher accounts can be created and managed.",
         "priority": "medium",
         "dependencies": [
-          2
+          "2"
         ],
         "status": "done",
         "subtasks": [
@@ -331,7 +373,8 @@
             "dependencies": [],
             "details": "Create a `users` table with columns: `id` (PK, auto-increment), `username` (unique, string), `email` (unique, string), `password_hash` (string), `created_at` (timestamp), `updated_at` (timestamp). Consider indexing `username` and `email` for performance.",
             "status": "done",
-            "testStrategy": "Verify table creation and column definitions using a database client (e.g., psql, MySQL Workbench). Insert dummy data to ensure schema integrity."
+            "testStrategy": "Verify table creation and column definitions using a database client (e.g., psql, MySQL Workbench). Insert dummy data to ensure schema integrity.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -340,7 +383,8 @@
             "dependencies": [],
             "details": "Develop a POST endpoint. Validate input for uniqueness of username/email and password strength. Use a strong hashing algorithm (e.g., bcrypt) for passwords. Store the hashed password in the database.",
             "status": "done",
-            "testStrategy": "Use Postman/cURL to send valid registration requests, invalid requests (e.g., missing fields, duplicate username/email, weak password). Verify user creation in the database and appropriate error responses."
+            "testStrategy": "Use Postman/cURL to send valid registration requests, invalid requests (e.g., missing fields, duplicate username/email, weak password). Verify user creation in the database and appropriate error responses.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -349,7 +393,8 @@
             "dependencies": [],
             "details": "Implement functions like `generateToken(payload, secret, expiresIn)` and `verifyToken(token, secret)`. The payload should include user ID and roles. Define a secure secret key and an appropriate expiration time for tokens.",
             "status": "done",
-            "testStrategy": "Write unit tests for each utility function: ensure tokens are generated correctly with the given payload, verify valid tokens, and confirm that invalid or expired tokens are rejected."
+            "testStrategy": "Write unit tests for each utility function: ensure tokens are generated correctly with the given payload, verify valid tokens, and confirm that invalid or expired tokens are rejected.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -358,7 +403,8 @@
             "dependencies": [],
             "details": "Develop a POST endpoint. Retrieve user by username/email. Compare provided password with stored hash. If credentials are valid, generate a JWT using the utility function and return it in the response body.",
             "status": "done",
-            "testStrategy": "Use Postman/cURL to send valid login requests (verify JWT generation) and invalid requests (e.g., wrong password, non-existent user). Check for correct JWT structure and appropriate error messages."
+            "testStrategy": "Use Postman/cURL to send valid login requests (verify JWT generation) and invalid requests (e.g., wrong password, non-existent user). Check for correct JWT structure and appropriate error messages.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -367,7 +413,8 @@
             "dependencies": [],
             "details": "The middleware should extract the token from the `Authorization: Bearer <token>` header. Use the JWT verification utility. If valid, decode the token and attach the user payload (e.g., user ID, roles) to the request object. If invalid or missing, return a 401 Unauthorized error.",
             "status": "done",
-            "testStrategy": "Apply the middleware to a dummy protected route. Test access with a valid JWT, an invalid JWT, an expired JWT, and no JWT. Verify that authenticated requests proceed and unauthenticated ones are rejected with the correct status code."
+            "testStrategy": "Apply the middleware to a dummy protected route. Test access with a valid JWT, an invalid JWT, an expired JWT, and no JWT. Verify that authenticated requests proceed and unauthenticated ones are rejected with the correct status code.",
+            "parentId": "undefined"
           },
           {
             "id": 6,
@@ -376,9 +423,13 @@
             "dependencies": [],
             "details": "Create a GET endpoint (e.g., `/api/profile`) that returns basic user information (e.g., username, email) retrieved from the request object (populated by the middleware). This route should only be accessible to authenticated users.",
             "status": "done",
-            "testStrategy": "Perform an authenticated request to `/api/profile` using a JWT obtained from the login endpoint. Verify that user data is returned. Perform an unauthenticated request to the same endpoint and confirm it returns a 401 Unauthorized error."
+            "testStrategy": "Perform an authenticated request to `/api/profile` using a JWT obtained from the login endpoint. Verify that user data is returned. Perform an unauthenticated request to the same endpoint and confirm it returns a 401 Unauthorized error.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 8,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "Revise subtask 6.1 to reflect the HTML/JS/Alpine.js tech stack (e.g., `src/pages/admin/setup.html`). Expand subtask 6.2 'Implement CSV Bulk Import Frontend' and 6.3 'Develop Backend API for Bulk Data Import' into more granular steps, separating frontend parsing/preview from backend validation/database insertion. Also, ensure subtask 6.5 'Implement Staff Login Credentials Management' explicitly considers the need for secure backend functions (e.g., Supabase Edge Functions) for sensitive Supabase Auth Admin API calls."
       },
       {
         "id": 7,
@@ -388,7 +439,7 @@
         "testStrategy": "Verify that the database schema is correctly implemented and that the relationships between tables are established.",
         "priority": "medium",
         "dependencies": [
-          6
+          "6"
         ],
         "status": "done",
         "subtasks": [
@@ -399,7 +450,8 @@
             "dependencies": [],
             "details": "Use `npm init -y` to create `package.json`. Install core dependencies: `express`, `bcryptjs` (for password hashing), `jsonwebtoken` (for JWTs), `dotenv` (for environment variables), and `mongoose` (for database interaction). Configure basic server structure and database connection.",
             "status": "done",
-            "testStrategy": "Verify `package.json` contains all listed dependencies. Ensure the server starts without errors and connects to the database successfully."
+            "testStrategy": "Verify `package.json` contains all listed dependencies. Ensure the server starts without errors and connects to the database successfully.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -408,7 +460,8 @@
             "dependencies": [],
             "details": "Define a Mongoose User schema with fields like `username`, `email`, and `password`. Implement a POST `/api/register` route. Before saving, hash the provided password using `bcryptjs.hash()`. Handle potential errors such as duplicate usernames/emails and validation failures. Return a success message or the newly created user (excluding password).",
             "status": "done",
-            "testStrategy": "Use Postman or cURL to send POST requests to `/api/register` with valid user data. Verify that a new user record is created in the database with a hashed password. Test with invalid data (e.g., missing fields, existing username) and assert appropriate error responses."
+            "testStrategy": "Use Postman or cURL to send POST requests to `/api/register` with valid user data. Verify that a new user record is created in the database with a hashed password. Test with invalid data (e.g., missing fields, existing username) and assert appropriate error responses.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -417,7 +470,8 @@
             "dependencies": [],
             "details": "Implement a POST `/api/login` route. Find the user by their provided username/email. Compare the provided password with the stored hashed password using `bcryptjs.compare()`. If credentials are valid, generate a JWT using `jsonwebtoken.sign()` including the user's ID and a secret key. Return the generated JWT to the client.",
             "status": "done",
-            "testStrategy": "Use Postman or cURL to send POST requests to `/api/login` with correct and incorrect credentials. Verify that a valid JWT is returned for successful logins and appropriate error messages (e.g., 'Invalid credentials') for failed attempts. Ensure the JWT payload contains the user ID."
+            "testStrategy": "Use Postman or cURL to send POST requests to `/api/login` with correct and incorrect credentials. Verify that a valid JWT is returned for successful logins and appropriate error messages (e.g., 'Invalid credentials') for failed attempts. Ensure the JWT payload contains the user ID.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -426,7 +480,8 @@
             "dependencies": [],
             "details": "Create a middleware function (e.g., `authMiddleware.js`). This middleware should extract the token from the `Authorization` header (e.g., 'Bearer TOKEN'). Use `jsonwebtoken.verify()` to validate the token against the secret key. If valid, decode the token, attach the user's ID (from the token payload) to the `req` object (e.g., `req.user = { id: decoded.id }`), and call `next()`. Handle cases where the token is missing, invalid, or expired by sending appropriate HTTP error responses (e.g., 401 Unauthorized, 403 Forbidden).",
             "status": "done",
-            "testStrategy": "Test the middleware by attempting to access a protected route (to be created in subtask 5) with no token, an invalid token, and a valid token. Ensure correct access is granted only with a valid token and appropriate error responses are returned otherwise."
+            "testStrategy": "Test the middleware by attempting to access a protected route (to be created in subtask 5) with no token, an invalid token, and a valid token. Ensure correct access is granted only with a valid token and appropriate error responses are returned otherwise.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -435,9 +490,13 @@
             "dependencies": [],
             "details": "Create a GET `/api/profile` or `/api/dashboard` route. Apply the `authMiddleware` created in subtask 4 to this route. The route handler should access `req.user.id` (populated by the middleware) to demonstrate that the user's identity is available after authentication. Return some user-specific data or a simple success message.",
             "status": "done",
-            "testStrategy": "Use Postman or cURL. Attempt to access `/api/profile` without a token (should result in 401/403). Attempt with an invalid token (should result in 401/403). Obtain a valid token from `/api/login` and use it to access `/api/profile` (should succeed and return the expected data, confirming `req.user` is populated)."
+            "testStrategy": "Use Postman or cURL. Attempt to access `/api/profile` without a token (should result in 401/403). Attempt with an invalid token (should result in 401/403). Obtain a valid token from `/api/login` and use it to access `/api/profile` (should succeed and return the expected data, confirming `req.user` is populated).",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 5,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "No further expansion needed. The existing subtasks are well-defined and cover the scope of data model design and implementation."
       },
       {
         "id": 8,
@@ -447,7 +506,7 @@
         "testStrategy": "Verify that SMS messages are sent successfully to the parents of absent students.",
         "priority": "medium",
         "dependencies": [
-          4
+          "4"
         ],
         "status": "done",
         "subtasks": [
@@ -458,7 +517,8 @@
             "dependencies": [],
             "details": "Create a `users` table with columns: `id (PK, UUID)`, `username (VARCHAR UNIQUE)`, `email (VARCHAR UNIQUE)`, `password_hash (VARCHAR)`, `password_salt (VARCHAR)`, `created_at (TIMESTAMP)`, `updated_at (TIMESTAMP)`, `is_active (BOOLEAN DEFAULT TRUE)`. Consider indexing `username` and `email` for performance.",
             "status": "done",
-            "testStrategy": "Review schema definition with the team lead and database administrator. Ensure all required fields are present, data types are appropriate, and constraints (e.g., UNIQUE) are correctly applied."
+            "testStrategy": "Review schema definition with the team lead and database administrator. Ensure all required fields are present, data types are appropriate, and constraints (e.g., UNIQUE) are correctly applied.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -467,7 +527,8 @@
             "dependencies": [],
             "details": "Use `POST /api/register`. Implement robust input validation for username (min/max length, allowed characters), email (format), and password (min length, complexity requirements). Use a strong, industry-standard hashing algorithm (e.g., bcrypt) for password hashing, generating a unique salt for each user. Store the hashed password and salt in the database. Return a success message or appropriate error codes (e.g., 400 for bad input, 409 for existing user).",
             "status": "done",
-            "testStrategy": "Develop unit tests for input validation logic, password hashing, and database insertion. Create integration tests for the endpoint, covering valid registrations, invalid inputs (e.g., weak password, invalid email), and attempts to register with an already existing username/email. Verify database entries for newly registered users."
+            "testStrategy": "Develop unit tests for input validation logic, password hashing, and database insertion. Create integration tests for the endpoint, covering valid registrations, invalid inputs (e.g., weak password, invalid email), and attempts to register with an already existing username/email. Verify database entries for newly registered users.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -476,7 +537,8 @@
             "dependencies": [],
             "details": "Utilize a standard JWT library (e.g., `jsonwebtoken` in Node.js, `PyJWT` in Python). Implement `generateToken(payload, secret, options)` to create signed tokens with user-specific data (e.g., user ID, roles, expiration time). Implement `verifyToken(token, secret)` to decode and validate tokens, checking signature and expiration. Define the JWT secret key as an environment variable.",
             "status": "done",
-            "testStrategy": "Write unit tests for token generation (verify payload correctness, expiration time). Test token validation with valid tokens, expired tokens, tokens with invalid signatures, and malformed tokens. Ensure appropriate errors or exceptions are raised for invalid tokens."
+            "testStrategy": "Write unit tests for token generation (verify payload correctness, expiration time). Test token validation with valid tokens, expired tokens, tokens with invalid signatures, and malformed tokens. Ensure appropriate errors or exceptions are raised for invalid tokens.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -485,7 +547,8 @@
             "dependencies": [],
             "details": "Use `POST /api/login`. Accept username/email and password. Retrieve the user's record from the database. Compare the provided password with the stored hashed password using the stored salt. If credentials are valid, use the utility from subtask 3 to generate a JWT token. Return the JWT token in the response body (e.g., as a bearer token). Handle invalid credentials with a 401 Unauthorized error.",
             "status": "done",
-            "testStrategy": "Develop unit tests for password verification logic. Create integration tests for the endpoint, covering successful logins with correct credentials, failed logins with incorrect passwords, and failed logins with non-existent users. Verify that a valid JWT is returned on success and appropriate error codes are returned on failure."
+            "testStrategy": "Develop unit tests for password verification logic. Create integration tests for the endpoint, covering successful logins with correct credentials, failed logins with incorrect passwords, and failed logins with non-existent users. Verify that a valid JWT is returned on success and appropriate error codes are returned on failure.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -494,9 +557,14 @@
             "dependencies": [],
             "details": "Create an `authMiddleware` function. This middleware should extract the JWT from the `Authorization` header (e.g., 'Bearer <token>'). Use the `verifyToken` utility from subtask 3 to validate the token. If valid, decode the token's payload and attach relevant user information (e.g., `req.user = decoded_payload`) to the request object for subsequent route handlers. If the token is missing, invalid, or expired, return a 401 Unauthorized or 403 Forbidden error. Apply this middleware to at least one sample protected route (e.g., `/api/profile`).",
             "status": "done",
-            "testStrategy": "Create integration tests for a protected route: attempt access with a valid token, an expired token, an invalid token, and no token. Verify that access is granted only with a valid token and that appropriate HTTP status codes (e.g., 200, 401, 403) are returned in other scenarios. Ensure user information is correctly attached to the request object when authenticated."
+            "testStrategy": "Create integration tests for a protected route: attempt access with a valid token, an expired token, an invalid token, and no token. Verify that access is granted only with a valid token and that appropriate HTTP status codes (e.g., 200, 401, 403) are returned in other scenarios. Ensure user information is correctly attached to the request object when authenticated.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 6,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "No further expansion needed. The existing subtasks are well-defined and cover the scope of SMS Gateway integration.",
+        "updatedAt": "2025-10-23T06:15:34.957Z"
       },
       {
         "id": 9,
@@ -506,10 +574,10 @@
         "testStrategy": "Test the application's behavior when offline. Verify that the timetable and notices are displayed correctly and that attendance data is saved and synced when connectivity is restored.",
         "priority": "medium",
         "dependencies": [
-          3,
-          4
+          "3",
+          "4"
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -517,8 +585,9 @@
             "description": "Define the database tables and fields required to store user information, including authentication credentials and profile data.",
             "dependencies": [],
             "details": "Create `users` table with fields: `id` (PK), `username` (unique), `email` (unique), `password_hash`, `salt`, `created_at`, `updated_at`, `is_active`. Consider indexing `username` and `email`.",
-            "status": "pending",
-            "testStrategy": "Review DDL for correctness and completeness. Execute DDL on a test database and verify table and column creation."
+            "status": "done",
+            "testStrategy": "Review DDL for correctness and completeness. Execute DDL on a test database and verify table and column creation.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -526,8 +595,9 @@
             "description": "Develop an API endpoint that allows new users to register by providing a username, email, and password, storing their hashed credentials securely.",
             "dependencies": [],
             "details": "Endpoint: `POST /api/auth/register`. Validate input (email format, password strength). Hash password using bcrypt with a generated salt. Store user data in the `users` table. Return a success message or appropriate error.",
-            "status": "pending",
-            "testStrategy": "Use Postman/cURL to test with valid and invalid inputs (missing fields, duplicate username/email, weak password). Verify user creation in the database and appropriate HTTP status codes."
+            "status": "done",
+            "testStrategy": "Use Postman/cURL to test with valid and invalid inputs (missing fields, duplicate username/email, weak password). Verify user creation in the database and appropriate HTTP status codes.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -535,8 +605,9 @@
             "description": "Create an API endpoint for users to authenticate with their credentials and receive a JSON Web Token (JWT) upon successful login.",
             "dependencies": [],
             "details": "Endpoint: `POST /api/auth/login`. Validate input (username/email, password). Retrieve user from DB. Compare provided password with stored hash using bcrypt. If valid, generate a JWT containing user ID and roles. Return the JWT.",
-            "status": "pending",
-            "testStrategy": "Test with valid credentials, invalid password, non-existent user. Verify JWT structure and content for successful logins. Check for appropriate error responses (e.g., 401 Unauthorized)."
+            "status": "done",
+            "testStrategy": "Test with valid credentials, invalid password, non-existent user. Verify JWT structure and content for successful logins. Check for appropriate error responses (e.g., 401 Unauthorized).",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -544,8 +615,9 @@
             "description": "Create helper functions or a service for generating, signing, and verifying JSON Web Tokens.",
             "dependencies": [],
             "details": "Implement functions: `generateToken(payload, secret, expiresIn)` and `verifyToken(token, secret)`. Use a robust JWT library. Ensure the secret key is loaded from environment variables and is sufficiently complex.",
-            "status": "pending",
-            "testStrategy": "Unit tests for `generateToken` with various payloads. Unit tests for `verifyToken` with valid, invalid, expired, and tampered tokens. Ensure correct error handling for verification failures."
+            "status": "done",
+            "testStrategy": "Unit tests for `generateToken` with various payloads. Unit tests for `verifyToken` with valid, invalid, expired, and tampered tokens. Ensure correct error handling for verification failures.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -553,8 +625,9 @@
             "description": "Create a middleware function that protects API routes by validating the JWT provided in the request header.",
             "dependencies": [],
             "details": "The middleware should extract the JWT from the `Authorization: Bearer <token>` header. Use the `verifyToken` utility. If valid, decode the payload and attach user information (e.g., `req.user`) to the request object. If invalid or missing, return a 401 Unauthorized response.",
-            "status": "pending",
-            "testStrategy": "Create a dummy protected route. Test access with a valid JWT, an expired JWT, an invalid JWT, and no JWT. Verify that valid tokens grant access and invalid/missing tokens result in 401."
+            "status": "done",
+            "testStrategy": "Create a dummy protected route. Test access with a valid JWT, an expired JWT, an invalid JWT, and no JWT. Verify that valid tokens grant access and invalid/missing tokens result in 401.",
+            "parentId": "undefined"
           },
           {
             "id": 6,
@@ -562,10 +635,14 @@
             "description": "Develop a simple API endpoint that returns the authenticated user's profile information, accessible only after successful JWT authentication.",
             "dependencies": [],
             "details": "Endpoint: `GET /api/user/profile`. Apply the JWT authentication middleware to this route. Retrieve user details from the `req.user` object populated by the middleware (e.g., username, email). Return these details.",
-            "status": "pending",
-            "testStrategy": "Access the endpoint using a valid JWT obtained from the login endpoint. Access without a JWT. Access with an invalid/expired JWT. Verify that the correct user data is returned for authenticated requests and 401 for unauthenticated ones."
+            "status": "done",
+            "testStrategy": "Access the endpoint using a valid JWT obtained from the login endpoint. Access without a JWT. Access with an invalid/expired JWT. Verify that the correct user data is returned for authenticated requests and 401 for unauthenticated ones.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 9,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "Expand subtask 9.5 'Implement Attendance Auto-Sync Mechanism' into two distinct subtasks: one focusing on the core logic of sending queued attendance data to Supabase upon network restoration, and another dedicated to implementing robust error handling, retry strategies, and providing clear UI feedback to the user regarding sync status and potential failures."
       },
       {
         "id": 10,
@@ -575,17 +652,17 @@
         "testStrategy": "Perform end-to-end testing of all features. Verify that the application is deployed correctly and that the documentation is accurate.",
         "priority": "medium",
         "dependencies": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -593,8 +670,9 @@
             "description": "Define the database tables, columns, data types, and relationships for storing user accounts and active session tokens.",
             "dependencies": [],
             "details": "Create a 'users' table (id, username, email, password_hash, created_at, updated_at) and a 'sessions' table (id, user_id, token, expires_at, created_at). Ensure appropriate indexing for performance on common lookup fields (username, email, session token).",
-            "status": "pending",
-            "testStrategy": "Review schema with team members for correctness, normalization, and potential performance bottlenecks. Verify all necessary fields are present and data types are suitable."
+            "status": "done",
+            "testStrategy": "Review schema with team members for correctness, normalization, and potential performance bottlenecks. Verify all necessary fields are present and data types are suitable.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -602,8 +680,9 @@
             "description": "Develop a RESTful API endpoint to handle new user registrations, including input validation and secure password hashing.",
             "dependencies": [],
             "details": "Create a POST /api/register endpoint. It should accept username, email, and password. Validate email format, username uniqueness, and password strength. Hash the password using a strong, modern algorithm (e.g., bcrypt) before storing it in the 'users' table. Return appropriate success/error responses.",
-            "status": "pending",
-            "testStrategy": "Unit tests for input validation (valid/invalid email, short password, existing username). Integration tests for the endpoint with successful registration and various failure scenarios (e.g., duplicate email, weak password)."
+            "status": "done",
+            "testStrategy": "Unit tests for input validation (valid/invalid email, short password, existing username). Integration tests for the endpoint with successful registration and various failure scenarios (e.g., duplicate email, weak password).",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -611,8 +690,9 @@
             "description": "Develop a RESTful API endpoint for user authentication, verifying credentials and issuing a secure session token.",
             "dependencies": [],
             "details": "Create a POST /api/login endpoint. It should accept username/email and password. Verify the provided password against the stored hash. If credentials are valid, generate a unique, expiring session token and store it in the 'sessions' table linked to the user_id. Return the session token to the client.",
-            "status": "pending",
-            "testStrategy": "Unit tests for password comparison logic and token generation. Integration tests for the endpoint with correct credentials, incorrect password, non-existent user, and ensuring a valid token is returned on success."
+            "status": "done",
+            "testStrategy": "Unit tests for password comparison logic and token generation. Integration tests for the endpoint with correct credentials, incorrect password, non-existent user, and ensuring a valid token is returned on success.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -620,8 +700,9 @@
             "description": "Create a middleware component to protect API routes by validating incoming session tokens and attaching user context to requests.",
             "dependencies": [],
             "details": "The middleware should extract the session token from the request header (e.g., 'Authorization: Bearer <token>'). It must then look up the token in the 'sessions' table, verify its validity (not expired), and retrieve the associated user data. If valid, attach the user object to the request (e.g., req.user) and call next(). If invalid or missing, return a 401 Unauthorized response.",
-            "status": "pending",
-            "testStrategy": "Unit tests for token parsing, expiration checks, and database lookup. Integration tests by applying the middleware to a dummy protected route, testing with valid, expired, invalid, and missing tokens."
+            "status": "done",
+            "testStrategy": "Unit tests for token parsing, expiration checks, and database lookup. Integration tests by applying the middleware to a dummy protected route, testing with valid, expired, invalid, and missing tokens.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -629,8 +710,9 @@
             "description": "Create a protected API endpoint that allows an authenticated user to retrieve their own profile information.",
             "dependencies": [],
             "details": "Create a GET /api/profile endpoint. This endpoint must be protected by the session authentication middleware (Subtask 4). It should use the user information attached to the request by the middleware to fetch and return non-sensitive profile data (e.g., username, email, created_at) from the 'users' table.",
-            "status": "pending",
-            "testStrategy": "Integration tests to ensure only authenticated users can access this endpoint. Test with valid tokens to verify correct user data is returned, and with invalid/missing tokens to confirm 401 responses."
+            "status": "done",
+            "testStrategy": "Integration tests to ensure only authenticated users can access this endpoint. Test with valid tokens to verify correct user data is returned, and with invalid/missing tokens to confirm 401 responses.",
+            "parentId": "undefined"
           },
           {
             "id": 6,
@@ -638,16 +720,27 @@
             "description": "Develop a protected API endpoint that invalidates the current user's active session token.",
             "dependencies": [],
             "details": "Create a POST /api/logout endpoint. This endpoint must be protected by the session authentication middleware. It should use the session token from the request (or the user_id from the authenticated request context) to mark the corresponding session in the 'sessions' table as expired or delete it entirely. Return a success message.",
-            "status": "pending",
-            "testStrategy": "Integration tests to ensure that after a successful logout, subsequent requests using the invalidated token result in a 401 Unauthorized response. Test edge cases like attempting to log out an already expired or non-existent session."
+            "status": "done",
+            "testStrategy": "Integration tests to ensure that after a successful logout, subsequent requests using the invalidated token result in a 401 Unauthorized response. Test edge cases like attempting to log out an already expired or non-existent session.",
+            "parentId": "undefined"
           }
-        ]
+        ],
+        "complexity": 8,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "Revise subtask 10.1 'Implement Comprehensive Unit and Integration Tests' to specify appropriate testing frameworks for HTML, JavaScript, and Alpine.js (e.g., Jest for JS logic, and potentially a browser-based testing utility for Alpine.js component interactions). Consider splitting this into two subtasks: one for setting up the chosen testing framework(s) and another for writing the actual tests. Also, ensure the CI/CD pipeline (subtask 10.4) correctly integrates these new testing setups."
       }
     ],
     "metadata": {
-      "created": "2025-09-21T12:23:29.327Z",
-      "updated": "2025-09-23T16:33:24.980Z",
-      "description": "Tasks for master context"
+      "version": "1.0.0",
+      "lastModified": "2025-10-23T06:15:34.959Z",
+      "taskCount": 10,
+      "completedCount": 8,
+      "tags": [
+        "master"
+      ],
+      "created": "2025-10-23T06:51:11.916Z",
+      "description": "Tasks for master context",
+      "updated": "2025-10-23T06:55:07.541Z"
     }
   },
   "feature-task-4-attendance-sms": {

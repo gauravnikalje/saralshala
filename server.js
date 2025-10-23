@@ -1,8 +1,10 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const url = require('url');
+const smsService = require('./sms/smsService');
 
-const port = 3000;
+const port = 3001;
 
 // MIME types
 const mimeTypes = {
@@ -18,11 +20,18 @@ const mimeTypes = {
     '.ico': 'image/x-icon'
 };
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
     console.log(`${req.method} ${req.url}`);
     
-    // Parse URL and remove query parameters
-    let filePath = req.url.split('?')[0];
+    // Parse URL
+    const parsedUrl = url.parse(req.url, true);
+    let filePath = parsedUrl.pathname;
+    
+    // Handle API routes first
+    if (filePath.startsWith('/api/')) {
+        await handleApiRequest(req, res, parsedUrl);
+        return;
+    }
     
     // Default to index.html
     if (filePath === '/') {
@@ -102,6 +111,112 @@ server.listen(port, () => {
     console.log(`   Principal credentials: principal@school.com / admin123`);
     console.log(`   Teacher credentials: sarah.johnson@school.com / sarah123`);
 });
+
+// API Request Handler
+async function handleApiRequest(req, res, parsedUrl) {
+    const apiPath = parsedUrl.pathname;
+    
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        res.writeHead(200);
+        res.end();
+        return;
+    }
+    
+    // SMS API endpoints
+    if (apiPath === '/api/sms/send') {
+        if (req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            
+            req.on('end', async () => {
+                try {
+                    const data = JSON.parse(body);
+                    const result = await smsService.sendSMS(data.to, data.message);
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: true, data: result }));
+                } catch (error) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: error.message }));
+                }
+            });
+        } else {
+            res.writeHead(405, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Method not allowed' }));
+        }
+        return;
+    }
+    
+    if (apiPath === '/api/sms/absence-alert') {
+        if (req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            
+            req.on('end', async () => {
+                try {
+                    const data = JSON.parse(body);
+                    const result = await smsService.sendAbsenceAlert(
+                        data.student, 
+                        data.parentPhoneNumber, 
+                        data.className, 
+                        data.date
+                    );
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: true, data: result }));
+                } catch (error) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: error.message }));
+                }
+            });
+        } else {
+            res.writeHead(405, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Method not allowed' }));
+        }
+        return;
+    }
+    
+    if (apiPath === '/api/sms/bulk-absence-alerts') {
+        if (req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            
+            req.on('end', async () => {
+                try {
+                    const data = JSON.parse(body);
+                    const results = await smsService.sendBulkAbsenceAlerts(
+                        data.absentStudents, 
+                        data.className, 
+                        data.date
+                    );
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: true, data: results }));
+                } catch (error) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: error.message }));
+                }
+            });
+        } else {
+            res.writeHead(405, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Method not allowed' }));
+        }
+        return;
+    }
+    
+    // API endpoint not found
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ success: false, error: 'API endpoint not found' }));
+}
 
 // Graceful shutdown
 process.on('SIGINT', () => {

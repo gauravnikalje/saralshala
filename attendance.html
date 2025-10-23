@@ -6,6 +6,7 @@
     <title>Mark Attendance - School Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script type="module" src="js/sms-service.js"></script>
     <script>
         window.languageData = {
             en: {
@@ -348,6 +349,7 @@
                                 rollNumber: student.rollNumber,
                                 name: student.name,
                                 email: student.email,
+                                parentPhoneNumber: student.guardianPhone || student.phone || '+1234567890',
                                 attendance: null
                             }));
                     } else {
@@ -390,6 +392,48 @@
                         student.rollNumber.toLowerCase().includes(query) ||
                         student.email.toLowerCase().includes(query)
                     );
+                },
+
+                async sendAbsenceAlerts(absentStudents) {
+                    if (!window.SMSService) {
+                        console.warn('SMS Service not available');
+                        return;
+                    }
+
+                    try {
+                        const smsService = window.SMSService;
+                        const results = [];
+
+                        for (const student of absentStudents) {
+                            const attendance = {
+                                status: 'absent',
+                                date: this.attendanceDate,
+                                period: this.selectedPeriod
+                            };
+
+                            const classInfo = {
+                                name: this.currentClass.name,
+                                subject: this.currentClass.subject
+                            };
+
+                            const result = await smsService.sendAbsenceAlert(student, attendance, classInfo);
+                            results.push({ student: student.name, result: result });
+                        }
+
+                        const successCount = results.filter(r => r.result.success).length;
+                        console.log(`SMS alerts sent: ${successCount}/${absentStudents.length} successful`);
+
+                        // Show notification to user
+                        if (successCount > 0) {
+                            alert(`SMS alerts sent successfully to ${successCount} parent(s).`);
+                        } else {
+                            alert('Failed to send SMS alerts. Please check SMS configuration.');
+                        }
+
+                    } catch (error) {
+                        console.error('Error sending absence alerts:', error);
+                        alert('Error sending SMS alerts: ' + error.message);
+                    }
                 },
 
                 async saveAttendance() {
@@ -439,6 +483,12 @@
                     }
 
                     localStorage.setItem(historyKey, JSON.stringify(history));
+
+                    // Send SMS alerts for absent students
+                    const absentStudents = this.students.filter(s => s.attendance === 'absent');
+                    if (absentStudents.length > 0) {
+                        await this.sendAbsenceAlerts(absentStudents);
+                    }
 
                     alert(window.getText('attendanceMarked'));
                     window.location.href = 'dashboard.html';
