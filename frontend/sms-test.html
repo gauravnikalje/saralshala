@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Gateway Test - School Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">SMS Gateway Test</h1>
+            <p class="text-gray-600">Test the SMS integration with the School Administration System</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Send SMS Form -->
+            <div class="bg-white rounded-xl shadow-lg p-6 fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Send SMS</h2>
+                <form id="smsForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">To (Phone Number)</label>
+                        <input type="tel" id="phoneNumber" placeholder="+1234567890" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                        <textarea id="message" rows="4" placeholder="Enter your message here..."
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                        Send SMS
+                    </button>
+                </form>
+            </div>
+
+            <!-- Send Absence Alert Form -->
+            <div class="bg-white rounded-xl shadow-lg p-6 fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Send Absence Alert</h2>
+                <form id="absenceForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
+                            <input type="text" id="studentName" placeholder="John Doe" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Roll Number</label>
+                            <input type="text" id="rollNumber" placeholder="10A-001" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Parent Phone Number</label>
+                        <input type="tel" id="parentPhone" placeholder="+1234567890" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Class</label>
+                            <input type="text" id="className" placeholder="Class 10A" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                            <input type="date" id="absenceDate" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                        Send Absence Alert
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bulk Absence Alerts -->
+        <div class="mt-8 bg-white rounded-xl shadow-lg p-6 fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Bulk Absence Alerts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Add Students</h3>
+                    <form id="studentForm" class="space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <input type="text" id="bulkStudentName" placeholder="Student Name" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <input type="text" id="bulkRollNumber" placeholder="Roll Number" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <input type="tel" id="bulkParentPhone" placeholder="Parent Phone" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <button type="button" id="addStudentBtn" 
+                                        class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                                    Add Student
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Class Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <input type="text" id="bulkClassName" placeholder="Class Name" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <input type="date" id="bulkAbsenceDate" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    <button id="sendBulkBtn" 
+                            class="w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                        Send Bulk Alerts
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Students List</h3>
+                <div id="studentsList" class="bg-gray-50 rounded-lg p-4 min-h-[100px]">
+                    <p class="text-gray-500 text-center">No students added yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="mt-8 bg-white rounded-xl shadow-lg p-6 fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Results</h2>
+            <div id="results" class="min-h-[100px]">
+                <p class="text-gray-500 text-center">Results will appear here</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Student list for bulk alerts
+        let studentsList = [];
+
+        // Set today's date as default
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('absenceDate').value = today;
+            document.getElementById('bulkAbsenceDate').value = today;
+        });
+
+        // Send SMS form submission
+        document.getElementById('smsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const message = document.getElementById('message').value;
+            
+            if (!phoneNumber || !message) {
+                showResult('Please fill in all fields', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/sms/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        to: phoneNumber,
+                        message: message
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showResult(`SMS sent successfully! SID: ${result.data.sid}`, 'success');
+                } else {
+                    showResult(`Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`Network error: ${error.message}`, 'error');
+            }
+        });
+
+        // Send absence alert form submission
+        document.getElementById('absenceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const studentName = document.getElementById('studentName').value;
+            const rollNumber = document.getElementById('rollNumber').value;
+            const parentPhone = document.getElementById('parentPhone').value;
+            const className = document.getElementById('className').value;
+            const absenceDate = document.getElementById('absenceDate').value;
+            
+            if (!studentName || !rollNumber || !parentPhone || !className || !absenceDate) {
+                showResult('Please fill in all fields', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/sms/absence-alert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        student: {
+                            name: studentName,
+                            rollNumber: rollNumber
+                        },
+                        parentPhoneNumber: parentPhone,
+                        className: className,
+                        date: absenceDate
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showResult(`Absence alert sent successfully! SID: ${result.data.sid}`, 'success');
+                } else {
+                    showResult(`Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`Network error: ${error.message}`, 'error');
+            }
+        });
+
+        // Add student to bulk list
+        document.getElementById('addStudentBtn').addEventListener('click', function() {
+            const studentName = document.getElementById('bulkStudentName').value;
+            const rollNumber = document.getElementById('bulkRollNumber').value;
+            const parentPhone = document.getElementById('bulkParentPhone').value;
+            
+            if (!studentName || !rollNumber || !parentPhone) {
+                showResult('Please fill in all student fields', 'error');
+                return;
+            }
+            
+            studentsList.push({
+                id: Date.now(),
+                name: studentName,
+                rollNumber: rollNumber,
+                parentPhoneNumber: parentPhone
+            });
+            
+            updateStudentsList();
+            
+            // Clear form
+            document.getElementById('bulkStudentName').value = '';
+            document.getElementById('bulkRollNumber').value = '';
+            document.getElementById('bulkParentPhone').value = '';
+        });
+
+        // Send bulk alerts
+        document.getElementById('sendBulkBtn').addEventListener('click', async function() {
+            if (studentsList.length === 0) {
+                showResult('Please add at least one student', 'error');
+                return;
+            }
+            
+            const className = document.getElementById('bulkClassName').value;
+            const absenceDate = document.getElementById('bulkAbsenceDate').value;
+            
+            if (!className || !absenceDate) {
+                showResult('Please fill in class information', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/sms/bulk-absence-alerts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        absentStudents: studentsList,
+                        className: className,
+                        date: absenceDate
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    const successCount = result.data.filter(r => r.success).length;
+                    const failureCount = result.data.length - successCount;
+                    showResult(`Bulk alerts sent! ${successCount} successful, ${failureCount} failed`, 'success');
+                    
+                    // Show detailed results
+                    let details = '<div class="mt-2">';
+                    result.data.forEach(r => {
+                        details += `<p class="text-sm ${r.success ? 'text-green-600' : 'text-red-600'}">` +
+                                  `${r.studentId}: ${r.success ? 'Sent' : 'Failed - ' + r.error}` +
+                                  '</p>';
+                    });
+                    details += '</div>';
+                    document.getElementById('results').innerHTML += details;
+                } else {
+                    showResult(`Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`Network error: ${error.message}`, 'error');
+            }
+        });
+
+        // Update students list display
+        function updateStudentsList() {
+            const container = document.getElementById('studentsList');
+            
+            if (studentsList.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center">No students added yet</p>';
+                return;
+            }
+            
+            let html = '<div class="space-y-2">';
+            studentsList.forEach(student => {
+                html += `
+                    <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow">
+                        <div>
+                            <p class="font-medium">${student.name}</p>
+                            <p class="text-sm text-gray-600">Roll: ${student.rollNumber} | Phone: ${student.parentPhoneNumber}</p>
+                        </div>
+                        <button onclick="removeStudent(${student.id})" 
+                                class="text-red-500 hover:text-red-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+
+        // Remove student from list
+        function removeStudent(studentId) {
+            studentsList = studentsList.filter(s => s.id !== studentId);
+            updateStudentsList();
+        }
+
+        // Show result message
+        function showResult(message, type) {
+            const resultsContainer = document.getElementById('results');
+            const alertClass = type === 'success' 
+                ? 'bg-green-50 text-green-800 border-green-200' 
+                : 'bg-red-50 text-red-800 border-red-200';
+            
+            resultsContainer.innerHTML = `
+                <div class="p-4 rounded-lg border ${alertClass}">
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
