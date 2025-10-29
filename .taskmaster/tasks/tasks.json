@@ -1764,7 +1764,7 @@
           2,
           3
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -1772,7 +1772,7 @@
             "description": "Create the `PrincipalMessage.jsx` file in the `src/sections` directory and set up a basic functional React component structure.",
             "dependencies": [],
             "details": "Create `src/sections/PrincipalMessage.jsx` with a boilerplate React functional component definition: `const PrincipalMessage = () => { return <div>Principal's Message Section</div>; }; export default PrincipalMessage;`",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify the file exists at the specified path and exports a functional component without any compilation errors."
           },
           {
@@ -1783,7 +1783,7 @@
               1
             ],
             "details": "Inside `PrincipalMessage.jsx`, add an `<img>` tag. Use a placeholder image or a path to the actual principal's photo. Ensure appropriate alt text is provided for accessibility.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Visually verify that the principal's photo is displayed within the component. Check image source and alt text."
           },
           {
@@ -1794,7 +1794,7 @@
               2
             ],
             "details": "Add the principal's message text, including any headings and paragraphs, into the `PrincipalMessage.jsx` component. Use placeholder text initially if the final content is not available.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Visually verify that the principal's message text is displayed and structured correctly within the component. Check for any missing content."
           },
           {
@@ -1805,7 +1805,7 @@
               3
             ],
             "details": "Use Tailwind CSS utility classes to style the main container, the image, and the text elements (e.g., font sizes, colors, margins, padding, flexbox for layout). Ensure the overall design matches the visual mockups.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Visually compare the component's styling against the reference design. Verify correct spacing, alignment, font styles, colors, and overall layout. Use browser dev tools to inspect applied styles."
           },
           {
@@ -1816,7 +1816,7 @@
               4
             ],
             "details": "Apply responsive Tailwind CSS classes (e.g., `sm:`, `md:`, `lg:`) to ensure the `PrincipalMessage` section adapts gracefully to different screen sizes. Perform a final check for content accuracy, adherence to design, and overall component integrity.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test responsiveness across different screen sizes (e.g., using browser developer tools' responsive mode). Verify content and styling remain consistent and visually appealing on mobile, tablet, and desktop views."
           }
         ]
@@ -1971,7 +1971,7 @@
     ],
     "metadata": {
       "created": "2025-10-29T14:02:29.537Z",
-      "updated": "2025-10-29T15:12:02.389Z",
+      "updated": "2025-10-29T15:16:32.119Z",
       "description": "Tasks for frontend-rebuild context"
     }
   }
