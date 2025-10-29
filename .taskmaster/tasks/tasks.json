@@ -1401,5 +1401,578 @@
       "updated": "2025-09-23T01:44:01.237Z",
       "description": "Tasks for the attendance and SMS feature."
     }
+  },
+  "frontend-rebuild": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Project Initialization and Setup",
+        "description": "Initialize the frontend project with Vite, React, and Tailwind CSS, and set up the basic deployment pipeline.",
+        "details": "1.  Use Vite to create a new React project: `npm create vite@latest kataria-school-frontend --template react`. 2.  Navigate to the project directory: `cd kataria-school-frontend`. 3.  Install Tailwind CSS and its dependencies: `npm install -D tailwindcss postcss autoprefixer`. 4.  Generate `tailwind.config.js` and `postcss.config.js`: `npx tailwindcss init -p`. 5.  Configure Tailwind CSS in `tailwind.config.js` to include template paths. 6.  Add Tailwind directives to your `index.css` or `global.css` file. 7.  Set up a basic deployment pipeline on Vercel or Netlify by connecting the repository.",
+        "testStrategy": "Verify that the project builds successfully and that Tailwind CSS styles are applied correctly. Test deployment by deploying a basic 'Hello World' component.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize Vite React Project",
+            "description": "Create a new React project using Vite and navigate into its directory to establish the foundational project structure.",
+            "dependencies": [],
+            "details": "Use the command `npm create vite@latest kataria-school-frontend --template react` to create the project. Subsequently, navigate into the created project directory using `cd kataria-school-frontend`.",
+            "status": "done",
+            "testStrategy": "Verify that the `kataria-school-frontend` directory is created with a basic Vite/React project structure, including `package.json`, `index.html`, and `src` folder. Run `npm install` and `npm run dev` to ensure the development server starts without errors."
+          },
+          {
+            "id": 2,
+            "title": "Integrate and Configure Tailwind CSS",
+            "description": "Install Tailwind CSS and its necessary dependencies, generate the configuration files, and correctly set up Tailwind directives within the project's stylesheet.",
+            "dependencies": [
+              1
+            ],
+            "details": "Install dependencies: `npm install -D tailwindcss postcss autoprefixer`. Generate `tailwind.config.js` and `postcss.config.js` using `npx tailwindcss init -p`. Configure `tailwind.config.js` to include template paths (e.g., `content: [\"./index.html\", \"./src/**/*.{js,ts,jsx,tsx}\"]`). Add Tailwind directives (`@tailwind base; @tailwind components; @tailwind utilities;`) to `src/index.css`.",
+            "status": "done",
+            "testStrategy": "Run the development server (`npm run dev`). Create a simple React component and apply Tailwind utility classes (e.g., `text-blue-500`, `p-4`, `bg-gray-100`). Verify that these styles are correctly applied in the browser, indicating successful integration."
+          },
+          {
+            "id": 3,
+            "title": "Set Up Basic Deployment Pipeline (Vercel/Netlify)",
+            "description": "Establish a continuous deployment pipeline for the frontend project by connecting the project's Git repository to either Vercel or Netlify.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Initialize a Git repository in the project root, commit the current project setup, and push the code to a remote Git hosting service (e.g., GitHub). Log in to Vercel or Netlify, create a new project, and connect it to the remote Git repository. Ensure the build command and output directory are correctly configured (Vite typically defaults to `npm run build` and `dist`).",
+            "status": "done",
+            "testStrategy": "Trigger a deployment from the chosen platform (Vercel/Netlify). After deployment, access the provided URL to ensure the application loads correctly. Verify that the initial Vite/React 'Hello World' page is displayed and that any applied Tailwind styles from subtask 2 are visible."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Component File Structure and Core Layout",
+        "description": "Establish the component-based file structure and build the Header and Footer components.",
+        "details": "1.  Create a component directory (e.g., `src/components`). 2.  Create subdirectories for different component types (e.g., `src/components/layout`, `src/components/ui`, `src/components/sections`). 3.  Create `Header.jsx` and `Footer.jsx` components within the `layout` directory. 4.  Implement the `Header` component with the school logo, navigation links, and social media icons. 5.  Implement the `Footer` component with quick links and contact information. 6.  Use Tailwind CSS for styling.",
+        "testStrategy": "Verify that the Header and Footer components render correctly and that the navigation links and social media icons are displayed as expected. Check responsiveness across different screen sizes.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define and Create Base Component Directory Structure",
+            "description": "Create the main `src/components` directory and its subdirectories (`layout`, `ui`, `sections`) to organize different types of UI components, following best practices for a scalable project structure.",
+            "dependencies": [],
+            "details": "Create `src/components` directory. Inside `src/components`, create `layout`, `ui`, and `sections` subdirectories. This foundational step is crucial for component organization before creating specific components.",
+            "status": "done",
+            "testStrategy": "Verify the existence of `src/components` and its subdirectories (`layout`, `ui`, `sections`) in the project file system upon completion."
+          },
+          {
+            "id": 2,
+            "title": "Develop Header Component Core Structure and Basic Styling",
+            "description": "Create the `Header.jsx` file within the `layout` directory and implement its core JSX structure, applying initial Tailwind CSS classes for basic layout and branding elements like the school logo placeholder.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `src/components/layout/Header.jsx`. Implement the main `nav` element and placeholder `div` elements for the logo, navigation links, and social media icons. Apply basic Tailwind CSS classes for structure and initial visual separation.",
+            "status": "done",
+            "testStrategy": "Render the `Header` component in a development environment. Visually inspect that the basic HTML structure is present and initial styling (e.g., background color, padding, display flex) is correctly applied via Tailwind CSS."
+          },
+          {
+            "id": 3,
+            "title": "Implement Header Component Content and Full Responsiveness",
+            "description": "Integrate the school logo, actual navigation links, and social media icons into the `Header` component. Ensure full responsiveness across various screen sizes using Tailwind CSS utility classes, including considerations for a mobile-friendly navigation.",
+            "dependencies": [
+              2
+            ],
+            "details": "Add `img` tag for the school logo, `ul/li/a` elements for navigation links, and appropriate icons/links for social media. Implement responsive design using Tailwind's breakpoints (e.g., `sm:`, `md:`, `lg:` classes) to adapt the layout. Consider implementing a mobile menu (hamburger icon) for smaller screens.",
+            "status": "done",
+            "testStrategy": "Verify that the Header renders correctly across desktop, tablet, and mobile breakpoints using browser developer tools. Check that the logo, navigation links, and social media icons are visible, clickable, and correctly styled on all devices. Test mobile navigation functionality if implemented."
+          },
+          {
+            "id": 4,
+            "title": "Develop Footer Component Content and Full Responsiveness",
+            "description": "Create the `Footer.jsx` file within the `layout` directory and implement the quick links and contact information. Ensure the Footer component is fully responsive, adapting its layout for optimal display on all screen sizes using Tailwind CSS.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `src/components/layout/Footer.jsx`. Implement sections for quick links (e.g., `ul/li/a` for categories like 'About', 'Contact') and contact information (e.g., address, phone, email, copyright notice). Apply Tailwind CSS utility classes to achieve a responsive layout, adjusting element stacking and spacing for mobile, tablet, and desktop views.",
+            "status": "done",
+            "testStrategy": "Verify that the Footer renders correctly across desktop, tablet, and mobile breakpoints using browser developer tools. Check that quick links and contact information are visible, correctly formatted, and clickable. Ensure elements stack appropriately and spacing is correct on smaller screens."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "UI Component Library: Button, Card, Input",
+        "description": "Create reusable UI components: Button, Card, and Input fields.",
+        "details": "1.  Create a `ui` directory inside the `components` directory. 2.  Create `Button.jsx`, `Card.jsx`, and `Input.jsx` components. 3.  Implement the `Button` component with primary and secondary variants. 4.  Implement the `Card` component for displaying content. 5.  Implement the `Input` component for form fields. 6.  Style these components using Tailwind CSS, adhering to the reference design.",
+        "testStrategy": "Test each component to ensure it renders correctly and responds to user interactions (e.g., button clicks, input focus). Verify the different variants and styles.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up UI directory and implement Button component with variants",
+            "description": "Create the `ui` directory within `src/components` if it doesn't already exist, and implement the `Button.jsx` component. This includes defining primary and secondary visual variants and applying responsive Tailwind CSS styles according to the reference design.",
+            "dependencies": [],
+            "details": "1. Verify/create `src/components/ui` directory. 2. Create `Button.jsx` inside `src/components/ui`. 3. Define the Button component structure, accepting props like `onClick`, `children`, and `variant` ('primary', 'secondary'). 4. Implement conditional Tailwind CSS classes based on the `variant` prop to apply distinct styles for primary and secondary buttons (e.g., background color, text color, hover states, padding, border-radius). 5. Ensure the component is reusable and accessible.",
+            "status": "done",
+            "testStrategy": "Verify that the Button component renders correctly with both 'primary' and 'secondary' variants. Test click events and ensure hover/focus styles are applied as per design. Check responsiveness."
+          },
+          {
+            "id": 2,
+            "title": "Implement reusable Card component",
+            "description": "Create the `Card.jsx` component within the `src/components/ui` directory. The component should be designed for displaying flexible content, styled with Tailwind CSS to match the reference design, and ensure reusability.",
+            "dependencies": [
+              1
+            ],
+            "details": "1. Create `Card.jsx` inside `src/components/ui`. 2. Define the Card component structure, accepting `children` prop for content, and potentially props for header or footer slots. 3. Apply responsive Tailwind CSS classes for background color, border, shadow, padding, and border-radius, adhering to the reference design. 4. Ensure the component provides a clean container for various types of content.",
+            "status": "done",
+            "testStrategy": "Verify that the Card component renders correctly with different types and amounts of content. Test its visual appearance (background, border, shadow) and responsiveness across various screen sizes."
+          },
+          {
+            "id": 3,
+            "title": "Implement reusable Input component",
+            "description": "Create the `Input.jsx` component within the `src/components/ui` directory. This component will serve as a reusable form field, incorporating standard HTML input attributes and styled consistently with Tailwind CSS according to the design specifications.",
+            "dependencies": [
+              1
+            ],
+            "details": "1. Create `Input.jsx` inside `src/components/ui`. 2. Define the Input component structure, accepting standard HTML input attributes such as `type`, `placeholder`, `value`, `onChange`, `name`, and `id`. 3. Apply responsive Tailwind CSS classes for consistent styling, including padding, border, text color, focus states, and potential error states, adhering to the reference design. 4. Implement basic accessibility features like `aria-label` or `htmlFor` if used with a label.",
+            "status": "done",
+            "testStrategy": "Verify that the Input component renders correctly for different `type` attributes (e.g., text, email, password). Test input functionality, focus/blur events, and ensure visual consistency for active and inactive states. Check responsiveness."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Hero Section Implementation",
+        "description": "Develop the Hero section component for the main landing view.",
+        "details": "1.  Create a `Hero.jsx` component inside the `sections` directory. 2.  Implement the Hero section with the school's name and primary heading. 3.  Use Tailwind CSS for styling, ensuring it matches the reference design. 4.  Consider adding a background image or video.",
+        "testStrategy": "Verify that the Hero section displays the correct content and styling. Test responsiveness across different screen sizes.",
+        "priority": "high",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Hero.jsx Component File",
+            "description": "Create the basic React component file for the Hero section within the 'sections' directory.",
+            "dependencies": [],
+            "details": "Create a new file named `Hero.jsx` inside the `src/components/sections` directory. Define a functional React component named `Hero` that returns a basic JSX structure (e.g., a div).",
+            "status": "done",
+            "testStrategy": "Verify that the `Hero.jsx` file exists in the correct directory and can be imported without errors."
+          },
+          {
+            "id": 2,
+            "title": "Implement Primary Content (School Name and Heading)",
+            "description": "Add the school's name and the primary heading text to the Hero section component.",
+            "dependencies": [
+              1
+            ],
+            "details": "Inside the `Hero` component, add `h1` and `p` tags to display the school's name and the main catchy heading for the landing page. Use placeholder text initially.",
+            "status": "done",
+            "testStrategy": "Render the `Hero` component in a test environment or storybook and visually confirm the presence of the school name and main heading."
+          },
+          {
+            "id": 3,
+            "title": "Apply Desktop Tailwind CSS Styling",
+            "description": "Style the Hero section for desktop view using Tailwind CSS to match the reference design.",
+            "dependencies": [
+              2
+            ],
+            "details": "Apply Tailwind CSS classes to the Hero component's elements (container, text, etc.) to define layout, typography, colors, padding, and margins for larger screens, ensuring it aligns with the design specification.",
+            "status": "done",
+            "testStrategy": "Visually inspect the Hero section on a desktop browser to ensure styling (font sizes, colors, spacing, alignment) matches the design. Use browser developer tools."
+          },
+          {
+            "id": 4,
+            "title": "Implement Responsive Styling for Mobile/Tablet",
+            "description": "Adjust the Hero section's Tailwind CSS styling to ensure optimal display on mobile and tablet devices.",
+            "dependencies": [
+              3
+            ],
+            "details": "Utilize Tailwind's responsive prefixes (e.g., `sm:`, `md:`, `lg:`) to modify layout, font sizes, padding, and alignment for smaller screen sizes. Ensure content remains readable and well-formatted.",
+            "status": "done",
+            "testStrategy": "Test the Hero section on various screen sizes using browser developer tools' responsive mode or actual devices to confirm correct rendering and responsiveness."
+          },
+          {
+            "id": 5,
+            "title": "Integrate Background Image or Video",
+            "description": "Add a suitable background image or video to the Hero section as per design requirements.",
+            "dependencies": [
+              4
+            ],
+            "details": "Implement the background for the Hero section. This could involve using a `div` with a `background-image` CSS property or embedding a video element, ensuring it's responsive and covers the section appropriately.",
+            "status": "done",
+            "testStrategy": "Visually verify that the background image or video loads correctly, displays without distortion, and remains responsive across different screen sizes. Check for performance impact."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "About Section Implementation",
+        "description": "Develop the About section component to display information about the school.",
+        "details": "1.  Create an `About.jsx` component inside the `sections` directory. 2.  Implement the About section with relevant information about the school. 3.  Use Tailwind CSS for styling, ensuring it matches the reference design.",
+        "testStrategy": "Verify that the About section displays the correct content and styling. Test responsiveness across different screen sizes.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create About.jsx component file",
+            "description": "Create the `About.jsx` file in the `src/sections` directory and set up a basic React functional component export.",
+            "dependencies": [],
+            "details": "Create the file `src/sections/About.jsx`. Define a functional React component named `About` and export it as default. Include a basic `div` with a placeholder text like 'About Section Content' for initial rendering.",
+            "status": "done",
+            "testStrategy": null
+          },
+          {
+            "id": 2,
+            "title": "Implement basic About section content structure",
+            "description": "Add the foundational HTML structure for the About section, including headings, paragraphs for textual information about the school, and potential image placeholders, without extensive styling.",
+            "dependencies": [
+              1
+            ],
+            "details": "Inside `About.jsx`, add an `h2` for the section title (e.g., 'About Our School'), multiple `p` tags for descriptive text, and an `img` tag with a placeholder `src` and `alt` attribute if the design includes an image.",
+            "status": "done",
+            "testStrategy": null
+          },
+          {
+            "id": 3,
+            "title": "Apply core Tailwind CSS for layout and typography",
+            "description": "Use Tailwind CSS classes to style the main layout of the About section, including overall spacing, text alignment, font sizes, and basic color themes, adhering to the reference design.",
+            "dependencies": [
+              2
+            ],
+            "details": "Apply Tailwind classes to the main container for padding (e.g., `p-8`, `py-16`), text elements for font size (e.g., `text-3xl`, `text-lg`), font weight (`font-bold`), text color (`text-gray-800`), and basic layout (`flex`, `flex-col`, `items-center`).",
+            "status": "done",
+            "testStrategy": "Visually verify that the basic layout, overall spacing, and typography (font sizes, colors) of the About section match the provided reference design for a desktop view."
+          },
+          {
+            "id": 4,
+            "title": "Refine styling and ensure responsiveness with Tailwind",
+            "description": "Enhance the About section's visual design with more specific Tailwind classes, including responsive breakpoints (e.g., `md:`, `lg:`), adding details like shadows, borders, rounded corners, and ensuring it renders correctly on various screen sizes.",
+            "dependencies": [
+              3
+            ],
+            "details": "Introduce responsive utility classes (e.g., `md:flex-row`, `lg:w-1/2`, `md:text-left`) for different screen sizes. Apply more detailed styling such as `shadow-lg`, `rounded-xl`, specific background colors (`bg-white`), and gap between elements (`gap-8`).",
+            "status": "done",
+            "testStrategy": "Test responsiveness by resizing the browser window and using developer tools across different device emulations (small, medium, large screens). Verify consistent and correct appearance across all breakpoints according to the design."
+          },
+          {
+            "id": 5,
+            "title": "Integrate actual school information and final review",
+            "description": "Replace all placeholder text and image sources with the actual information and assets about the school. Perform a comprehensive final review of the component's visual accuracy, content correctness, and overall functionality.",
+            "dependencies": [
+              4
+            ],
+            "details": "Update the `h2` and `p` tags with the actual school name, mission, vision, or general description. Replace placeholder `img` `src` attributes with paths to actual school images. Conduct a thorough visual comparison against the final design mockups, checking for any discrepancies, typos, or broken elements.",
+            "status": "done",
+            "testStrategy": "Verify that all content displayed is accurate, complete, and free of errors as per the official school information. Conduct a final pixel-perfect visual inspection and responsiveness check across various devices to ensure full adherence to the design specifications."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Mission/Vision Section Implementation",
+        "description": "Build the three-column layout for the school's mission, vision, and values.",
+        "details": "1.  Create a `MissionVision.jsx` component inside the `sections` directory. 2.  Implement the three-column layout for the mission, vision, and values. 3.  Use Tailwind CSS for styling, ensuring it matches the reference design.",
+        "testStrategy": "Verify that the Mission/Vision section displays the correct content and styling. Test responsiveness across different screen sizes.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create MissionVision.jsx component file",
+            "description": "Create the React component file for the Mission/Vision section in the 'sections' directory, ready for content.",
+            "dependencies": [],
+            "details": "Create a new file named `MissionVision.jsx` within the `src/sections` directory. Inside, define and export a basic functional React component structure.",
+            "status": "pending",
+            "testStrategy": null
+          },
+          {
+            "id": 2,
+            "title": "Implement main section container and heading",
+            "description": "Set up the main container for the Mission/Vision section within the component and add a descriptive section heading.",
+            "dependencies": [
+              1
+            ],
+            "details": "Inside the `MissionVision.jsx` component, add a parent `div` or semantic `section` element. Include a `h2` tag for the section title (e.g., 'Our Mission, Vision & Values') and apply initial Tailwind CSS for basic spacing and text styling.",
+            "status": "pending",
+            "testStrategy": "Visually confirm the section heading is rendered on the page with correct initial styling. Check for appropriate vertical spacing."
+          },
+          {
+            "id": 3,
+            "title": "Develop three-column layout structure",
+            "description": "Create the HTML and apply Tailwind CSS for a responsive three-column layout within the Mission/Vision section to hold the individual mission, vision, and values content.",
+            "dependencies": [
+              2
+            ],
+            "details": "Within the main section container, implement a three-column layout using Tailwind CSS grid (e.g., `grid grid-cols-1 md:grid-cols-3 gap-8`). Ensure the layout stacks vertically on smaller screens and transitions to three columns on larger screens.",
+            "status": "pending",
+            "testStrategy": "Inspect the rendered HTML structure to verify the three-column grid is correctly applied. Resize the browser to confirm responsiveness: columns should stack on small screens and go side-by-side on larger screens."
+          },
+          {
+            "id": 4,
+            "title": "Populate content for Mission, Vision, Values",
+            "description": "Add placeholder content (headings and paragraphs) for the Mission, Vision, and Values into their respective columns, and apply initial text styling.",
+            "dependencies": [
+              3
+            ],
+            "details": "Inside each of the three columns created in the previous step, add a distinct heading (e.g., 'Mission', 'Vision', 'Values') and a paragraph of placeholder text. Apply basic Tailwind typography classes for font size, weight, and color.",
+            "status": "pending",
+            "testStrategy": "Verify that distinct placeholder content (headings and text) is visible in each of the three columns. Check for consistent and readable text styling."
+          },
+          {
+            "id": 5,
+            "title": "Refine styling and ensure responsiveness",
+            "description": "Apply final Tailwind CSS styling to all elements within the Mission/Vision section to precisely match the reference design, and conduct thorough responsiveness testing.",
+            "dependencies": [
+              4
+            ],
+            "details": "Adjust all Tailwind CSS classes (padding, margins, font styles, colors, backgrounds, borders, shadows, etc.) to ensure the section's appearance is pixel-perfect to the design. Test layout, text wrapping, and element scaling across various breakpoints (mobile, tablet, desktop) using browser developer tools to ensure full responsiveness.",
+            "status": "pending",
+            "testStrategy": "Perform a comprehensive visual review comparing the implemented section against the design mockups on different screen sizes (using browser dev tools). Confirm all styling elements, spacing, and responsiveness behave as expected."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Principal's Message Section Implementation",
+        "description": "Create the Principal's Message section component.",
+        "details": "1.  Create a `PrincipalMessage.jsx` component inside the `sections` directory. 2.  Implement the Principal's Message section, including the principal's photo and message. 3.  Use Tailwind CSS for styling, ensuring it matches the reference design.",
+        "testStrategy": "Verify that the Principal's Message section displays the correct content and styling. Test responsiveness across different screen sizes.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create PrincipalMessage component file",
+            "description": "Create the `PrincipalMessage.jsx` file in the `src/sections` directory and set up a basic functional React component structure.",
+            "dependencies": [],
+            "details": "Create `src/sections/PrincipalMessage.jsx` with a boilerplate React functional component definition: `const PrincipalMessage = () => { return <div>Principal's Message Section</div>; }; export default PrincipalMessage;`",
+            "status": "pending",
+            "testStrategy": "Verify the file exists at the specified path and exports a functional component without any compilation errors."
+          },
+          {
+            "id": 2,
+            "title": "Add principal's photo display",
+            "description": "Integrate the principal's photo into the `PrincipalMessage` component, ensuring it's properly imported and displayed within an `<img>` tag.",
+            "dependencies": [
+              1
+            ],
+            "details": "Inside `PrincipalMessage.jsx`, add an `<img>` tag. Use a placeholder image or a path to the actual principal's photo. Ensure appropriate alt text is provided for accessibility.",
+            "status": "pending",
+            "testStrategy": "Visually verify that the principal's photo is displayed within the component. Check image source and alt text."
+          },
+          {
+            "id": 3,
+            "title": "Add principal's message text content",
+            "description": "Integrate the principal's message text content into the `PrincipalMessage` component, ensuring proper semantic HTML elements (e.g., `<p>`, `<h2>`) are used.",
+            "dependencies": [
+              2
+            ],
+            "details": "Add the principal's message text, including any headings and paragraphs, into the `PrincipalMessage.jsx` component. Use placeholder text initially if the final content is not available.",
+            "status": "pending",
+            "testStrategy": "Visually verify that the principal's message text is displayed and structured correctly within the component. Check for any missing content."
+          },
+          {
+            "id": 4,
+            "title": "Apply Tailwind CSS styling for layout and appearance",
+            "description": "Apply Tailwind CSS classes to the `PrincipalMessage` component to match the layout, typography, colors, and spacing specified in the reference design.",
+            "dependencies": [
+              3
+            ],
+            "details": "Use Tailwind CSS utility classes to style the main container, the image, and the text elements (e.g., font sizes, colors, margins, padding, flexbox for layout). Ensure the overall design matches the visual mockups.",
+            "status": "pending",
+            "testStrategy": "Visually compare the component's styling against the reference design. Verify correct spacing, alignment, font styles, colors, and overall layout. Use browser dev tools to inspect applied styles."
+          },
+          {
+            "id": 5,
+            "title": "Ensure responsiveness and final component review",
+            "description": "Adjust styling for various screen sizes using Tailwind's responsive utilities and conduct a final review of the component's content and styling.",
+            "dependencies": [
+              4
+            ],
+            "details": "Apply responsive Tailwind CSS classes (e.g., `sm:`, `md:`, `lg:`) to ensure the `PrincipalMessage` section adapts gracefully to different screen sizes. Perform a final check for content accuracy, adherence to design, and overall component integrity.",
+            "status": "pending",
+            "testStrategy": "Test responsiveness across different screen sizes (e.g., using browser developer tools' responsive mode). Verify content and styling remain consistent and visually appealing on mobile, tablet, and desktop views."
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Testimonials Section Implementation",
+        "description": "Develop a dynamic section to display parent testimonials, potentially in a carousel.",
+        "details": "1.  Create a `Testimonials.jsx` component inside the `sections` directory. 2.  Implement the Testimonials section. Consider using a carousel library (e.g., Swiper.js) for dynamic display. 3.  Use Tailwind CSS for styling, ensuring it matches the reference design.",
+        "testStrategy": "Verify that the Testimonials section displays the correct content and styling. Test responsiveness across different screen sizes. Test the carousel functionality.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Research and Select Carousel Library for Testimonials",
+            "description": "Investigate suitable JavaScript carousel libraries, comparing features, ease of integration, bundle size, and compatibility with React and Tailwind CSS. Recommend and select the best option (e.g., Swiper.js, React-Slick) based on project needs and performance considerations.",
+            "dependencies": [],
+            "details": "Evaluate Swiper.js, React-Slick, and other relevant libraries based on their documentation, community support, accessibility features, and performance. Document the chosen library and the key reasons for its selection, considering future maintainability and ease of use.",
+            "status": "pending",
+            "testStrategy": null
+          },
+          {
+            "id": 2,
+            "title": "Develop Testimonials Component and Integrate Chosen Carousel Library",
+            "description": "Create the `Testimonials.jsx` component inside the `sections` directory. Install the selected carousel library and integrate it into the component, displaying static testimonial data initially to verify basic functionality and library setup.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create the file `src/sections/Testimonials.jsx`. Set up the basic React component structure. Install the chosen carousel library using npm or yarn (e.g., `npm install swiper`). Implement the carousel with at least 3-5 static testimonial items, ensuring it renders without errors and its basic navigation works.",
+            "status": "pending",
+            "testStrategy": "Verify that the `Testimonials.jsx` component renders successfully and the chosen carousel library is integrated correctly, displaying static content in a basic carousel structure without console errors."
+          },
+          {
+            "id": 3,
+            "title": "Populate Dynamic Content, Apply Styling, and Ensure Responsiveness",
+            "description": "Replace static testimonial data with dynamic content (e.g., from a mock API or local data structure). Apply Tailwind CSS styling to match the reference design for the testimonials and the carousel elements. Ensure the carousel is fully responsive across various screen sizes and orientations.",
+            "dependencies": [
+              2
+            ],
+            "details": "Define a local array of testimonial objects or simulate fetching data. Map this data to the carousel slides. Use Tailwind CSS classes to style individual testimonial cards (text, images, author, ratings if any) and customize the carousel's navigation (arrows, pagination). Configure the carousel library for optimal responsiveness and touch gesture support.",
+            "status": "pending",
+            "testStrategy": "Verify that dynamic testimonial content is displayed correctly within the carousel. Confirm that all styling adheres to the reference design. Test carousel navigation (swiping, clicks on arrows/pagination). Test responsiveness thoroughly by resizing the browser window, using browser developer tools for various device emulations, and on actual mobile devices if possible."
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Enquiry Form Section Implementation",
+        "description": "Build the detailed enquiry form as a standalone component.",
+        "details": "1.  Create an `EnquiryForm.jsx` component inside the `sections` directory. 2.  Implement the enquiry form with the required fields. 3.  Add client-side validation to the form. 4.  Use Tailwind CSS for styling, ensuring it matches the reference design. 5.  Prepare the form for future integration with Supabase (placeholder for now).",
+        "testStrategy": "Verify that the enquiry form displays correctly. Test client-side validation. Test the form submission (ensure no errors).",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Enquiry Form Component & Define Fields",
+            "description": "Set up the `EnquiryForm.jsx` component inside the `sections` directory, define all required input fields (e.g., name, email, subject, message), and arrange them with a basic HTML structure.",
+            "dependencies": [],
+            "details": "Create `EnquiryForm.jsx` in the `sections` directory. Use `<form>`, `<input>`, `<textarea>`, `<button>` elements. Ensure appropriate `type` and `name` attributes for each field. Include labels for accessibility.",
+            "status": "pending",
+            "testStrategy": "Verify the component renders on a test page without errors. Ensure all intended form fields (input, textarea, button) are present and visible in the DOM."
+          },
+          {
+            "id": 2,
+            "title": "Implement Form State Management and Change Handlers",
+            "description": "Establish React state management (e.g., using `useState`) to capture and update form field values as users interact with the inputs. Prepare for the form's submission data.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use `useState` hooks for each input field or a single object state to manage form data. Implement `onChange` event handlers for all input fields to update the component's state. Create a placeholder `handleSubmit` function.",
+            "status": "pending",
+            "testStrategy": "Input data into various fields and use React DevTools or console logs to confirm that the component's internal state accurately reflects the entered values."
+          },
+          {
+            "id": 3,
+            "title": "Add Client-Side Form Validation Logic",
+            "description": "Develop and integrate robust client-side validation for all form fields, including checks for required fields, valid email format, and appropriate message length. Display informative error messages to the user.",
+            "dependencies": [
+              2
+            ],
+            "details": "Create a validation function (e.g., `validateForm`) that runs on blur or submission. Store validation error messages in component state. Conditionally render error messages next to their respective input fields.",
+            "status": "pending",
+            "testStrategy": "Test various scenarios: submitting an empty form, invalid email, short/long messages, and confirm that correct error messages appear. Verify errors clear upon valid input."
+          },
+          {
+            "id": 4,
+            "title": "Apply Tailwind CSS for Form Styling",
+            "description": "Apply Tailwind CSS utility classes to all elements of the enquiry form (inputs, textarea, labels, buttons, and error messages) to match the specified design reference and ensure responsiveness.",
+            "dependencies": [
+              1,
+              3
+            ],
+            "details": "Use Tailwind classes for layout (e.g., flexbox, grid, spacing), typography, borders, backgrounds, and interactive states (e.g., hover, focus) on all form elements. Ensure consistency with the overall site design.",
+            "status": "pending",
+            "testStrategy": "Visually inspect the form in a browser to ensure it matches the design mockups. Test responsiveness across different screen sizes and devices to confirm proper layout and styling."
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Interactivity and State Management",
+        "description": "Implement mobile navigation, smooth scrolling, and state management for the enquiry form.",
+        "details": "1.  Implement the logic for the mobile navigation menu (hamburger menu) in the `Header` component. 2.  Implement smooth-scrolling for on-page navigation links. 3.  Manage the state for the enquiry form (e.g., using React's `useState` hook).",
+        "testStrategy": "Test the mobile navigation menu. Test smooth scrolling. Test the enquiry form state management.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          9
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Mobile Navigation Toggle and Menu Styling",
+            "description": "Develop the logic for toggling the mobile navigation menu (hamburger menu) within the Header component, including its open/close states and corresponding visual styling for responsiveness.",
+            "dependencies": [],
+            "details": "Create state for mobile menu visibility (e.g., `isOpen` boolean). Implement a click handler for the hamburger icon to toggle this state. Conditionally render or apply CSS classes to the navigation menu based on `isOpen`. Use Tailwind CSS to style the hamburger icon animation (e.g., transform to 'X') and the slide-in/out effect of the menu.",
+            "status": "pending",
+            "testStrategy": "Verify the hamburger icon toggles the menu on mobile viewports. Check menu opens/closes smoothly. Ensure menu content is accessible when open and hidden when closed. Test responsiveness across different mobile screen sizes."
+          },
+          {
+            "id": 2,
+            "title": "Implement Smooth Scrolling for On-Page Navigation Links",
+            "description": "Add smooth scrolling functionality to all internal navigation links that point to different sections of the page, ensuring a fluid user experience.",
+            "dependencies": [],
+            "details": "Identify all anchor links within the navigation that target specific sections (e.g., '#about', '#contact'). Apply `scroll-behavior: smooth;` to the root HTML element or use a JavaScript approach (e.g., `window.scrollTo` with `behavior: 'smooth'`) when a navigation link is clicked to smoothly scroll to the target section ID.",
+            "status": "pending",
+            "testStrategy": "Click each internal navigation link and verify that the page smoothly scrolls to the corresponding section. Ensure the target section is correctly aligned in the viewport after scrolling. Test on both desktop and mobile devices."
+          },
+          {
+            "id": 3,
+            "title": "Implement Enquiry Form State Management Logic",
+            "description": "Develop the state management logic for the enquiry form, handling user input for each field and storing it efficiently.",
+            "dependencies": [
+              3
+            ],
+            "details": "Integrate the `Input` component (from Task 3) into the enquiry form. Use React's `useState` hook to manage the state of each form field (e.g., name, email, message). Create a single state object for the form data. Implement `onChange` handlers for all input fields to update the respective state values as the user types.",
+            "status": "pending",
+            "testStrategy": "Fill out each field in the enquiry form and verify that the component's internal state correctly updates with the entered values. Console log the form state to confirm data integrity upon changes. Ensure no data is lost upon re-renders."
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-29T14:02:29.537Z",
+      "updated": "2025-10-29T15:07:23.980Z",
+      "description": "Tasks for frontend-rebuild context"
+    }
   }
 }

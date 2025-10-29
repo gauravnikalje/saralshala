@@ -2,7 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const smsService = require('./sms/smsService');
+// Correct the path to point to the backend directory
+const smsService = require('../backend/sms/smsService');
 
 const port = 3001;
 
