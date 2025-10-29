@@ -1877,7 +1877,7 @@
         "dependencies": [
           3
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -1885,7 +1885,7 @@
             "description": "Set up the `EnquiryForm.jsx` component inside the `sections` directory, define all required input fields (e.g., name, email, subject, message), and arrange them with a basic HTML structure.",
             "dependencies": [],
             "details": "Create `EnquiryForm.jsx` in the `sections` directory. Use `<form>`, `<input>`, `<textarea>`, `<button>` elements. Ensure appropriate `type` and `name` attributes for each field. Include labels for accessibility.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify the component renders on a test page without errors. Ensure all intended form fields (input, textarea, button) are present and visible in the DOM."
           },
           {
@@ -1896,7 +1896,7 @@
               1
             ],
             "details": "Use `useState` hooks for each input field or a single object state to manage form data. Implement `onChange` event handlers for all input fields to update the component's state. Create a placeholder `handleSubmit` function.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Input data into various fields and use React DevTools or console logs to confirm that the component's internal state accurately reflects the entered values."
           },
           {
@@ -1907,7 +1907,7 @@
               2
             ],
             "details": "Create a validation function (e.g., `validateForm`) that runs on blur or submission. Store validation error messages in component state. Conditionally render error messages next to their respective input fields.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test various scenarios: submitting an empty form, invalid email, short/long messages, and confirm that correct error messages appear. Verify errors clear upon valid input."
           },
           {
@@ -1919,7 +1919,7 @@
               3
             ],
             "details": "Use Tailwind classes for layout (e.g., flexbox, grid, spacing), typography, borders, backgrounds, and interactive states (e.g., hover, focus) on all form elements. Ensure consistency with the overall site design.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Visually inspect the form in a browser to ensure it matches the design mockups. Test responsiveness across different screen sizes and devices to confirm proper layout and styling."
           }
         ]
@@ -1935,7 +1935,7 @@
           2,
           9
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -1943,7 +1943,7 @@
             "description": "Develop the logic for toggling the mobile navigation menu (hamburger menu) within the Header component, including its open/close states and corresponding visual styling for responsiveness.",
             "dependencies": [],
             "details": "Create state for mobile menu visibility (e.g., `isOpen` boolean). Implement a click handler for the hamburger icon to toggle this state. Conditionally render or apply CSS classes to the navigation menu based on `isOpen`. Use Tailwind CSS to style the hamburger icon animation (e.g., transform to 'X') and the slide-in/out effect of the menu.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify the hamburger icon toggles the menu on mobile viewports. Check menu opens/closes smoothly. Ensure menu content is accessible when open and hidden when closed. Test responsiveness across different mobile screen sizes."
           },
           {
@@ -1952,7 +1952,7 @@
             "description": "Add smooth scrolling functionality to all internal navigation links that point to different sections of the page, ensuring a fluid user experience.",
             "dependencies": [],
             "details": "Identify all anchor links within the navigation that target specific sections (e.g., '#about', '#contact'). Apply `scroll-behavior: smooth;` to the root HTML element or use a JavaScript approach (e.g., `window.scrollTo` with `behavior: 'smooth'`) when a navigation link is clicked to smoothly scroll to the target section ID.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Click each internal navigation link and verify that the page smoothly scrolls to the corresponding section. Ensure the target section is correctly aligned in the viewport after scrolling. Test on both desktop and mobile devices."
           },
           {
@@ -1963,7 +1963,7 @@
               3
             ],
             "details": "Integrate the `Input` component (from Task 3) into the enquiry form. Use React's `useState` hook to manage the state of each form field (e.g., name, email, message). Create a single state object for the form data. Implement `onChange` handlers for all input fields to update the respective state values as the user types.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Fill out each field in the enquiry form and verify that the component's internal state correctly updates with the entered values. Console log the form state to confirm data integrity upon changes. Ensure no data is lost upon re-renders."
           }
         ]
@@ -1971,7 +1971,7 @@
     ],
     "metadata": {
       "created": "2025-10-29T14:02:29.537Z",
-      "updated": "2025-10-29T15:18:51.694Z",
+      "updated": "2025-10-29T15:22:02.934Z",
       "description": "Tasks for frontend-rebuild context"
     }
   }
