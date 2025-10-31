@@ -29,7 +29,8 @@
                 attendance: 'Attendance',
                 grades: 'Grades',
                 timetable: 'Timetable',
-                notices: 'Notices'
+                notices: 'Notices',
+                teacherTimetable: 'Teacher Timetable'
             },
             mr: {
                 title: 'डॅशबोर्ड - शाला व्यवस्थापन',
@@ -51,7 +52,8 @@
                 attendance: 'हजेरी',
                 grades: 'गुण',
                 timetable: 'वेळापत्रक',
-                notices: 'सूचना'
+                notices: 'सूचना',
+                teacherTimetable: 'शिक्षक वेळापत्रक'
             }
         };
         
@@ -140,11 +142,11 @@
                             </svg>
                             Profile
                         </a>
-                        <button @click="logout" class="px-6 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        <button @click="window.location.href = '/login.html'" class="px-6 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                             <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                             </svg>
-                            Logout
+                            Login Page
                         </button>
                     </div>
                 </div>
@@ -364,52 +366,36 @@
                         </div>
                     </button>
 
-                    <!-- Reports -->
-                    <button @click="openReports()" class="p-4 bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 rounded-xl border-2 border-pink-200 hover:border-pink-300 transition-all duration-200 group">
+                    <!-- Home Page Manager -->
+                    <button @click="openHomePageManager()" class="p-4 bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 rounded-xl border-2 border-pink-200 hover:border-pink-300 transition-all duration-200 group">
                         <div class="text-center">
                             <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                             </div>
-                            <p class="text-sm font-medium text-pink-800">Reports</p>
+                            <p class="text-sm font-medium text-pink-800">Home Manager</p>
                         </div>
                     </button>
                 </div>
             </div>
+
         </div>
     </div>
 
     <script>
         function dashboardApp() {
             return {
-                user: null,
+                user: { name: 'Public User', role: 'teacher' }, // Mock user for public access
                 
                 async init() {
-                    // Get user from sessionStorage (mock auth)
-                    const userStr = sessionStorage.getItem('user');
-                    if (userStr) {
-                        this.user = JSON.parse(userStr);
-                    }
+                    // Authentication check removed for public access
                     
-                    // Redirect to login if not authenticated
-                    if (!this.user) {
-                        window.location.href = '/login.html';
-                        return;
-                    }
-                    
-                    // Redirect principals to dedicated principal dashboard
-                    if (this.user.role === 'principal') {
-                        window.location.href = '/principal-dashboard.html';
-                        return;
-                    }
-                    
-                    console.log('Dashboard initialized for user:', this.user?.email, 'Role:', this.user?.role);
+                    console.log('Dashboard initialized for public access.');
                 },
                 
                 async logout() {
-                    // Clear sessionStorage and redirect
-                    sessionStorage.removeItem('user');
+                    // Mock logout, redirect to login page
                     window.location.href = '/login.html';
                 },
                 
@@ -467,6 +453,10 @@
                 
                 openBulkAttendanceUpload() {
                     window.location.href = 'bulk-attendance-upload.html';
+                },
+                
+                openHomePageManager() {
+                    window.location.href = 'home-page-manager.html';
                 },
                 
                 openReports() {
