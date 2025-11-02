@@ -1,7 +1,7 @@
 # Frontend Architecture & Rebuild Plan for Kataria English Medium School, Daund
 ## Design Reference: [Angel High School & Junior College](https://angelschoolspune.com/angel-high-school-junior-collegeloni-kalbhor/)
 
-This document provides a detailed breakdown of the design and inferred technical structure of the reference website. It is intended to serve as a comprehensive guide for the development of the new frontend for the **Kataria English Medium School, Daund** project.
+This document provides a detailed breakdown of the design and inferred technical structure of the reference website. It is intended to serve as a comprehensive guide for the development of the new frontend for the **SK Kataria English Medium School, Daund** project.
 
 ---
 
