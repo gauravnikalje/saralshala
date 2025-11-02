@@ -2,11 +2,11 @@
   "name": "school-admin-system",
   "version": "1.0.0",
   "description": "School Administration System with User Authentication",
-  "main": "server.js",
+  "main": "frontend/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "test": "echo \"Open http://localhost:3000 to test the application\" && node server.js"
+    "start": "node frontend/server.js",
+    "dev": "node frontend/server.js",
+    "test": "echo \"Open http://localhost:3001 to test the application\" && node frontend/server.js"
   },
   "keywords": [
     "school",
@@ -22,13 +22,5 @@
   },
   "engines": {
     "node": ">=14.0.0"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.78.0",
-    "bcryptjs": "^3.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
   }
 }
