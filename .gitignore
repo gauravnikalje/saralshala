@@ -25,3 +25,4 @@ Thumbs.db
 # Taskmaster artifacts (keep tasks, ignore caches if any appear later)
 .taskmaster/cache/
 
+.vercel

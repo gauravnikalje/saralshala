@@ -1,5 +1,6 @@
 import Hero from "../components/sections/Hero";
 import About from "../components/sections/About";
+import { Academics } from "../components/sections/Academics";
 import MissionVision from "../components/sections/MissionVision";
 import PrincipalMessage from "../components/sections/PrincipalMessage";
 import Testimonials from "../components/sections/Testimonials";
@@ -10,6 +11,7 @@ export default function Home() {
     <div>
       <Hero />
       <About />
+      <Academics />
       <MissionVision />
       <PrincipalMessage />
       <Testimonials />
