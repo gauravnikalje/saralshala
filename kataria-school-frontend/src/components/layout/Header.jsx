@@ -1,17 +1,13 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Button from "../ui/Button";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Academics", href: "#academics" },
-  { label: "Admissions", href: "#admissions" },
-  { label: "Contact", href: "#contact" },
-];
-
-const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com", short: "FB" },
-  { label: "Instagram", href: "https://instagram.com", short: "IG" },
-  { label: "YouTube", href: "https://youtube.com", short: "YT" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Academics", href: "/academics" },
+  { label: "Admissions", href: "/admissions" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Header() {
@@ -20,7 +16,7 @@ export default function Header() {
   return (
     <header className="border-b border-slate-200 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-600 text-lg font-semibold text-white">
             KE
           </div>
@@ -32,7 +28,7 @@ export default function Header() {
               Daund · Affiliated to State Board
             </p>
           </div>
-        </div>
+        </Link>
 
         <button
           type="button"
@@ -63,27 +59,28 @@ export default function Header() {
           <ul className="flex items-center gap-6 text-sm font-medium text-slate-700">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.href}
+                <Link
+                  to={link.href}
                   className="transition-colors hover:text-sky-600"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
           <div className="flex items-center gap-3">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-xs font-semibold uppercase text-slate-600 transition-colors hover:border-sky-500 hover:text-sky-600"
-              >
-                {link.short}
-              </a>
-            ))}
+            <a
+              href="/legacy/login.html"
+              style={{ textDecoration: 'none' }}
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = '/legacy/login.html';
+              }}
+            >
+              <Button variant="outline" size="sm">
+                Login
+              </Button>
+            </a>
           </div>
         </div>
       </nav>
@@ -92,28 +89,23 @@ export default function Header() {
         <div className="border-t border-slate-200 bg-white lg:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 text-sm font-medium text-slate-700">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
-                href={link.href}
+                to={link.href}
                 className="block rounded-md px-2 py-2 transition-colors hover:bg-slate-100"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <div className="flex items-center gap-3">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-1 rounded-md border border-slate-200 px-3 py-2 text-center text-xs font-semibold uppercase text-slate-600 transition-colors hover:border-sky-500 hover:text-sky-600"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
+              <a
+                href="/legacy/login.html"
+                className="flex-1 rounded-md border border-slate-200 px-3 py-2 text-center text-xs font-semibold uppercase text-slate-600 transition-colors hover:border-sky-500 hover:text-sky-600"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </a>
             </div>
           </div>
         </div>
