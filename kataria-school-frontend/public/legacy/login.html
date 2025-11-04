@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>School Admin - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        // Language toggle functionality
+        window.languageData = {
+            en: {
+                title: 'School Admin - Login',
+                heading: 'School Admin',
+                subtitle: 'Sign in to access your dashboard',
+                selectRole: 'Select Your Role',
+                teacher: 'Teacher',
+                principal: 'Principal',
+                email: 'Email Address',
+                password: 'Password',
+                rememberMe: 'Remember me',
+                forgotPassword: 'Forgot password?',
+                signIn: 'Sign In',
+                signingIn: 'Signing in...',
+                demoCredentials: 'Demo credentials for testing:',
+                principalCreds: 'Principal: principal@school.com / admin123',
+                teacherCreds: 'Teacher: sarah.johnson@school.com / sarah123'
+            },
+            mr: {
+                title: 'शाला व्यवस्थापक - लॉगिन',
+                heading: 'शाला व्यवस्थापक',
+                subtitle: 'आपल्या डॅशबोर्डमध्ये प्रवेश करण्यासाठी साइन इन करा',
+                selectRole: 'आपली भूमिका निवडा',
+                teacher: 'शिक्षक',
+                principal: 'मुख्याध्यापक',
+                email: 'ईमेल पत्ता',
+                password: 'पासवर्ड',
+                rememberMe: 'मला लक्षात ठेवा',
+                forgotPassword: 'पासवर्ड विसरलात?',
+                signIn: 'साइन इन',
+                signingIn: 'साइन इन होत आहे...',
+                demoCredentials: 'चाचणीसाठी डेमो क्रेडेंशियल:',
+                principalCreds: 'मुख्याध्यापक: principal@school.com / admin123',
+                teacherCreds: 'शिक्षक: sarah.johnson@school.com / sarah123'
+            }
+        };
+        
+        window.currentLanguage = localStorage.getItem('schoolAdminLanguage') || 'en';
+        
+        window.toggleLanguage = function() {
+            window.currentLanguage = window.currentLanguage === 'en' ? 'mr' : 'en';
+            localStorage.setItem('schoolAdminLanguage', window.currentLanguage);
+            location.reload();
+        };
+        
+        window.getText = function(key) {
+            return window.languageData[window.currentLanguage][key] || key;
+        };
+    </script>
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animated-gradient {
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen animated-gradient flex items-center justify-center p-2 sm:p-4">
+    <!-- Language Toggle Button -->
+    <button onclick="toggleLanguage()" class="fixed top-2 sm:top-4 left-2 sm:left-4 z-50 bg-white bg-opacity-20 backdrop-blur-sm hover:bg-opacity-30 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 border border-white border-opacity-20 hover:border-opacity-40 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm">
+        <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+        </svg>
+        <span id="languageToggleText" class="text-sm font-medium"></span>
+    </button>
+    
+    <script>
+        document.getElementById('languageToggleText').textContent = window.currentLanguage === 'en' ? 'मराठी' : 'English';
+        document.title = window.getText('title');
+    </script>
+    <div x-data="loginApp()" class="w-full max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Login Card -->
+        <div class="bg-white rounded-2xl shadow-2xl p-4 sm:p-6 lg:p-8 fade-in">
+            <!-- Logo and Title -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mb-4">
+                    <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-800" x-text="getText('heading')">School Admin</h1>
+                <p class="text-sm sm:text-base text-gray-600 mt-2" x-text="getText('subtitle')">Sign in to access your dashboard</p>
+            </div>
+            
+            <!-- Error Message -->
+            <div x-show="error" x-transition class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                <span x-text="error"></span>
+            </div>
+            
+            <!-- Success Message -->
+            <div x-show="successMessage" x-transition class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
+                <span x-text="successMessage"></span>
+            </div>
+            
+            <!-- Login Form -->
+            <form @submit.prevent="handleLogin" class="space-y-6">
+                <!-- Role Selection -->
+                <div>
+                    <label for="role-teacher" class="block text-sm font-medium text-gray-700 mb-3" x-text="getText('selectRole')">Select Your Role</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-labelledby="role-selection">
+                        <div class="relative">
+                            <input type="radio" x-model="role" value="teacher" name="role" id="role-teacher" class="peer sr-only" checked>
+                            <label for="role-teacher" class="cursor-pointer rounded-lg border-2 border-gray-200 p-4 text-center transition-all hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 block focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" role="radio" :aria-checked="role === 'teacher'" tabindex="0" @keydown.enter="$el.click()" @keydown.space.prevent="$el.click()">
+                                <svg class="mx-auto mb-2 h-6 w-6 sm:h-8 sm:w-8 text-gray-400 peer-checked:text-purple-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                </svg>
+                                <span class="text-sm font-medium" x-text="getText('teacher')">Teacher</span>
+                            </label>
+                        </div>
+
+                        <div class="relative">
+                            <input type="radio" x-model="role" value="principal" name="role" id="role-principal" class="peer sr-only">
+                            <label for="role-principal" class="cursor-pointer rounded-lg border-2 border-gray-200 p-4 text-center transition-all hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 block focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" role="radio" :aria-checked="role === 'principal'" tabindex="0" @keydown.enter="$el.click()" @keydown.space.prevent="$el.click()">
+                                <svg class="mx-auto mb-2 h-6 w-6 sm:h-8 sm:w-8 text-gray-400 peer-checked:text-purple-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm font-medium" x-text="getText('principal')">Principal</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Email Input -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2" x-text="getText('email')">
+                        Email Address
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                            </svg>
+                        </div>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            x-model="email"
+                            class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                            placeholder="you@example.com"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <!-- Password Input -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2" x-text="getText('password')">
+                        Password
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            x-model="password"
+                            class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                    <label class="flex items-center">
+                        <input type="checkbox" x-model="rememberMe" class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                        <span class="ml-2 text-sm text-gray-600" x-text="getText('rememberMe')">Remember me</span>
+                    </label>
+                    <a href="forgot-password.html" class="text-sm text-purple-600 hover:text-purple-500 transition-colors" x-text="getText('forgotPassword')">
+                        Forgot password?
+                    </a>
+                </div>
+                
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    :disabled="isLoading"
+                    class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg shadow-lg transform transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                    <span x-show="!isLoading" class="flex items-center justify-center" x-text="getText('signIn')">
+                        Sign In
+                        <svg class="ml-2 h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </span>
+                    <span x-show="isLoading" class="flex items-center justify-center" x-text="getText('signingIn')">
+                        <svg class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-3" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                        Signing in...
+                    </span>
+                </button>
+            </form>
+            
+            <!-- Demo Credentials -->
+            <div class="mt-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-600 text-center mb-2" x-text="getText('demoCredentials')">
+                    Demo credentials for testing:
+                </p>
+                <div class="text-xs text-gray-600 text-center space-y-1">
+                    <div class="font-mono text-xs">
+                        <strong x-text="getText('principalCreds')">Principal:</strong> principal@school.com / admin123
+                    </div>
+                    <div class="font-mono text-xs">
+                        <strong x-text="getText('teacherCreds')">Teacher:</strong> sarah.johnson@school.com / sarah123
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function loginApp() {
+            return {
+                email: '',
+                password: '',
+                role: 'teacher',
+                rememberMe: false,
+                error: '',
+                successMessage: '',
+                isLoading: false,
+                
+                async handleLogin() {
+                    this.error = '';
+                    this.successMessage = '';
+                    this.isLoading = true;
+
+                    // Validate inputs
+                    if (!this.email || !this.password) {
+                        this.error = 'Please fill in all fields';
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.role) {
+                        this.error = 'Please select your role';
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    // Simulate API call
+                    setTimeout(() => {
+                        // Demo credentials for different roles
+                        const validCredentials = {
+                            'principal@school.com': { password: 'admin123', role: 'principal' },
+                            'teacher@school.com': { password: 'teacher123', role: 'teacher' },
+                            'sarah.johnson@school.com': { password: 'sarah123', role: 'teacher' }
+                        };
+
+                        const credential = validCredentials[this.email];
+
+                        if (credential && credential.password === this.password && credential.role === this.role) {
+                            // Store user info in sessionStorage
+                            const userInfo = {
+                                email: this.email,
+                                role: credential.role,
+                                name: this.email === 'sarah.johnson@school.com' ? 'Sarah Johnson' :
+                                      this.email === 'teacher@school.com' ? 'Teacher User' : 'Principal User'
+                            };
+
+                            sessionStorage.setItem('user', JSON.stringify(userInfo));
+
+                            // Also store in localStorage for the Home Page Manager
+                            localStorage.setItem('currentUser', JSON.stringify(userInfo));
+
+                            this.successMessage = 'Login successful! Redirecting...';
+                            setTimeout(() => {
+                                // Redirect based on role
+                                if (credential.role === 'principal') {
+                                    window.location.href = '/legacy/principal-dashboard.html';
+                                } else {
+                                    window.location.href = '/legacy/dashboard.html';
+                                }
+                            }, 1500);
+                        } else {
+                            this.error = 'Invalid email or password. Use demo credentials.';
+                        }
+                        this.isLoading = false;
+                    }, 1500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
