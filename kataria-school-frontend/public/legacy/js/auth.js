@@ -81,7 +81,7 @@ class AuthManager {
         if (!this.isAuthenticated()) {
             console.log('User not authenticated, redirecting to login');
             if (typeof window !== 'undefined') {
-                window.location.href = '/login.html';
+                window.location.href = '/legacy/login.html';
             }
             return false;
         }
@@ -99,7 +99,7 @@ class AuthManager {
         if (!canAccess) {
             console.log('User not authorized for home page manager, redirecting to unauthorized');
             if (typeof window !== 'undefined') {
-                window.location.href = '/unauthorized.html';
+                window.location.href = '/legacy/unauthorized.html';
             }
             return false;
         }
