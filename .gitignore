@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+kataria-school-frontend/node_modules/
+
+# Environment files
+.env
+backend/.env
+kataria-school-frontend/.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+kataria-school-frontend/dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Taskmaster artifacts (keep tasks, ignore caches if any appear later)
+.taskmaster/cache/
+
