@@ -25,21 +25,25 @@ export default function Contact() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-      <div className="mb-16">
-        <h1 className="text-4xl font-bold text-slate-900 md:text-5xl">Get in Touch</h1>
-        <p className="mt-4 text-lg text-slate-600">We'd love to hear from you. Reach out with any questions or inquiries.</p>
+    <>
+      {/* Contact Banner */}
+      <div className="bg-gold py-12 text-white">
+        <div className="mx-auto max-w-6xl px-4 text-center md:px-6">
+          <h1 className="font-heading text-4xl font-bold md:text-5xl">Get in Touch</h1>
+          <p className="mt-4 text-lg text-yellow-100">We'd love to hear from you. Reach out with any questions or inquiries.</p>
+        </div>
       </div>
 
+      <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
       <div className="grid gap-12 lg:grid-cols-3">
         {/* Contact Form */}
         <div className="lg:col-span-2">
-          <form onSubmit={handleSubmit} className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-100">
-            <h2 className="text-2xl font-semibold text-slate-900 mb-6">Send us a Message</h2>
+            <form onSubmit={handleSubmit} className="rounded-lg bg-ivory p-8 shadow-soft">
+              <h2 className="font-heading text-2xl font-semibold text-charcoal-dark mb-6">Send us a Message</h2>
             
             <div className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-charcoal mb-2">
                   Full Name *
                 </label>
                 <input
@@ -49,14 +53,14 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                    className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder="Your name"
                 />
               </div>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-charcoal mb-2">
                     Email Address *
                   </label>
                   <input
@@ -66,12 +70,12 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                      className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                     placeholder="your.email@example.com"
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-charcoal mb-2">
                     Phone Number
                   </label>
                   <input
@@ -80,14 +84,14 @@ export default function Contact() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                      className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                     placeholder="+91 98765 43210"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-charcoal mb-2">
                   Subject *
                 </label>
                 <select
@@ -96,7 +100,7 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                    className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 >
                   <option value="">Select a subject</option>
                   <option value="admission">Admission Inquiry</option>
@@ -108,7 +112,7 @@ export default function Contact() {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-charcoal mb-2">
                   Message *
                 </label>
                 <textarea
@@ -118,14 +122,14 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   rows="5"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                    className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder="Your message here..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                  className="w-full rounded-lg bg-accent px-6 py-3 font-semibold text-white transition-colors hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
               >
                 Send Message
               </button>
@@ -149,8 +153,8 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-slate-600">Address</p>
-                <p className="font-medium text-slate-900">Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi, Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801</p>
-                <p className="text-sm text-slate-600 mt-1">Maharashtra</p>
+                  <p className="font-medium text-slate-900">Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi, Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801</p>
+                  <p className="text-sm text-slate-600 mt-1">Maharashtra</p>
               </div>
             </div>
           </div>
@@ -192,8 +196,8 @@ export default function Contact() {
           </div>
 
           {/* Follow Us */}
-          <div className="rounded-2xl bg-slate-50 p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Follow Us</h3>
+            <div className="rounded-lg bg-slate-50 p-6">
+              <h3 className="font-heading text-lg font-semibold text-charcoal-dark mb-4">Follow Us</h3>
             <div className="flex gap-3">
               {[
                 { name: "Facebook", icon: "f" },
@@ -203,7 +207,7 @@ export default function Contact() {
                 <a
                   key={idx}
                   href="#"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-600 text-white hover:bg-sky-700 transition-colors"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-charcoal text-white hover:bg-gold transition-colors"
                   title={social.name}
                 >
                   {social.icon}
@@ -252,5 +256,6 @@ export default function Contact() {
         </div>
       </div>
     </div>
+    </>
   );
 }

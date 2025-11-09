@@ -14,7 +14,7 @@ export default function Card({
   return (
     <article
       className={cn(
-        "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm ring-1 ring-transparent transition hover:shadow-md",
+        "overflow-hidden rounded-lg border border-[#EDEFF3] bg-ivory shadow-soft transition-all duration-fast ease-custom hover:shadow-lifted hover:-translate-y-1",
         className
       )}
     >
@@ -36,22 +36,22 @@ export default function Card({
           <header className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <div>
               {title && (
-                <h3 className="text-lg font-semibold text-slate-900">
+                <h3 className="text-lg font-semibold text-charcoal-dark">
                   {title}
                 </h3>
               )}
               {subtitle && (
-                <p className="text-sm text-slate-500">{subtitle}</p>
+                <p className="text-sm text-charcoal">{subtitle}</p>
               )}
             </div>
             {actions && (
-              <div className="flex items-center gap-2 text-sm text-slate-500">
+              <div className="flex items-center gap-2 text-sm text-charcoal">
                 {actions}
               </div>
             )}
           </header>
         )}
-        <div className="space-y-4 text-sm text-slate-600">{children}</div>
+        <div className="space-y-4 text-sm text-charcoal">{children}</div>
       </div>
     </article>
   );

@@ -18,7 +18,8 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[85vh] items-center justify-center overflow-hidden bg-gradient-to-br from-sky-600 via-sky-700 to-slate-900 px-4 py-20 text-white"
+      className="relative flex min-h-[85vh] items-center justify-center overflow-hidden px-4 py-20 text-white"
+      style={{ background: 'linear-gradient(180deg, #F2C230 0%, #C79A12 100%)' }}
     >
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
@@ -27,44 +28,56 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl text-center">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-400 bg-sky-500/20 px-4 py-2 text-sm font-medium text-sky-100 backdrop-blur-sm">
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/50 bg-gold/20 px-4 py-2 text-sm font-medium text-ivory backdrop-blur-sm animate-fade-in-up">
           <span className="flex h-2 w-2 rounded-full bg-green-400"></span>
-          Affiliated to Maharashtra State Board
+          Affiliated to CBSE & State Board
         </div>
 
-        <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+        <h1 
+          className="mb-6 font-heading text-4xl font-bold leading-tight text-charcoal-dark md:text-5xl lg:text-6xl animate-fade-in-up"
+          style={{ textShadow: '0 10px 40px rgba(242,194,48,0.25)', animationDelay: '0.2s' }}
+        >
           Welcome to{" "}
-          <span className="bg-gradient-to-r from-sky-200 to-white bg-clip-text text-transparent">
+          <span className="text-gold">
             Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi
           </span>
         </h1>
 
-        <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-sky-100 md:text-xl">
+        <p 
+          className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-charcoal opacity-90 md:text-xl animate-fade-in-up"
+          style={{ animationDelay: '0.4s' }}
+        >
           Empowering young minds with holistic education, strong values, and a
-          future-ready mindset in Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801.
+          future-ready mindset.
         </p>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div 
+          className="mt-8 flex flex-wrap justify-center gap-4 animate-fade-in-up"
+          style={{ animationDelay: '0.6s' }}
+        >
           <Button variant="primary" size="lg" onClick={scrollToEnquiryForm}>
             Apply for Admission
           </Button>
-          <Button variant="outline" size="lg" onClick={scrollToAbout}>
+          <Button variant="secondary" size="lg" onClick={scrollToAbout}>
             Learn More
           </Button>
         </div>
 
-        <div className="mt-12 grid grid-cols-3 gap-6 border-t border-sky-400/30 pt-8 text-center md:gap-8">
+        <div 
+          className="mt-12 grid grid-cols-3 gap-6 border-t border-gold/30 pt-8 text-center md:gap-8 animate-fade-in-up"
+          style={{ animationDelay: '0.8s' }}
+        >
           <div>
-            <p className="text-3xl font-bold md:text-4xl">20+</p>
-            <p className="mt-1 text-sm text-sky-200">Years of Excellence</p>
+            <p className="font-heading text-3xl font-bold md:text-4xl">20+</p>
+            <p className="mt-1 text-sm text-yellow-200">Years of Excellence</p>
           </div>
           <div>
-            <p className="text-3xl font-bold md:text-4xl">1500+</p>
-            <p className="mt-1 text-sm text-sky-200">Happy Students</p>
+            <p className="font-heading text-3xl font-bold md:text-4xl">1500+</p>
+            <p className="mt-1 text-sm text-yellow-200">Happy Students</p>
           </div>
           <div>
-            <p className="text-3xl font-bold md:text-4xl">98%</p>
-            <p className="mt-1 text-sm text-sky-200">Success Rate</p>
+            <p className="font-heading text-3xl font-bold md:text-4xl">98%</p>
+            <p className="mt-1 text-sm text-yellow-200">Success Rate</p>
           </div>
         </div>
       </div>

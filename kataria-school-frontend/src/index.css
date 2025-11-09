@@ -1,6 +1,22 @@
 @import "tailwindcss";
 
+:root {
+  --hero-gradient: linear-gradient(180deg, #1D7AD6 0%, #135A9F 100%);
+  --section-gradient: linear-gradient(180deg, #FAF8F0 0%, #FFFFFF 100%);
+}
+
 /* Smooth scrolling for all navigation */
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #4B4F54; /* charcoal */
+  background-color: #F5F7FA; /* light-bg */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  color: #1F2326; /* charcoal-dark */
 }

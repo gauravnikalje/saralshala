@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './RankerCard.module.css';
 import RankerLightbox from './RankerLightbox'; // Import the lightbox

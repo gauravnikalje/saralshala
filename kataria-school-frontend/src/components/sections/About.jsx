@@ -2,7 +2,11 @@ import Card from "../ui/Card";
 
 export default function About() {
   return (
-    <section id="about" className="bg-white py-16 px-4 md:py-24">
+    <section 
+      id="about" 
+      className="px-4 py-16 md:py-24"
+      style={{ background: 'var(--section-gradient)' }}
+    >
       <div className="container mx-auto max-w-6xl">
         {/* Section Header */}
         <div className="mb-12 text-center">

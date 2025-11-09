@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Button from "../ui/Button";
+import SchoolLogo from '../../assets/logo.png'; // Assuming the logo is saved here
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -21,12 +22,12 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b border-slate-200 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
+    <header 
+      className={`sticky top-0 z-50 bg-ivory transition-shadow duration-fast ${hasScrolled ? 'shadow-scroll' : ''}`}
+    >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
         <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={handleHomeClick}>
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-600 text-lg font-semibold text-white">
-            KE
-          </div>
+          <img src={SchoolLogo} alt="School Logo" className="h-12 w-12" />
           <div>
             <p className="text-sm font-medium uppercase tracking-wide text-sky-600">
               Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi
@@ -63,12 +64,12 @@ export default function Header() {
         </button>
 
         <div id="primary-navigation" className="hidden lg:flex lg:items-center lg:gap-8">
-          <ul className="flex items-center gap-6 text-sm font-medium text-slate-700">
+          <ul className="flex items-center gap-6 text-sm font-semibold text-charcoal-dark">
             {navLinks.map((link) => (
               <li key={link.label}>
                 <Link
                   to={link.href}
-                  className="transition-colors hover:text-sky-600"
+                  className={`relative rounded-md px-3 py-2 transition-colors hover:text-gold hover:bg-gold-tint ${location.pathname === link.href ? 'text-gold' : ''} after:absolute after:bottom-[-6px] after:left-0 after:h-[3px] after:w-full after:origin-center after:scale-x-0 after:bg-gold-deep after:rounded-full after:transition-transform hover:after:scale-x-100`}
                 >
                   {link.label}
                 </Link>
@@ -92,9 +93,10 @@ export default function Header() {
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="border-t border-slate-200 bg-white lg:hidden">
-          <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 text-sm font-medium text-slate-700">
+        <div id="mobile-navigation" className="border-t border-slate-200 bg-ivory lg:hidden">
+          <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 text-base font-semibold text-charcoal-dark">
             {navLinks.map((link) => (
               <Link
                 key={link.label}

@@ -1,10 +1,9 @@
-const baseClasses = "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+const baseClasses = "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-fast ease-custom focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 transform hover:-translate-y-0.5";
 
 const variantClasses = {
-  primary: "bg-sky-600 text-white hover:bg-sky-500 focus-visible:outline-sky-600",
-  secondary: "bg-slate-900 text-white hover:bg-slate-800 focus-visible:outline-slate-900",
-  outline: "border border-slate-300 bg-white text-slate-700 hover:border-slate-400 hover:bg-slate-50 focus-visible:outline-slate-400",
-  ghost: "text-slate-600 hover:bg-slate-100 focus-visible:outline-slate-200",
+  primary: "bg-gold text-charcoal-dark hover:bg-gold-deep shadow-level-2 focus-visible:outline-gold",
+  secondary: "bg-ivory text-charcoal-dark border-2 border-gold hover:bg-gold-light-hover focus-visible:outline-gold",
+  ghost: "text-gold-deep bg-transparent hover:bg-gold hover:text-white focus-visible:outline-gold",
 };
 
 const sizeClasses = {

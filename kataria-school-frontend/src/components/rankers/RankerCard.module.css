@@ -1,30 +1,29 @@
 /* src/components/rankers/RankerCard.module.css */
 .card {
-  background: #fff;
-  border-radius: 20px; /* Softer radius */
+  background: #FAF8F0; /* Ivory */
+  border-radius: 12px;
   padding: 12px;
-  box-shadow: 0 8px 25px rgba(41, 82, 164, 0.1);
-  border: 2px solid #5b8cff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  border: 1px solid #EDEFF3;
   position: relative;
   width: 280px;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  overflow: visible; /* Allows badge to overlap */
+  transition: all 180ms cubic-bezier(.2,.8,.2,1);
+  overflow: visible;
 }
 
 .card:hover,
 .card:focus-within {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(41, 82, 164, 0.15);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
   outline: none;
 }
 
 .imageFrame {
   position: relative;
-  border-radius: 16px; /* Inner frame radius */
+  border-radius: 8px; /* Inner frame radius */
   overflow: hidden;
-  background: #fff;
-  /* This ensures the badge is positioned relative to the image frame */
+  background: #FAF8F0; /* Ivory */
 }
 
 .photo {
@@ -32,7 +31,8 @@
   display: block;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 16px; /* Match frame radius */
+  border-radius: 8px; /* Match frame radius */
+  cursor: pointer;
 }
 
 .badge {
@@ -42,20 +42,21 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #1572ff;
-  color: #fff;
+  background: #F2C230; /* Gold */
+  color: #FFFFFF;
   display: grid;
   place-items: center;
   font-weight: 700;
   font-size: 0.9rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 12px rgba(242,194,40,0.25);
+  border: 2px solid #FFFFFF;
   z-index: 1;
 }
 
 .divider {
   width: 30%;
   height: 3px;
-  background: #e0e0e0;
+  background: #EDEFF3;
   margin: 20px auto 16px;
   border-radius: 2px;
 }
@@ -65,15 +66,17 @@
 }
 
 .name {
+  font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
-  font-weight: 800;
-  color: #1f2937;
+  font-weight: 700;
+  color: #1F2326; /* Charcoal Dark */
   margin: 0 0 4px;
 }
 
 .score {
+  font-family: 'Inter', sans-serif;
   font-size: 1rem;
-  color: #6b7280;
+  color: #4B4F54; /* Charcoal */
   margin: 0;
 }
 
@@ -82,11 +85,12 @@
   display: grid;
   place-items: center;
   aspect-ratio: 1 / 1;
-  border-radius: 16px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .vacant {
-  background: #f8f9fa;
+  background: #F5F7FA;
   color: #9ca3af;
   font-style: italic;
   font-size: 1.1rem;
@@ -97,80 +101,32 @@
 }
 
 .fallbackInitials {
+  font-family: 'Poppins', sans-serif;
   font-size: 3rem;
-  color: #4b5563;
+  color: #4B4F54;
   font-weight: 700;
-  text-shadow: 0 1px 2px #fff;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
-@media (max-width: 768px) {
-  .card {
-    width: 240px;
-  }
-  .name {
-    font-size: 1.3rem;
-  }
-}
-
-@media print {
-  .card {
-    border-color: #ccc;
-    box-shadow: none;
-    transform: none !important;
-  }
-  .imageFrame {
-    border: none;
-  }
-  .badge {
-    background: #666 !important;
-    box-shadow: none;
-  }
-}
-
-/* --- Add this to RankerCard.module.css --- */
-
-/* Add this cursor style to the existing .photo rule */
-.photo {
-  width: 100%;
-  display: block;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 16px; 
-  cursor: pointer; /* <-- ADD THIS LINE */
-}
-
-/* Also add cursor:pointer to the fallback */
-.fallback {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1 / 1;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-  cursor: pointer; /* <-- ADD THIS LINE */
-}
-
-
-/* --- ADD ALL THESE NEW STYLES AT THE END --- */
-
-/* Full-screen overlay */
+/* Modal / Lightbox Styles */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(31, 35, 38, 0.8); /* Charcoal Dark with opacity */
   display: grid;
   place-items: center;
   z-index: 1000;
   cursor: pointer;
   padding: 1rem;
+  backdrop-filter: blur(4px);
 }
 
-/* Wrapper for the image and close button */
 .modalContent {
   position: relative;
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 16px;
   padding: 1rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -179,7 +135,6 @@
   max-height: 90vh;
 }
 
-/* The large image itself */
 .modalImage {
   display: block;
   width: 100%;
@@ -187,32 +142,33 @@
   max-width: 80vw;
   max-height: 85vh;
   object-fit: contain;
-  border-radius: 8px; /* Optional: soft corners for the large image */
+  border-radius: 12px;
 }
 
-/* Close button */
 .closeButton {
   position: absolute;
   top: -15px;
   right: -15px;
-  background: #fff;
-  border: 2px solid #333;
+  background: #FFFFFF;
+  border: 2px solid #4B4F54;
   border-radius: 50%;
   width: 34px;
   height: 34px;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #4B4F54;
   cursor: pointer;
   display: grid;
   place-items: center;
   line-height: 1;
   padding: 0;
   z-index: 1001;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: all 180ms ease;
 }
 
 .closeButton:hover {
   transform: scale(1.1);
-  background-color: #b91111;
+  background-color: #F2C230; /* Gold */
+  color: #FFFFFF;
+  border-color: #F2C230;
 }
