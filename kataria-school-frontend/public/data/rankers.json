@@ -1,0 +1,81 @@
+{
+  "examName": "Midterm Nov 2025",
+  "classes": [
+    {
+      "class": 1,
+      "rankers": [
+        {"rank": 1, "name": "Asha Kumar", "score": 98, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=1", "studentId": "c1s1"},
+        {"rank": 2, "name": "Ravi Patel", "score": 95, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=1", "studentId": "c1s2"},
+        {"rank": 3, "name": "Meena Joshi", "score": 92, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=3", "studentId": "c1s3"}
+      ]
+    },
+    {
+      "class": 2,
+      "rankers": [
+        {"rank": 1, "name": "Rohan Sharma", "score": 97, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=4", "studentId": "c2s1"},
+        {"rank": 2, "name": "Priya Singh", "score": 94, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c2s2"},
+        {"rank": 3, "name": "Amit Verma", "score": 91, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=6", "studentId": "c2s3"}
+      ]
+    },
+    {
+      "class": 3,
+      "rankers": [
+        {"rank": 1, "name": "Neha Gupta", "score": 99, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=7", "studentId": "c3s1"},
+        {"rank": 2, "name": "Karan Malhotra", "score": 96, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c3s2"}
+      ]
+    },
+    {
+      "class": 4,
+      "rankers": [
+        {"rank": 1, "name": "Sonia Reddy", "score": 98, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=8", "studentId": "c4s1"},
+        {"rank": 2, "name": "Vikram Chauhan", "score": 95, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c4s2"},
+        {"rank": 3, "name": "Anjali Mehta", "score": 93, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=10", "studentId": "c4s3"}
+      ]
+    },
+    {
+      "class": 5,
+      "rankers": [
+        {"rank": 1, "name": "Rajesh Kumar", "score": 97, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=11", "studentId": "c5s1"},
+        {"rank": 2, "name": "Divya Patel", "score": 94, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c5s2"}
+      ]
+    },
+    {
+      "class": 6,
+      "rankers": [
+        {"rank": 1, "name": "Mohit Singh", "score": 96, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=12", "studentId": "c6s1"},
+        {"rank": 2, "name": "Pooja Sharma", "score": 93, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c6s2"},
+        {"rank": 3, "name": "Alok Verma", "score": 90, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=14", "studentId": "c6s3"}
+      ]
+    },
+    {
+      "class": 7,
+      "rankers": [
+        {"rank": 1, "name": "Nisha Gupta", "score": 98, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=15", "studentId": "c7s1"},
+        {"rank": 2, "name": "Rahul Malhotra", "score": 95, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c7s2"}
+      ]
+    },
+    {
+      "class": 8,
+      "rankers": [
+        {"rank": 1, "name": "Sanjay Reddy", "score": 97, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=16", "studentId": "c8s1"},
+        {"rank": 2, "name": "Kavita Chauhan", "score": 94, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c8s2"},
+        {"rank": 3, "name": "Manoj Mehta", "score": 92, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=18", "studentId": "c8s3"}
+      ]
+    },
+    {
+      "class": 9,
+      "rankers": [
+        {"rank": 1, "name": "Anita Kumar", "score": 99, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=19", "studentId": "c9s1"},
+        {"rank": 2, "name": "Vishal Patel", "score": 96, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c9s2"}
+      ]
+    },
+    {
+      "class": 10,
+      "rankers": [
+        {"rank": 1, "name": "Deepak Sharma", "score": 98, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=20", "studentId": "c10s1"},
+        {"rank": 2, "name": "Sunita Singh", "score": 95, "total": 100, "imageUrl":  "https://i.pravatar.cc/150?img=1", "studentId": "c10s2"},
+        {"rank": 3, "name": "Arun Verma", "score": 93, "total": 100, "imageUrl": "https://i.pravatar.cc/150?img=22", "studentId": "c10s3"}
+      ]
+    }
+  ]
+}

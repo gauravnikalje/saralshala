@@ -1,6 +1,20 @@
 import Button from "../ui/Button";
 
 export default function Hero() {
+  const scrollToEnquiryForm = () => {
+    const enquirySection = document.getElementById("enquiry");
+    if (enquirySection) {
+      enquirySection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById("about");
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section
       id="home"
@@ -31,10 +45,10 @@ export default function Hero() {
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Button variant="primary" size="lg">
+          <Button variant="primary" size="lg" onClick={scrollToEnquiryForm}>
             Apply for Admission
           </Button>
-          <Button variant="outline" size="lg">
+          <Button variant="outline" size="lg" onClick={scrollToAbout}>
             Learn More
           </Button>
         </div>

@@ -1,0 +1,218 @@
+/* src/components/rankers/RankerCard.module.css */
+.card {
+  background: #fff;
+  border-radius: 20px; /* Softer radius */
+  padding: 12px;
+  box-shadow: 0 8px 25px rgba(41, 82, 164, 0.1);
+  border: 2px solid #5b8cff;
+  position: relative;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: visible; /* Allows badge to overlap */
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(41, 82, 164, 0.15);
+  outline: none;
+}
+
+.imageFrame {
+  position: relative;
+  border-radius: 16px; /* Inner frame radius */
+  overflow: hidden;
+  background: #fff;
+  /* This ensures the badge is positioned relative to the image frame */
+}
+
+.photo {
+  width: 100%;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px; /* Match frame radius */
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1572ff;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.divider {
+  width: 30%;
+  height: 3px;
+  background: #e0e0e0;
+  margin: 20px auto 16px;
+  border-radius: 2px;
+}
+
+.details {
+  padding: 0;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 4px;
+}
+
+.score {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.vacant,
+.fallback {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+}
+
+.vacant {
+  background: #f8f9fa;
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.fallback {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+}
+
+.fallbackInitials {
+  font-size: 3rem;
+  color: #4b5563;
+  font-weight: 700;
+  text-shadow: 0 1px 2px #fff;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 240px;
+  }
+  .name {
+    font-size: 1.3rem;
+  }
+}
+
+@media print {
+  .card {
+    border-color: #ccc;
+    box-shadow: none;
+    transform: none !important;
+  }
+  .imageFrame {
+    border: none;
+  }
+  .badge {
+    background: #666 !important;
+    box-shadow: none;
+  }
+}
+
+/* --- Add this to RankerCard.module.css --- */
+
+/* Add this cursor style to the existing .photo rule */
+.photo {
+  width: 100%;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px; 
+  cursor: pointer; /* <-- ADD THIS LINE */
+}
+
+/* Also add cursor:pointer to the fallback */
+.fallback {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  cursor: pointer; /* <-- ADD THIS LINE */
+}
+
+
+/* --- ADD ALL THESE NEW STYLES AT THE END --- */
+
+/* Full-screen overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+/* Wrapper for the image and close button */
+.modalContent {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  cursor: default;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+/* The large image itself */
+.modalImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 80vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 8px; /* Optional: soft corners for the large image */
+}
+
+/* Close button */
+.closeButton {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  padding: 0;
+  z-index: 1001;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+  background-color: #b91111;
+}

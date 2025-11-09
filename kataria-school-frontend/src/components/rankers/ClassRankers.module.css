@@ -1,0 +1,109 @@
+/* src/components/rankers/ClassRankers.module.css */
+.container {
+  overflow: hidden;
+  padding: 3rem 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;    /* important */
+  background: #f8fafc; 
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Print styles */
+@media print {
+  .heading {
+    font-size: 14pt;
+    color: #000;
+    border-color: #ccc;
+  }
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+
+
+/* keep images contained, circular and not overflowing */
+._image_13viw_54, .imageFrame img {
+  display: block;
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 6px 14px rgba(16,24,40,0.06); /* reduce spread */
+}
+
+/* RankersPreview.module.css */
+
+/* Make the whole card a clipping, isolated stacking context */
+.card {
+  display: block;
+  position: relative;
+  overflow: hidden;          /* clip any stray pseudo-elements/shadows */
+  isolation: isolate;        /* create a new stacking context */
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Keep inner content on top of the background layer */
+.card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Defensive: kill any pseudo-element injected on the <a> itself */
+.card::before,
+.card::after {
+  content: none !important;
+}
+
+
+
+/* Optional: ensure the preview grid never overflows horizontally */
+.previewGrid {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* TEMP while you hunt the exact offending style */
+.rankersSection *::before,
+.rankersSection *::after {
+  content: none !important;
+  display: none !important;
+  pointer-events: none !important;
+}
+
+
+
