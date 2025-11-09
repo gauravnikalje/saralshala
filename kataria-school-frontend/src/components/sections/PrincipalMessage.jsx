@@ -25,7 +25,7 @@ export default function PrincipalMessage() {
               <div className="overflow-hidden rounded-2xl border-4 border-blue-100 shadow-xl">
                 <img
                   src="https://via.placeholder.com/350x400/1e3a8a/ffffff?text=Principal"
-                  alt="Principal of Kataria English Medium School"
+                  alt="Principal of Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi"
                   className="h-auto w-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
@@ -39,10 +39,10 @@ export default function PrincipalMessage() {
             <Card className="border-l-4 border-blue-600 bg-gradient-to-r from-blue-50 to-white">
               <div className="mb-4">
                 <h3 className="text-2xl font-bold text-blue-900">
-                  Dr. Rajesh Kataria
+                  Mrs. Pooja Madam
                 </h3>
                 <p className="text-sm font-medium text-orange-600">
-                  Principal & Director
+                  Principal
                 </p>
               </div>
 
@@ -53,7 +53,7 @@ export default function PrincipalMessage() {
 
                 <p>
                   It is with immense pride and pleasure that I welcome you to
-                  Kataria English Medium School. For over two decades, our
+                  Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi. For over two decades, our
                   institution has been committed to providing quality education
                   that goes beyond textbooks and examinations.
                 </p>
@@ -83,7 +83,7 @@ export default function PrincipalMessage() {
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <p className="font-semibold text-gray-900">Warm regards,</p>
                 <p className="mt-1 text-2xl font-bold text-blue-900 italic">
-                  Dr. Rajesh Kataria
+                  Mrs. Pooja Madam
                 </p>
               </div>
             </Card>

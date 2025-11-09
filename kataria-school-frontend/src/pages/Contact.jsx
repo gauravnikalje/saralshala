@@ -149,8 +149,8 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-slate-600">Address</p>
-                <p className="font-medium text-slate-900">Kataria English Medium School, Daund</p>
-                <p className="text-sm text-slate-600 mt-1">District, Maharashtra</p>
+                <p className="font-medium text-slate-900">Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi, Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801</p>
+                <p className="text-sm text-slate-600 mt-1">Maharashtra</p>
               </div>
             </div>
           </div>

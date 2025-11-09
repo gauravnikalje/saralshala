@@ -35,13 +35,13 @@ export default function Hero() {
         <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
           Welcome to{" "}
           <span className="bg-gradient-to-r from-sky-200 to-white bg-clip-text text-transparent">
-            Kataria English Medium School
+            Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi
           </span>
         </h1>
 
         <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-sky-100 md:text-xl">
           Empowering young minds with holistic education, strong values, and a
-          future-ready mindset in Daund, Pune District.
+          future-ready mindset in Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">

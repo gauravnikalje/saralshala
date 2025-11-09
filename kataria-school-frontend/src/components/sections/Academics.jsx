@@ -45,7 +45,7 @@ export const Academics = () => {
             Our Academics & Student Life
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Explore our vibrant campus, talented students, and dedicated staff at Kataria English Medium School.
+            Explore our vibrant campus, talented students, and dedicated staff at Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi.
           </p>
         </div>
 

@@ -28,10 +28,10 @@ export default function Footer() {
             </div>
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-sky-400">
-                Kataria English Medium School
+                Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi
               </p>
               <p className="text-xs text-slate-400">
-                Daund · Pune District · Maharashtra
+                Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801
               </p>
             </div>
           </div>
@@ -40,7 +40,7 @@ export default function Footer() {
           </p>
           <div className="mt-6 text-sm text-slate-400">
             <p className="font-semibold text-slate-200">Campus</p>
-            <p>Kataria Nagar, Daund, Pune - 413801</p>
+            <p>Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801</p>
             <p>Email: info@katariaschool.edu.in</p>
             <p>Phone: +91 020 4455 6677</p>
           </div>
@@ -70,7 +70,7 @@ export default function Footer() {
       <div className="border-t border-slate-800 bg-slate-950">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 text-xs text-slate-500 md:flex-row md:items-center md:justify-between md:px-6">
           <p>
-            © {new Date().getFullYear()} Kataria English Medium School, Daund. All rights reserved.
+            © {new Date().getFullYear()} Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi, Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4">
             <a href="#privacy" className="transition-colors hover:text-sky-400">

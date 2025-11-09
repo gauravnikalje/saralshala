@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Button from "../ui/Button";
 
 const navLinks = [
@@ -12,20 +12,27 @@ const navLinks = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const handleHomeClick = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <header className="border-b border-slate-200 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
-        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={handleHomeClick}>
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-600 text-lg font-semibold text-white">
             KE
           </div>
           <div>
             <p className="text-sm font-medium uppercase tracking-wide text-sky-600">
-              Kataria English Medium School
+              Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi
             </p>
             <p className="text-xs text-slate-500">
-              Daund · Affiliated to State Board
+              Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801 · Affiliated to CBSE & State Board
             </p>
           </div>
         </Link>

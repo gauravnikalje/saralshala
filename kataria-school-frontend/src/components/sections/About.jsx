@@ -10,7 +10,7 @@ export default function About() {
             About Our School
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Kataria English Medium School, Daund has nurtured young minds for more
+            Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi has nurtured young minds for more
             than 20 years with a commitment to academic excellence, values-based
             education, and co-curricular growth.
           </p>
@@ -23,7 +23,7 @@ export default function About() {
             <div className="overflow-hidden rounded-2xl shadow-lg">
               <img
                 src="https://via.placeholder.com/600x400/1e3a8a/ffffff?text=Kataria+School"
-                alt="Kataria English Medium School campus"
+                alt="Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi campus"
                 className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
@@ -36,7 +36,7 @@ export default function About() {
                 Our Heritage
               </h3>
               <p className="leading-relaxed text-gray-700">
-                Located in Daund, Pune District, Kataria English Medium School has
+                Located in Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801, Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi has
                 been a beacon of quality education for over two decades. We provide
                 a nurturing environment where students develop academically,
                 socially, and emotionally.
@@ -93,7 +93,7 @@ export default function About() {
               Comprehensive Curriculum
             </h4>
             <p className="text-sm text-gray-600">
-              Aligned with Maharashtra State Board standards, enriched with
+              Aligned with CBSE & State Board standards, enriched with
               co-curricular activities
             </p>
           </Card>

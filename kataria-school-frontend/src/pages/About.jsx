@@ -2,7 +2,7 @@ export default function About() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
       <div className="mb-16">
-        <h1 className="text-4xl font-bold text-slate-900 md:text-5xl">About Kataria English Medium School</h1>
+        <h1 className="text-4xl font-bold text-slate-900 md:text-5xl">About Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi</h1>
         <p className="mt-4 text-lg text-slate-600">Empowering minds, building futures since establishment</p>
       </div>
 
@@ -11,7 +11,7 @@ export default function About() {
         <section className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-100">
           <h2 className="text-3xl font-semibold text-slate-900">Our History</h2>
           <p className="mt-4 leading-relaxed text-slate-600">
-            Kataria English Medium School has been a beacon of educational excellence in Daund for several decades. Founded with a vision to provide quality education grounded in values and modern pedagogy, our school has evolved to become one of the most trusted educational institutions in the region. Our commitment to nurturing well-rounded individuals who excel academically and socially remains unwavering.
+            Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi has been a beacon of educational excellence in Kalewadi for several decades. Founded with a vision to provide quality education grounded in values and modern pedagogy, our school has evolved to become one of the most trusted educational institutions in the region. Our commitment to nurturing well-rounded individuals who excel academically and socially remains unwavering.
           </p>
         </section>
 
