@@ -7,14 +7,21 @@ import Testimonials from "../components/sections/Testimonials";
 import RankersPreview from '../components/rankers/RankersPreview';
 import EnquiryForm from "../components/sections/EnquiryForm";
 
+const homeBackgroundStyle = {
+  backgroundImage: `
+    radial-gradient(circle at 10% 15%, rgba(242, 196, 29, 0.2), transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(242, 196, 29, 0.15), transparent 45%),
+    radial-gradient(circle at 50% 95%, rgba(242, 196, 29, 0.25), transparent 50%)
+  `,
+  backgroundColor: '#FFFDF5', // A very light, warm cream fallback
+};
+
 export default function Home() {
   return (
-    <div>
+    <div style={homeBackgroundStyle}>
       <Hero />
-      <div className="container mx-auto px-4 py-8 space-y-12">
-        <section className="rankersSection">
-          <RankersPreview />
-        </section>
+      <div className="container mx-auto space-y-24 px-4 py-16">
+        <RankersPreview />
         <About />
         <PrincipalMessage />
         <MissionVision />

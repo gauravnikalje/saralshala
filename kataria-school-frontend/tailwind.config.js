@@ -9,19 +9,37 @@ export default {
   theme: {
     extend: {
       colors: {
+        'brand-primary': '#606060',      // Dark Grey from logo
+        'brand-secondary': '#F2C41D',    // Yellow from logo
+        'brand-accent': '#D81E05',       // Red from logo
+        'text-light': '#FFFFFF',         // Neutral White
+        'text-dark': '#4A4A4A',          // For body copy
+        'bg-light': '#F9F9F9',         // For subtle backgrounds
+        'bg-warm-light': '#FFF9E5',    // Light cream for gradients, from gold-tint
+        
+        // Deprecating old color names
+        'primary-gold': '#F2C41D',
+        'accent-red': '#D81E05',
+        'primary-text': '#4A4A4A',
+        'secondary-text': '#7D7D7D',
+        'base-white': '#FFFFFF',
+        'base-light-gray': '#F9F9F9',
+        'gold-light-bg': 'rgba(242, 196, 29, 0.1)',
+        'light-orange': '#FFE8CC',
+        // Legacy aliases for backward compatibility
         gold: {
-          DEFAULT: '#F2C230',
+          DEFAULT: '#F2C41D',
           deep: '#C79A12',
           tint: '#FFF9E5',
           'light-hover': '#FFF5D1',
         },
         charcoal: {
-          DEFAULT: '#4B4F54',
-          light: '#3A3E42',
+          DEFAULT: '#4A4A4A',
+          light: '#7D7D7D',
           dark: '#1F2226',
         },
-        ivory: '#FAF8F0',
-        'accent-red': '#C62828',
+        ivory: '#FFFFFF',
+        'accent-red-legacy': '#D81E05',
       },
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
@@ -34,29 +52,20 @@ export default {
         '2xl': '18px',
       },
       boxShadow: {
-        'level-1': '0 2px 10px rgba(0,0,0,0.06)', // Cards
-        'level-2': '0 4px 14px rgba(242,194,48,0.25)', // Buttons
-        'level-3': '0 10px 40px rgba(242,194,48,0.25)', // Hero glow
-        'level-4': '0 12px 60px rgba(0,0,0,0.45)', // Modals
-        'card-hover': '0 6px 24px rgba(0,0,0,0.12)',
-        'ranker-badge': '0 3px 12px rgba(242,194,48,0.4)',
-        'scroll': '0px 4px 20px rgba(0,0,0,0.08)',
-        'golden-rim': '0 0 8px rgba(242,194,48,0.5)',
+        'level-1': '0 2px 10px rgba(242, 196, 29, 0.15)',
+        'level-2': '0 4px 14px rgba(242, 196, 29, 0.25)',
+        'level-3': '0 10px 40px rgba(242, 196, 29, 0.25)',
+        'level-4': '0 12px 60px rgba(242, 196, 29, 0.2)',
+        'card-hover': '0 6px 24px rgba(242, 196, 29, 0.2)',
+        'ranker-badge': '0 3px 12px rgba(242, 196, 29, 0.4)',
+        'scroll': '0px 4px 20px rgba(242, 196, 29, 0.15)',
+        'golden-rim': '0 0 8px rgba(242, 196, 29, 0.5)',
       },
       transitionTimingFunction: {
         'custom': 'cubic-bezier(.2,.8,.2,1)',
       },
       transitionDuration: {
         'fast': '180ms',
-      },
-      animation: {
-        'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
-      },
-      keyframes: {
-        'fade-in-up': {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
       },
     },
   },

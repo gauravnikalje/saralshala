@@ -1,8 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --hero-gradient: linear-gradient(180deg, #1D7AD6 0%, #135A9F 100%);
-  --section-gradient: linear-gradient(180deg, #FAF8F0 0%, #FFFFFF 100%);
+  /* --- Base Colors --- */
+  --color-base-white: #FFFFFF;
+  --color-base-light-bg: #F9F9F9; /* For subtle section differentiation */
+
+  /* --- Brand Colors (Professional Blue Theme) --- */
+  --color-primary-blue: #1a56db;       /* Professional Blue for buttons, links, accents */
+  --color-blue-light: #e1effe;         /* Light Blue for section backgrounds */
+  --color-blue-dark: #1e40af;          /* Dark Blue for hover states, dark accents */
+  --color-primary-navy: #0A2351;        /* Solid Navy Blue for Header/Footer */
+  --color-accent-gold: #FCA311;        /* Golden Yellow for highlights and CTAs */
+  
+  /* --- Text Colors --- */
+  --color-text-dark: #1f2937;          /* Dark text for headings, body text */
+  --color-text-on-navy: #FFFFFF;       /* White text for navy backgrounds */
+  --color-secondary-gray: #7D7D7D;     /* Shield Gray (for secondary text/borders) */
+
+  /* --- Deprecated Colors --- */
+  /* --color-primary-gold: #F2C41D;   */
+  /* --color-accent-red: #D81E05;     */
+  /* --color-primary-gray: #4A4A4A;  */
 }
 
 /* Smooth scrolling for all navigation */
@@ -12,11 +30,14 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  color: #4B4F54; /* charcoal */
-  background-color: #F5F7FA; /* light-bg */
+  color: var(--color-text-dark); /* charcoal */
+  background-color: var(--color-base-white); /* light-bg */
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', sans-serif;
-  color: #1F2326; /* charcoal-dark */
+  color: var(--color-text-dark); /* charcoal-dark */
 }
+
+
+

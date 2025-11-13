@@ -1,261 +1,221 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Button from '../components/ui/Button';
+import Input from '../components/ui/Input';
 
-export default function Contact() {
+const Contact = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = t('forms.validation.required');
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = t('forms.validation.required');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = t('forms.validation.email');
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = t('forms.validation.required');
+    } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
+      newErrors.phone = t('forms.validation.phone');
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = t('forms.validation.required');
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Simulate form submission
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      alert(t('messages.sent'));
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      alert(t('errors.general'));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  // Example of pluralization with dynamic count
+  const [visitorCount, setVisitorCount] = useState(5);
+  const visitorsText = t('contact.visitor_count', { count: visitorCount }, {
+    defaultValue_zero: 'No visitors today',
+    defaultValue_one: '{{count}} visitor today',
+    defaultValue_other: '{{count}} visitors today'
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Thank you for your message. We will get back to you soon!");
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-  };
-
   return (
-    <>
-      {/* Contact Banner */}
-      <div className="bg-gold py-12 text-white">
-        <div className="mx-auto max-w-6xl px-4 text-center md:px-6">
-          <h1 className="font-heading text-4xl font-bold md:text-5xl">Get in Touch</h1>
-          <p className="mt-4 text-lg text-yellow-100">We'd love to hear from you. Reach out with any questions or inquiries.</p>
+    <section id="contact" className="py-16 px-4 bg-gray-50">
+      <div className="mx-auto max-w-4xl">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-brand-primary mb-4">
+            {t('contact.title')}
+          </h1>
+          <p className="text-lg text-text-dark mb-4">
+            {t('contact.description')}
+          </p>
+          <p className="text-sm text-gray-600">
+            {visitorsText}
+          </p>
+          <button
+            onClick={() => setVisitorCount(prev => prev + 1)}
+            className="mt-2 text-sm text-brand-accent hover:underline"
+          >
+            {t('contact.increment_visitor', 'Simulate New Visitor')}
+          </button>
         </div>
-      </div>
 
-      <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-      <div className="grid gap-12 lg:grid-cols-3">
-        {/* Contact Form */}
-        <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="rounded-lg bg-ivory p-8 shadow-soft">
-              <h2 className="font-heading text-2xl font-semibold text-charcoal-dark mb-6">Send us a Message</h2>
-            
-            <div className="space-y-6">
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-charcoal mb-2">
-                  Full Name *
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('forms.name')} *
                 </label>
-                <input
+                <Input
                   type="text"
-                  id="name"
-                  name="name"
                   value={formData.name}
-                  onChange={handleChange}
-                  required
-                    className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-                  placeholder="Your name"
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  placeholder={t('forms.placeholders.name')}
+                  className={errors.name ? 'border-red-500' : ''}
                 />
-              </div>
-
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-charcoal mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                      className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-                <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-charcoal mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                      className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-                    placeholder="+91 98765 43210"
-                  />
-                </div>
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                )}
               </div>
 
               <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-charcoal mb-2">
-                  Subject *
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('forms.email')} *
                 </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                    className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-                >
-                  <option value="">Select a subject</option>
-                  <option value="admission">Admission Inquiry</option>
-                  <option value="academics">Academics</option>
-                  <option value="events">Events & Activities</option>
-                  <option value="facilities">Facilities</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-charcoal mb-2">
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="5"
-                    className="w-full rounded-base border border-slate-300 px-4 py-2 text-charcoal-dark placeholder-slate-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-                  placeholder="Your message here..."
+                <Input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  placeholder={t('forms.placeholders.email')}
+                  className={errors.email ? 'border-red-500' : ''}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                )}
               </div>
+            </div>
 
-              <button
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t('forms.phone')} *
+              </label>
+              <Input
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                placeholder={t('forms.placeholders.phone')}
+                className={errors.phone ? 'border-red-500' : ''}
+              />
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t('forms.message')} *
+              </label>
+              <textarea
+                value={formData.message}
+                onChange={(e) => handleInputChange('message', e.target.value)}
+                placeholder={t('forms.placeholders.message')}
+                rows={4}
+                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-brand-accent ${errors.message ? 'border-red-500' : 'border-gray-300'
+                  }`}
+              />
+              {errors.message && (
+                <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+              )}
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-500">
+                {t('contact.required_fields', 'Fields marked with * are required')}
+              </p>
+              <Button
                 type="submit"
-                  className="w-full rounded-lg bg-accent px-6 py-3 font-semibold text-white transition-colors hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                variant="primary"
+                disabled={isSubmitting}
+                className="min-w-[120px]"
               >
-                Send Message
-              </button>
+                {isSubmitting ? t('common.loading') : t('forms.submit', 'Submit')}
+              </Button>
             </div>
           </form>
         </div>
 
-        {/* Contact Information */}
-        <div className="space-y-6">
-          {/* Main Contact */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Contact Information</h3>
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm text-slate-600">Phone</p>
-                <p className="font-medium text-slate-900">+91 (0xx) xxxx xxxx</p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-600">Email</p>
-                <p className="font-medium text-slate-900">info@katariaschool.edu</p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-600">Address</p>
-                  <p className="font-medium text-slate-900">Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi, Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801</p>
-                  <p className="text-sm text-slate-600 mt-1">Maharashtra</p>
-              </div>
-            </div>
+        <div className="mt-12 grid md:grid-cols-3 gap-8 text-center">
+          <div className="p-6">
+            <h3 className="font-semibold text-brand-primary mb-2">
+              {t('contact.address.title', 'Our Address')}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {t('contact.address.details', 'Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801')}
+            </p>
           </div>
 
-          {/* Office Hours */}
-          <div className="rounded-2xl bg-blue-50 p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Office Hours</h3>
-            <div className="space-y-3 text-sm text-slate-700">
-              <div className="flex justify-between">
-                <span>Monday - Friday:</span>
-                <span className="font-medium">8:00 AM - 4:00 PM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Saturday:</span>
-                <span className="font-medium">8:00 AM - 12:00 PM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Sunday:</span>
-                <span className="font-medium">Closed</span>
-              </div>
-            </div>
+          <div className="p-6">
+            <h3 className="font-semibold text-brand-primary mb-2">
+              {t('contact.phone.title', 'Phone')}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {t('contact.phone.details', '+91 98765 43210')}
+            </p>
           </div>
 
-          {/* Department Contacts */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Departments</h3>
-            <div className="space-y-3 text-sm">
-              {[
-                { dept: "Admission", phone: "+91 (0xx) xxxx xxxx" },
-                { dept: "Principal's Office", phone: "+91 (0xx) xxxx xxxx" },
-                { dept: "Finance", phone: "+91 (0xx) xxxx xxxx" },
-              ].map((item, idx) => (
-                <div key={idx} className="border-b border-slate-200 pb-2 last:border-0">
-                  <p className="font-medium text-slate-900">{item.dept}</p>
-                  <p className="text-slate-600">{item.phone}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Follow Us */}
-            <div className="rounded-lg bg-slate-50 p-6">
-              <h3 className="font-heading text-lg font-semibold text-charcoal-dark mb-4">Follow Us</h3>
-            <div className="flex gap-3">
-              {[
-                { name: "Facebook", icon: "f" },
-                { name: "Twitter", icon: "𝕏" },
-                { name: "Instagram", icon: "📷" },
-              ].map((social, idx) => (
-                <a
-                  key={idx}
-                  href="#"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-charcoal text-white hover:bg-gold transition-colors"
-                  title={social.name}
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
+          <div className="p-6">
+            <h3 className="font-semibold text-brand-primary mb-2">
+              {t('contact.email.title', 'Email')}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {t('contact.email.details', 'info@skkschool.edu.in')}
+            </p>
           </div>
         </div>
       </div>
-
-      {/* Map Section */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-semibold text-slate-900 mb-6">Find Us on the Map</h2>
-        <div className="rounded-2xl overflow-hidden shadow-lg h-96 bg-slate-200 flex items-center justify-center">
-          <p className="text-slate-600">Map integration coming soon</p>
-        </div>
-      </div>
-
-      {/* FAQ Section */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-semibold text-slate-900 mb-8">Frequently Asked Questions</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          {[
-            {
-              q: "When is the admission process open?",
-              a: "Admission process is open throughout the year, subject to seat availability. Early registrations are encouraged.",
-            },
-            {
-              q: "Do you provide transportation?",
-              a: "We have school buses available for students. Please contact the office for route and fee details.",
-            },
-            {
-              q: "What are the payment methods accepted?",
-              a: "We accept cash, check, online transfer, and card payments. Installment options are available.",
-            },
-            {
-              q: "Are there extracurricular activities?",
-              a: "Yes, we offer sports, arts, music, dance, and various club activities to develop all-round personality.",
-            },
-          ].map((faq, idx) => (
-            <div key={idx} className="rounded-lg bg-slate-50 p-6">
-              <h3 className="font-semibold text-slate-900 mb-2">{faq.q}</h3>
-              <p className="text-slate-600 text-sm">{faq.a}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-    </>
+    </section>
   );
-}
+};
+
+export default Contact;

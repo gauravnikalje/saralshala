@@ -132,7 +132,7 @@ export default function EnquiryForm() {
   return (
     <section
       id="enquiry"
-      className="bg-gradient-to-b from-white to-blue-50 py-16 px-4 md:py-24"
+      className="bg-white py-16 px-4 md:py-24"
     >
       <div className="container mx-auto max-w-4xl">
         {/* Section Header */}

@@ -23,8 +23,8 @@ export default function MissionVision() {
       description:
         "To provide holistic, values-based education that nurtures young minds, develops critical thinking, and prepares students to become responsible global citizens who contribute positively to society.",
       bgColor: "bg-blue-50",
-      borderColor: "border-blue-600",
-      iconColor: "text-blue-600",
+      borderColor: "border-primary-blue",
+      iconColor: "text-primary-blue",
     },
     {
       id: 2,
@@ -52,9 +52,9 @@ export default function MissionVision() {
       ),
       description:
         "To be recognized as a leading educational institution in the region, known for academic excellence, innovative teaching methodologies, and producing well-rounded individuals equipped for the challenges of tomorrow.",
-      bgColor: "bg-orange-50",
-      borderColor: "border-orange-500",
-      iconColor: "text-orange-600",
+      bgColor: "bg-blue-50",
+      borderColor: "border-primary-blue",
+      iconColor: "text-primary-blue",
     },
     {
       id: 3,
@@ -76,24 +76,24 @@ export default function MissionVision() {
       ),
       description:
         "Integrity, Excellence, Respect, Innovation, and Compassion form the cornerstone of our educational philosophy. We instill these values in every student, fostering an environment of mutual respect, continuous learning, and ethical behavior.",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-600",
-      iconColor: "text-green-600",
+      bgColor: "bg-blue-50",
+      borderColor: "border-primary-blue",
+      iconColor: "text-primary-blue",
     },
   ];
 
   return (
     <section
       id="mission-vision"
-      className="bg-gradient-to-b from-slate-50 to-white py-16 px-4 md:py-24"
+      className="bg-white py-16 px-4 md:py-24"
     >
       <div className="container mx-auto max-w-6xl">
         {/* Section Header */}
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-blue-900 md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold text-primary-text md:text-4xl lg:text-5xl">
             Our Mission, Vision & Values
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          <p className="mx-auto max-w-2xl text-lg text-secondary-text">
             Guiding principles that drive our commitment to excellence in
             education and holistic student development
           </p>
@@ -104,17 +104,17 @@ export default function MissionVision() {
           {values.map((value) => (
             <Card
               key={value.id}
-              className={`flex flex-col items-center border-t-4 ${value.borderColor} ${value.bgColor} text-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl`}
+              className={`flex flex-col items-center border-t-4 ${value.borderColor} ${value.bgColor} text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl`}
             >
               <div
-                className={`mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg ${value.iconColor}`}
+                className={`mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-base-white shadow-lg ${value.iconColor}`}
               >
                 {value.icon}
               </div>
-              <h3 className="mb-3 text-2xl font-bold text-gray-800">
+              <h3 className="mb-3 text-2xl font-bold text-primary-text">
                 {value.title}
               </h3>
-              <p className="leading-relaxed text-gray-700">
+              <p className="leading-relaxed text-secondary-text">
                 {value.description}
               </p>
             </Card>
@@ -123,7 +123,7 @@ export default function MissionVision() {
 
         {/* Call to Action */}
         <div className="mt-12 text-center">
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-secondary-text">
             Join us in our journey towards educational excellence
           </p>
         </div>

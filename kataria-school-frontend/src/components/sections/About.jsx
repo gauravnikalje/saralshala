@@ -1,22 +1,19 @@
+import { useTranslation } from 'react-i18next';
 import Card from "../ui/Card";
 
 export default function About() {
+  const { t } = useTranslation();
+
   return (
-    <section 
-      id="about" 
-      className="px-4 py-16 md:py-24"
-      style={{ background: 'var(--section-gradient)' }}
-    >
+    <section id="about" className="bg-white py-16 px-4 md:py-24">
       <div className="container mx-auto max-w-6xl">
         {/* Section Header */}
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold text-blue-900 md:text-4xl lg:text-5xl">
-            About Our School
+            {t('aboutSchool.title')}
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi has nurtured young minds for more
-            than 20 years with a commitment to academic excellence, values-based
-            education, and co-curricular growth.
+            {t('aboutSchool.description')}
           </p>
         </div>
 
@@ -37,37 +34,28 @@ export default function About() {
           <div className="order-1 flex flex-col justify-center space-y-6 md:order-2">
             <Card className="border-l-4 border-blue-600 bg-blue-50">
               <h3 className="mb-3 text-xl font-semibold text-blue-900">
-                Our Heritage
+                {t('aboutSchool.heritage.title')}
               </h3>
               <p className="leading-relaxed text-gray-700">
-                Located in Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801, Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi has
-                been a beacon of quality education for over two decades. We provide
-                a nurturing environment where students develop academically,
-                socially, and emotionally.
+                {t('aboutSchool.heritage.description')}
               </p>
             </Card>
 
             <Card className="border-l-4 border-orange-500 bg-orange-50">
               <h3 className="mb-3 text-xl font-semibold text-orange-900">
-                Our Approach
+                {t('aboutSchool.approach.title')}
               </h3>
               <p className="leading-relaxed text-gray-700">
-                We blend traditional values with modern teaching methodologies,
-                ensuring that every student receives personalized attention and a
-                well-rounded education that prepares them for the challenges of
-                tomorrow.
+                {t('aboutSchool.approach.description')}
               </p>
             </Card>
 
             <Card className="border-l-4 border-green-600 bg-green-50">
               <h3 className="mb-3 text-xl font-semibold text-green-900">
-                Our Community
+                {t('aboutSchool.community.title')}
               </h3>
               <p className="leading-relaxed text-gray-700">
-                With a vibrant community of dedicated teachers, supportive parents,
-                and enthusiastic students, we create a collaborative learning
-                environment where every child can thrive and reach their full
-                potential.
+                {t('aboutSchool.community.description')}
               </p>
             </Card>
           </div>
@@ -94,11 +82,10 @@ export default function About() {
               </div>
             </div>
             <h4 className="mb-2 text-lg font-semibold text-gray-800">
-              Comprehensive Curriculum
+              {t('aboutSchool.highlights.curriculum.title')}
             </h4>
             <p className="text-sm text-gray-600">
-              Aligned with CBSE & State Board standards, enriched with
-              co-curricular activities
+              {t('aboutSchool.highlights.curriculum.description')}
             </p>
           </Card>
 
@@ -121,11 +108,10 @@ export default function About() {
               </div>
             </div>
             <h4 className="mb-2 text-lg font-semibold text-gray-800">
-              Experienced Faculty
+              {t('aboutSchool.highlights.faculty.title')}
             </h4>
             <p className="text-sm text-gray-600">
-              Dedicated teachers committed to each student's academic and personal
-              growth
+              {t('aboutSchool.highlights.faculty.description')}
             </p>
           </Card>
 
@@ -148,11 +134,10 @@ export default function About() {
               </div>
             </div>
             <h4 className="mb-2 text-lg font-semibold text-gray-800">
-              Modern Infrastructure
+              {t('aboutSchool.highlights.infrastructure.title')}
             </h4>
             <p className="text-sm text-gray-600">
-              Well-equipped classrooms, labs, and facilities to support holistic
-              learning
+              {t('aboutSchool.highlights.infrastructure.description')}
             </p>
           </Card>
         </div>

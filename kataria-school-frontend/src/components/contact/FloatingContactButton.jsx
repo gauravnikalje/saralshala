@@ -12,7 +12,7 @@ export default function FloatingContactButton() {
     // Clear any existing timeout to prevent premature hiding
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
-      setHoverTimeout(null);
+      setHoverTimeout(1000);
     }
     setIsFormVisible(true);
   };
@@ -23,7 +23,7 @@ export default function FloatingContactButton() {
     if (!isMouseOverForm && !isFormActive) {
       const timeout = setTimeout(() => {
         setIsFormVisible(false);
-      }, 1000); // 1 second delay for better usability
+      }, 2000); // 2 seconds delay as requested
       setHoverTimeout(timeout);
     }
   };
@@ -44,7 +44,7 @@ export default function FloatingContactButton() {
     if (!isMouseOverTab && !isFormActive) {
       const timeout = setTimeout(() => {
         setIsFormVisible(false);
-      }, 1000); // 1 second delay for better usability
+      }, 2000); // 2 seconds delay as requested
       setHoverTimeout(timeout);
     }
   };
@@ -64,7 +64,7 @@ export default function FloatingContactButton() {
     if (!isMouseOverTab && !isMouseOverForm) {
       const timeout = setTimeout(() => {
         setIsFormVisible(false);
-      }, 1000);
+      }, 2000); // 2 seconds delay as requested
       setHoverTimeout(timeout);
     }
   };
@@ -84,6 +84,27 @@ export default function FloatingContactButton() {
     setIsFormActive(false);
   };
 
+  const HANDLE_FORM_SUBMIT = (e) => {
+    e.preventDefault();
+    // Add your form submission logic here
+    console.log('Form submitted:', { name: e.target.name?.value, email: e.target.email?.value, message: e.target.message?.value });
+    // Reset form and close
+    e.target.reset();
+    setIsFormVisible(false);
+    setIsFormActive(false);
+  };
+
+  const HANDLE_KEY_PRESS = (e) => {
+    if (e.key === 'Enter' && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+      // Submit form when Enter is pressed in any input field
+      e.preventDefault();
+      const form = e.target.closest('form');
+      if (form) {
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      }
+    }
+  };
+
   return (
     <>
       {/* Professional Vertical Contact Tab with Form Container */}
@@ -93,9 +114,9 @@ export default function FloatingContactButton() {
           onClick={handleTabClick}
           onMouseEnter={handleTabMouseEnter}
           onMouseLeave={handleTabMouseLeave}
-          className="flex h-32 w-10 cursor-pointer items-center justify-center rounded-l-lg bg-blue-900 shadow-lg transition-all duration-300 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="flex h-32 w-10 cursor-pointer items-center justify-center rounded-l-lg bg-blue-900 shadow-lg transition-all duration-300 hover:bg-blue-900/90 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2"
           aria-label="Quick Contact Form"
-          style={{ 
+          style={{
             writingMode: 'vertical-rl',
             textOrientation: 'mixed'
           }}
@@ -107,21 +128,24 @@ export default function FloatingContactButton() {
 
         {/* Slide-out Contact Form */}
         <div
-          className={`absolute right-full top-0 mr-2 transition-all duration-500 ${
-            isFormVisible 
-              ? 'translate-x-0 opacity-100' 
-              : 'translate-x-full opacity-0 pointer-events-none'
-          }`}
+          className={`absolute right-full top-0 mr-2 transition-all duration-500 ${isFormVisible
+            ? 'translate-x-0 opacity-100'
+            : 'translate-x-full opacity-0 pointer-events-none'
+            }`}
           onMouseEnter={handleFormMouseEnter}
           onMouseLeave={handleFormMouseLeave}
         >
-          <div className="w-80 rounded-lg bg-white p-6 shadow-2xl">
+          <div
+            className="w-80 rounded-lg bg-white p-6 shadow-2xl"
+            onMouseEnter={() => setIsFormActive(true)}
+            onMouseLeave={() => setIsFormActive(false)}
+          >
             {/* Form Header */}
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-slate-900">Quick Contact</h3>
+              <h3 className="text-lg font-bold text-primary-text">Quick Contact</h3>
               <button
                 onClick={closeForm}
-                className="rounded-md p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="rounded-md p-1 text-secondary-text transition-colors hover:bg-base-light-gray hover:text-primary-text focus:outline-none focus:ring-2 focus:ring-blue-900"
                 aria-label="Close form"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,52 +155,59 @@ export default function FloatingContactButton() {
             </div>
 
             {/* Simple Contact Form */}
-            <form className="space-y-4" onBlur={handleFormBlur}>
+            <form
+              className="space-y-4"
+              onBlur={handleFormBlur}
+              onSubmit={HANDLE_FORM_SUBMIT}
+              onKeyDown={HANDLE_KEY_PRESS}
+              onMouseEnter={() => setIsFormActive(true)}
+              onMouseLeave={() => setIsFormActive(false)}
+            >
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">
+                <label className="mb-1 block text-sm font-medium text-primary-text">
                   Name
                 </label>
                 <input
                   type="text"
                   onFocus={handleFormFocus}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  className="w-full rounded-lg border border-secondary-text/40 px-3 py-2 text-sm text-primary-text shadow-sm transition focus:border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900/50"
                   placeholder="Your name"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">
+                <label className="mb-1 block text-sm font-medium text-primary-gray">
                   Email
                 </label>
                 <input
                   type="email"
                   onFocus={handleFormFocus}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  className="w-full rounded-lg border border-secondary-gray/50 px-3 py-2 text-sm text-primary-gray shadow-sm transition focus:border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900/50"
                   placeholder="your.email@example.com"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">
+                <label className="mb-1 block text-sm font-medium text-primary-gray">
                   Message
                 </label>
                 <textarea
                   rows={3}
                   onFocus={handleFormFocus}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  className="w-full rounded-lg border border-secondary-gray/50 px-3 py-2 text-sm text-primary-gray shadow-sm transition focus:border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900/50"
                   placeholder="How can we help you?"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-full rounded-lg bg-accent-red px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-red/90 focus:outline-none focus:ring-2 focus:ring-accent-red focus:ring-offset-2"
               >
                 Send Message
               </button>
             </form>
 
-            <p className="mt-3 text-center text-xs text-slate-500">
+            <p className="mt-3 text-center text-xs text-secondary-gray">
               We'll respond within 24 hours
             </p>
           </div>

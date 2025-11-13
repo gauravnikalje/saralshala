@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import Card from "../ui/Card";
 
 export default function PrincipalMessage() {
+  const { t } = useTranslation();
+
   return (
     <section
       id="principal-message"
@@ -10,10 +13,10 @@ export default function PrincipalMessage() {
         {/* Section Header */}
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold text-blue-900 md:text-4xl lg:text-5xl">
-            A Message from Our Principal
+            {t('principalMessage.title')}
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Words of wisdom and vision for our school community
+            {t('principalMessage.description')}
           </p>
         </div>
 
@@ -39,51 +42,40 @@ export default function PrincipalMessage() {
             <Card className="border-l-4 border-blue-600 bg-gradient-to-r from-blue-50 to-white">
               <div className="mb-4">
                 <h3 className="text-2xl font-bold text-blue-900">
-                  Mrs. Pooja Madam
+                  {t('principalMessage.principalName')}
                 </h3>
                 <p className="text-sm font-medium text-orange-600">
-                  Principal
+                  {t('principalMessage.position')}
                 </p>
               </div>
 
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p className="text-lg font-medium text-gray-900">
-                  Dear Parents, Students, and Well-wishers,
+                  {t('principalMessage.message.greeting')}
                 </p>
 
                 <p>
-                  It is with immense pride and pleasure that I welcome you to
-                  Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi. For over two decades, our
-                  institution has been committed to providing quality education
-                  that goes beyond textbooks and examinations.
+                  {t('principalMessage.message.paragraph1')}
                 </p>
 
                 <p>
-                  Our philosophy is rooted in the belief that every child is
-                  unique, gifted with individual talents and capabilities. Our
-                  dedicated team of educators works tirelessly to nurture these
-                  qualities, ensuring that each student receives personalized
-                  attention and guidance.
+                  {t('principalMessage.message.paragraph2')}
                 </p>
 
                 <p>
-                  We strive to create an environment where academic excellence
-                  is balanced with character development, where innovation meets
-                  tradition, and where students are prepared not just for
-                  examinations, but for life itself.
+                  {t('principalMessage.message.paragraph3')}
                 </p>
 
                 <p className="font-semibold text-blue-900">
-                  Together, let us build a future where our children emerge as
-                  responsible, compassionate, and successful global citizens.
+                  {t('principalMessage.message.closing')}
                 </p>
               </div>
 
               {/* Signature */}
               <div className="mt-6 pt-6 border-t border-gray-200">
-                <p className="font-semibold text-gray-900">Warm regards,</p>
+                <p className="font-semibold text-gray-900">{t('principalMessage.signature.greeting')}</p>
                 <p className="mt-1 text-2xl font-bold text-blue-900 italic">
-                  Mrs. Pooja Madam
+                  {t('principalMessage.signature.name')}
                 </p>
               </div>
             </Card>

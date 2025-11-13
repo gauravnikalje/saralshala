@@ -1,0 +1,233 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "success": "Success",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "close": "Close",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous",
+        "search": "Search",
+        "filter": "Filter",
+        "sort": "Sort"
+    },
+    "navigation": {
+        "home": "Home",
+        "about": "About",
+        "academics": "Academics",
+        "admissions": "Admissions",
+        "contact": "Contact",
+        "login": "Login",
+        "logout": "Logout",
+        "toggleNavigation": "Toggle navigation"
+    },
+    "header": {
+        "schoolName": "Late. Surajbai Kisandas Kataria English Medium School and Jr. College Kalewadi",
+        "schoolInfo": "Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801 · Affiliated to CBSE & State Board"
+    },
+    "hero": {
+        "welcomeTo": "Welcome to",
+        "schoolName": "Late. Surajbai Kisandas Kataria English Medium School and Jr. College Kalewadi",
+        "tagline": "Empowering young minds with holistic education, strong values, and a future-ready mindset.",
+        "affiliation": "Affiliated to CBSE & State Board",
+        "admissions2025": "Admissions 2025",
+        "admissionsHighlight": "Experience Excellence in Education",
+        "admissionsDescription": "Schedule a personalised campus tour and meet our faculty to discover the SKK advantage.",
+        "applyForAdmission": "Apply for Admission",
+        "learnMore": "Learn More",
+        "bookAVisit": "Book a Visit",
+        "heroTitle": "Welcome to\nLate. Surajbai Kisandas Kataria English Medium School and Jr. College Kalewadi",
+        "enquiryAboutAdmission": "Enquire About Admission",
+        "stats": {
+            "preIncubators": "Pre-Incubators",
+            "happyStudents": "Happy Students",
+            "successRate": "Success Rate"
+        }
+    },
+    "about": {
+        "title": "About Us",
+        "description": "Learn about our mission, vision, and commitment to providing excellent education."
+    },
+    "academics": {
+        "title": "Academics",
+        "description": "Explore our comprehensive academic programs and curriculum."
+    },
+    "admissions": {
+        "title": "Admissions",
+        "description": "Information about our admission process and requirements."
+    },
+    "contact": {
+        "title": "Contact Us",
+        "description": "Get in touch with us for any inquiries or questions."
+    },
+    "buttons": {
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "tertiary": "Tertiary"
+    },
+    "forms": {
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "message": "Message",
+        "subject": "Subject",
+        "placeholders": {
+            "name": "Enter your name",
+            "email": "Enter your email",
+            "phone": "Enter your phone number",
+            "message": "Enter your message",
+            "subject": "Enter subject"
+        },
+        "validation": {
+            "required": "This field is required",
+            "email": "Please enter a valid email address",
+            "phone": "Please enter a valid phone number"
+        }
+    },
+    "errors": {
+        "general": "Something went wrong. Please try again.",
+        "network": "Network error. Please check your connection.",
+        "notFound": "The requested resource was not found.",
+        "unauthorized": "You are not authorized to access this resource."
+    },
+    "messages": {
+        "saved": "Changes saved successfully",
+        "deleted": "Item deleted successfully",
+        "sent": "Message sent successfully",
+        "subscribed": "Successfully subscribed to the newsletter"
+    },
+    "rankers": {
+        "title": "Top Rankers",
+        "viewGallery": "View Gallery",
+        "rank": "Rank",
+        "student": "Student",
+        "class": "Class",
+        "percentage": "Percentage"
+    },
+    "aboutSchool": {
+        "title": "About Our School",
+        "description": "Late. Surajbai Kisandas Kataria English Medium School and Jr. College Kalewadi has nurtured young minds for more than 20 years with a commitment to academic excellence, values-based education, and co-curricular growth.",
+        "heritage": {
+            "title": "Our Heritage",
+            "description": "Located in Kalewadi Choufula, Kalewadi Taluka: Daund District: Pune, 431801, Late. Surajbai Kisandas Kataria English Medium School and Jr. College Kalewadi has been a beacon of quality education for over two decades. We provide a nurturing environment where students develop academically, socially, and emotionally."
+        },
+        "approach": {
+            "title": "Our Approach",
+            "description": "We blend traditional values with modern teaching methodologies, ensuring that every student receives personalized attention and a well-rounded education that prepares them for the challenges of tomorrow."
+        },
+        "community": {
+            "title": "Our Community",
+            "description": "With a vibrant community of dedicated teachers, supportive parents, and enthusiastic students, we create a collaborative learning environment where every child can thrive and reach their full potential."
+        },
+        "highlights": {
+            "curriculum": {
+                "title": "Comprehensive Curriculum",
+                "description": "Aligned with CBSE & State Board standards, enriched with co-curricular activities"
+            },
+            "faculty": {
+                "title": "Experienced Faculty",
+                "description": "Dedicated teachers committed to each student's academic and personal growth"
+            },
+            "infrastructure": {
+                "title": "Modern Infrastructure",
+                "description": "Well-equipped classrooms, labs, and facilities to support holistic learning"
+            }
+        }
+    },
+    "principalMessage": {
+        "title": "A Message from Our Principal",
+        "description": "Words of wisdom and vision for our school community",
+        "principalName": "Mrs. Pooja Madam",
+        "position": "Principal",
+        "message": {
+            "greeting": "Dear Parents, Students, and Well-wishers,",
+            "paragraph1": "It is with immense pride and pleasure that I welcome you to Late. Surajbai Kisandas Kataria English Medium School and Jr. College Kalewadi. For over two decades, our institution has been committed to providing quality education that goes beyond textbooks and examinations.",
+            "paragraph2": "Our philosophy is rooted in the belief that every child is unique, gifted with individual talents and capabilities. Our dedicated team of educators works tirelessly to nurture these qualities, ensuring that each student receives personalized attention and guidance.",
+            "paragraph3": "We strive to create an environment where academic excellence is balanced with character development, where innovation meets tradition, and where students are prepared not just for examinations, but for life itself.",
+            "closing": "Together, let us build a future where our children emerge as responsible, compassionate, and successful global citizens."
+        },
+        "qualifications": {
+            "education": {
+                "title": "Ph.D. in Education",
+                "subtitle": "University of Pune"
+            },
+            "experience": {
+                "title": "25+ Years Experience",
+                "subtitle": "Educational Leadership"
+            }
+        },
+        "signature": {
+            "greeting": "Warm regards,",
+            "name": "Mrs. Pooja Madam"
+        }
+    },
+    "testimonials": {
+        "title": "What Parents Say About Us",
+        "description": "Hear from our parent community about their experiences with Kataria English Medium School",
+        "cta": {
+            "text": "Join our growing family of satisfied parents",
+            "button": "Enquire About Admission"
+        },
+        "navigation": {
+            "previous": "Previous testimonial",
+            "next": "Next testimonial",
+            "goTo": "Go to testimonial {{index}}"
+        },
+        "sampleTestimonials": [
+            {
+                "name": "Mrs. Priya Sharma",
+                "role": "Parent of Grade 8 Student",
+                "text": "Kataria School has been instrumental in shaping my daughter's academic journey. The teachers are incredibly dedicated, and the holistic approach to education has helped her develop both academically and personally. I'm extremely satisfied with the school's commitment to excellence."
+            },
+            {
+                "name": "Mr. Amit Patil",
+                "role": "Parent of Grade 6 Student",
+                "text": "The infrastructure and facilities at Kataria School are outstanding. What impressed me most is the personalized attention each student receives. My son has shown remarkable improvement in his confidence and academic performance since joining this institution."
+            },
+            {
+                "name": "Mrs. Sunita Deshmukh",
+                "role": "Parent of Grade 10 Student",
+                "text": "As a parent, I couldn't ask for a better school. The values-based education system, combined with modern teaching methods, has prepared my child for future challenges. The faculty goes above and beyond to ensure every student succeeds."
+            },
+            {
+                "name": "Mr. Rajesh Kale",
+                "role": "Parent of Grade 5 Student",
+                "text": "The school maintains an excellent balance between academics and extracurricular activities. My daughter has discovered her passion for science and arts here. The supportive environment created by teachers and staff makes learning enjoyable."
+            },
+            {
+                "name": "Mrs. Anjali Joshi",
+                "role": "Parent of Grade 7 Student",
+                "text": "Kataria School stands out for its commitment to individual student growth. The regular parent-teacher interactions keep us informed about our child's progress. The safe and nurturing environment gives us complete peace of mind."
+            }
+        ]
+    },
+    "footer": {
+        "copyright": "© 2024 SKK School. All rights reserved.",
+        "quickLinks": "Quick Links",
+        "followUs": "Follow Us",
+        "contactInfo": "Contact Information",
+        "links": {
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Use",
+            "support": "Support"
+        },
+        "navigation": {
+            "about": "About",
+            "academics": "Academics"
+        },
+        "subLinks": {
+            "ourStory": "Our Story",
+            "mission": "Mission & Vision",
+            "leadership": "Leadership",
+            "curriculum": "Curriculum",
+            "admissions": "Admissions",
+            "studentLife": "Student Life"
+        },
+        "description": "Empowering young minds with holistic education, strong values, and a future-ready mindset for over two decades."
+    }
+}

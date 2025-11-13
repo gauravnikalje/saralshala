@@ -48,7 +48,7 @@ export default function ContactModal({ isOpen, onClose }) {
     await new Promise(resolve => setTimeout(resolve, 1000));
     console.log('Quick contact form submitted:', formData);
     setIsSubmitting(false);
-    
+
     // Reset form and close modal
     setFormData({ name: '', email: '', phone: '', message: '' });
     onClose();
@@ -64,13 +64,13 @@ export default function ContactModal({ isOpen, onClose }) {
 
       {/* Modal */}
       <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform">
-        <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl">
+        <div className="w-full max-w-md rounded-2xl bg-base-white p-6 shadow-[0_18px_50px_rgba(0,0,0,0.15)]">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-xl font-bold text-slate-900">Quick Contact Form</h2>
+            <h2 className="text-xl font-bold text-primary-text">Quick Contact Form</h2>
             <button
               onClick={onClose}
-              className="rounded-md p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="rounded-md p-1 text-secondary-text transition-colors hover:bg-base-light-gray hover:text-primary-text focus:outline-none focus:ring-2 focus:ring-blue-900"
               aria-label="Close modal"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@ export default function ContactModal({ isOpen, onClose }) {
             />
 
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-700">
+              <label className="text-sm font-medium text-primary-text">
                 Your Message <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -123,9 +123,8 @@ export default function ContactModal({ isOpen, onClose }) {
                 onChange={handleChange}
                 rows={4}
                 placeholder="How can we help you?"
-                className={`w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 ${
-                  errors.message ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''
-                }`}
+                className={`w-full rounded-lg border border-secondary-text/40 px-3 py-2 text-sm text-primary-text shadow-sm transition focus:border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900/40 ${errors.message ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''
+                  }`}
               />
               {errors.message && (
                 <p className="text-xs text-red-500">{errors.message}</p>
@@ -135,7 +134,7 @@ export default function ContactModal({ isOpen, onClose }) {
             <Button
               type="submit"
               variant="primary"
-              className="w-full bg-purple-600 hover:bg-purple-700 focus:ring-purple-500"
+              className="w-full bg-primary-text text-base-white hover:bg-primary-text/90"
               isLoading={isSubmitting}
               loadingText="Sending..."
             >
@@ -143,7 +142,7 @@ export default function ContactModal({ isOpen, onClose }) {
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-xs text-slate-500">
+          <p className="mt-4 text-center text-xs text-secondary-text">
             We'll get back to you within 24 hours
           </p>
         </div>

@@ -1,9 +1,11 @@
-const baseClasses = "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-fast ease-custom focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 transform hover:-translate-y-0.5";
+const baseClasses = "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-300 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 transform hover:-translate-y-1 hover:shadow-lg active:translate-y-0";
 
 const variantClasses = {
-  primary: "bg-gold text-charcoal-dark hover:bg-gold-deep shadow-level-2 focus-visible:outline-gold",
-  secondary: "bg-ivory text-charcoal-dark border-2 border-gold hover:bg-gold-light-hover focus-visible:outline-gold",
-  ghost: "text-gold-deep bg-transparent hover:bg-gold hover:text-white focus-visible:outline-gold",
+  primary: "bg-accent-gold text-white border-2 border-accent-gold hover:bg-transparent hover:text-accent-gold hover:shadow-[0_8px_25px_rgba(255,193,7,0.3)] focus-visible:outline-accent-gold backdrop-blur-sm",
+  "primary-light": "bg-white text-primary-navy border-2 border-white hover:bg-transparent hover:text-white hover:shadow-[0_8px_25px_rgba(255,255,255,0.2)] focus-visible:outline-white backdrop-blur-sm",
+  secondary: "bg-text-light text-brand-primary border-2 border-brand-primary hover:bg-brand-secondary hover:text-brand-primary hover:border-brand-secondary hover:shadow-[0_8px_25px_rgba(59,130,246,0.2)] focus-visible:outline-brand-primary backdrop-blur-sm",
+  ghost: "text-brand-primary bg-transparent border border-transparent hover:border-brand-secondary hover:bg-brand-secondary/10 hover:shadow-[0_4px_15px_rgba(59,130,246,0.1)] focus-visible:outline-brand-secondary",
+  outline: "bg-transparent text-brand-primary border border-brand-primary hover:bg-brand-primary hover:text-text-light hover:shadow-[0_8px_25px_rgba(59,130,246,0.2)] focus-visible:outline-brand-primary backdrop-blur-sm",
 };
 
 const sizeClasses = {
