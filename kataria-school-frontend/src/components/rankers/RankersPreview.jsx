@@ -28,15 +28,15 @@ export default function RankersPreview() {
     fetchRankers()
       .then(data => {
         // Check if we got the minimal fallback data (indicating both API and file failed)
-        const isFallbackData = data.classes && data.classes.length === 1 && 
-                              data.classes[0].rankers && 
-                              data.classes[0].rankers.length === 1 &&
-                              data.classes[0].rankers[0].name === "Sample Student";
-        
+        const isFallbackData = data.classes && data.classes.length === 1 &&
+          data.classes[0].rankers &&
+          data.classes[0].rankers.length === 1 &&
+          data.classes[0].rankers[0].name === "Sample Student";
+
         if (isFallbackData) {
           setError("Using fallback data - server unavailable");
         }
-        
+
         // Get top ranker from first 3 classes that have rankers
         const topRankers = data.classes
           .filter(c => c.rankers && c.rankers.length > 0)
@@ -73,11 +73,16 @@ export default function RankersPreview() {
           </p>
         </div>
       )}
-      
+
       {!loading && (
         <div className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {previewData.map(({ classNumber, topRanker }) => (
-            <div key={classNumber} className={cardBaseStyles}>
+            <Link
+              key={classNumber}
+              to="/rankers"
+              className={`${cardBaseStyles} cursor-pointer hover:scale-105 transition-transform duration-200`}
+              aria-label={`View rankers for Class ${classNumber}`}
+            >
               {topRanker ? (
                 <>
                   <p className="mb-2 sm:mb-3 md:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-wider text-brand-primary/80">Class {classNumber}</p>
@@ -93,14 +98,14 @@ export default function RankersPreview() {
               ) : (
                 <p className="text-xs sm:text-sm">No ranker data</p>
               )}
-            </div>
+            </Link>
           ))}
         </div>
       )}
 
       <footer className="mt-12">
-        <Link 
-          to="/rankers" 
+        <Link
+          to="/rankers"
           className="inline-block text-brand-primary font-semibold transition-transform hover:scale-105 hover:text-brand-secondary"
         >
           View All Rankers &rarr;

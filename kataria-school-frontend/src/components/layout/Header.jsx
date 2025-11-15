@@ -54,35 +54,34 @@ export default function Header() {
 
         {/* Right side - Desktop Navigation (positioned absolutely to the right) */}
         <div id="primary-navigation" className="hidden lg:flex lg:items-center lg:gap-8 absolute right-4 md:right-6 lg:right-8">
-          <ul className="flex items-center gap-8 text-sm font-semibold text-white">
+          <ul className="flex items-center gap-6 sm:gap-7 md:gap-8 text-sm font-semibold text-white">
             {navLinks.map((link, index) => (
               <li key={link.label} className="group">
                 <Link
                   to={link.href}
-                  className="relative overflow-hidden px-3 py-2 rounded-lg transition-all duration-300 ease-in-out hover:text-accent-gold hover:transform hover:scale-110 hover:-translate-y-1"
+                  className="relative overflow-hidden px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ease-out hover:text-accent-gold hover:transform hover:scale-105 hover:-translate-y-0.5"
                   style={{
-                    animationDelay: `${index * 100}ms`
+                    animationDelay: `${index * 50}ms`
                   }}
                 >
                   {/* Animated Background */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-accent-gold/0 via-accent-gold/10 to-accent-gold/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent-gold/0 via-accent-gold/10 to-accent-gold/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out"></div>
 
                   {/* Animated Underline */}
-                  <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 ease-out origin-left"></div>
 
                   {/* Sliding Text Effect */}
-                  <span className="relative z-10 block transform group-hover:-translate-y-1 transition-transform duration-300">
+                  <span className="relative z-10 block transform group-hover:-translate-y-0.5 transition-transform duration-200 ease-out">
                     {link.label}
                   </span>
 
                   {/* Hover Glow Effect */}
-                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 bg-accent-gold/10 blur-sm transition-opacity duration-300 -z-10"></div>
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 bg-accent-gold/10 blur-sm transition-opacity duration-200 ease-out -z-10"></div>
                 </Link>
               </li>
             ))}
           </ul>
           <div className="flex items-center gap-4">
-            <LanguageToggle />
             <a
               href="/legacy/login.html"
               style={{ textDecoration: 'none' }}
@@ -91,7 +90,7 @@ export default function Header() {
                 window.location.href = '/legacy/login.html';
               }}
             >
-              <Button variant="primary-light" size="sm" className="shadow-lg">
+              <Button variant="primary-light" size="sm" className="shadow-lg transition-all duration-200 ease-out hover:scale-105 hover:shadow-xl">
                 {t('navigation.login')}
               </Button>
             </a>
@@ -138,23 +137,23 @@ export default function Header() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="group relative overflow-hidden rounded-lg px-4 py-3 transition-all duration-300 ease-in-out hover:bg-white/20 hover:text-accent-gold"
+                className="group relative overflow-hidden rounded-lg px-4 py-3 transition-all duration-200 ease-out hover:bg-white/20 hover:text-accent-gold"
                 onClick={() => setIsMenuOpen(false)}
                 style={{
-                  animationDelay: `${index * 100}ms`
+                  animationDelay: `${index * 50}ms`
                 }}
               >
                 {/* Sliding Background Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-accent-gold/0 via-accent-gold/20 to-accent-gold/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-accent-gold/0 via-accent-gold/20 to-accent-gold/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-300 ease-out"></div>
 
                 {/* Sliding Text Effect */}
                 <div className="relative z-10 flex items-center justify-between">
-                  <span className="block transform group-hover:translate-x-1 transition-transform duration-300">
+                  <span className="block transform group-hover:translate-x-1 transition-transform duration-200 ease-out">
                     {link.label}
                   </span>
                   {/* Animated Arrow */}
                   <svg
-                    className="h-4 w-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300"
+                    className="h-4 w-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200 ease-out"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -164,19 +163,16 @@ export default function Header() {
                 </div>
 
                 {/* Hover Glow */}
-                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 bg-accent-gold/10 blur-sm transition-opacity duration-300 -z-10"></div>
+                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 bg-accent-gold/10 blur-sm transition-opacity duration-200 ease-out -z-10"></div>
               </Link>
             ))}
-            <div className="flex items-center gap-4 pt-6 border-t border-white/20">
-              <div className="flex-1">
-                <LanguageToggle />
-              </div>
+            <div className="flex items-center gap-3">
               <a
                 href="/legacy/login.html"
                 className="flex-1"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Button variant="primary-light" size="md" className="w-full shadow-lg">
+                <Button variant="primary-light" size="md" className="w-full shadow-lg transition-all duration-200 ease-out hover:scale-105 hover:shadow-xl">
                   {t('navigation.login')}
                 </Button>
               </a>
