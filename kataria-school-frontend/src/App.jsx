@@ -8,7 +8,7 @@ import Admissions from "./pages/Admissions";
 import Contact from "./pages/Contact";
 import FloatingContactButton from "./components/contact/FloatingContactButton";
 import RankersPage from "./pages/RankersPage";
-import CornerLanguageToggle from "./components/ui/CornerLanguageToggle";
+import FixedLanguageToggle from "./components/ui/FixedLanguageToggle";
 
 export default function App() {
   return (
@@ -29,9 +29,7 @@ export default function App() {
           <Footer />
         </div>
         <FloatingContactButton />
-        <div className="fixed bottom-4 right-4 z-40">
-          <CornerLanguageToggle />
-        </div>
+        <FixedLanguageToggle />
       </div>
     </Router>
   );

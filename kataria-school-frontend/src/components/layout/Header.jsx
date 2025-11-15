@@ -31,21 +31,21 @@ export default function Header() {
     >
       <nav className="relative flex items-center justify-between h-full px-2 sm:px-4 md:px-6 lg:px-8">
         {/* School Logo and Name - Absolutely Left Aligned */}
-        <div className="absolute left-2 sm:left-4 md:left-6 lg:left-8 z-10 flex-shrink-0 max-w-xs sm:max-w-sm">
-          <Link to="/" className="flex items-center gap-2 sm:gap-3 md:gap-4 transition-all duration-300 hover:opacity-90 hover:scale-105" onClick={handleHomeClick}>
+        <div className="absolute left-2 sm:left-4 md:left-6 lg:left-8 z-10 flex-shrink-0 max-w-[60%] sm:max-w-xs md:max-w-sm">
+          <Link to="/" className="flex items-center gap-1.5 sm:gap-2 md:gap-3 transition-all duration-300 hover:opacity-90 hover:scale-105" onClick={handleHomeClick}>
             <img
               src={SchoolLogo}
               alt={`${t('header.schoolName')} Logo - Professional Educational Institution`}
-              className="flex-shrink-0 drop-shadow-lg w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16"
+              className="flex-shrink-0 drop-shadow-lg w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14"
               style={{
                 objectFit: 'contain'
               }}
             />
-            <div className="flex-1 min-w-0 hidden sm:block">
-              <p className="text-xs sm:text-sm md:text-base font-bold uppercase tracking-wide text-white truncate">
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] xs:text-xs sm:text-sm md:text-base font-bold uppercase tracking-wide text-white whitespace-nowrap overflow-hidden overflow-ellipsis">
                 {t('header.schoolName')}
               </p>
-              <p className="text-xs text-gray-300 truncate hidden md:block">
+              <p className="text-[8px] xs:text-[9px] sm:text-xs text-gray-300 whitespace-nowrap overflow-hidden overflow-ellipsis hidden md:block">
                 {t('header.schoolInfo')}
               </p>
             </div>
