@@ -23,7 +23,7 @@ export default function About() {
           <div className="order-2 md:order-1">
             <div className="overflow-hidden rounded-2xl shadow-lg">
               <img
-                src="https://via.placeholder.com/600x400/1e3a8a/ffffff?text=Kataria+School"
+                src="/assets/20231026_112113.jpg"
                 alt="Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi campus"
                 className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
               />

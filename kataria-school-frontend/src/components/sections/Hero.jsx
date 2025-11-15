@@ -39,7 +39,10 @@ export default function Hero() {
         <img
           src={SchoolLogo}
           alt=""
-          className="absolute inset-0 -translate-y-[25%] m-auto h-auto w-3/5 max-w-2xl object-contain opacity-[0.28]"
+          className="absolute inset-0 m-auto h-auto object-contain opacity-[0.28] 
+                     w-full max-w-[90%] -translate-y-[20%] 
+                     sm:w-4/5 sm:max-w-xl sm:-translate-y-[22%] 
+                     md:w-3/5 md:max-w-2xl md:-translate-y-[25%]"
         />
         <div className="absolute -left-24 -top-24 h-[420px] w-[420px] rounded-full bg-brand-secondary/15 blur-3xl"></div>
         <div className="absolute -bottom-28 -right-28 h-[480px] w-[480px] rounded-full bg-brand-secondary/15 blur-3xl"></div>

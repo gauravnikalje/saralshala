@@ -29,26 +29,23 @@ export default function Header() {
       className="sticky top-0 z-50 shadow-lg backdrop-blur-md bg-opacity-95"
       style={{ backgroundColor: 'var(--color-primary-navy)', height: '72px' }}
     >
-      <nav className="relative flex items-center justify-between h-full px-4 md:px-6 lg:px-8">
+      <nav className="relative flex items-center justify-between h-full px-2 sm:px-4 md:px-6 lg:px-8">
         {/* School Logo and Name - Absolutely Left Aligned */}
-        <div className="absolute left-4 md:left-6 lg:left-8 z-10">
-          <Link to="/" className="flex items-center gap-4 transition-all duration-300 hover:opacity-90 hover:scale-105" onClick={handleHomeClick}>
+        <div className="absolute left-2 sm:left-4 md:left-6 lg:left-8 z-10 flex-shrink-0 max-w-xs sm:max-w-sm">
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 md:gap-4 transition-all duration-300 hover:opacity-90 hover:scale-105" onClick={handleHomeClick}>
             <img
               src={SchoolLogo}
               alt={`${t('header.schoolName')} Logo - Professional Educational Institution`}
-              className="flex-shrink-0 drop-shadow-lg"
+              className="flex-shrink-0 drop-shadow-lg w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16"
               style={{
-                height: '56px',
-                maxWidth: '80px',
-                width: 'auto',
                 objectFit: 'contain'
               }}
             />
-            <div className="flex-1 min-w-0">
-              <p className="text-base font-bold uppercase tracking-wide text-white truncate">
+            <div className="flex-1 min-w-0 hidden sm:block">
+              <p className="text-xs sm:text-sm md:text-base font-bold uppercase tracking-wide text-white truncate">
                 {t('header.schoolName')}
               </p>
-              <p className="text-xs text-gray-300 truncate">
+              <p className="text-xs text-gray-300 truncate hidden md:block">
                 {t('header.schoolInfo')}
               </p>
             </div>
@@ -104,14 +101,14 @@ export default function Header() {
         {/* Mobile Menu Button (Absolutely positioned to the right) */}
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-lg border-2 border-white/30 p-2.5 text-white transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 lg:hidden backdrop-blur-sm absolute right-4 md:right-6 lg:right-8 z-20"
+          className="inline-flex items-center justify-center rounded-lg border-2 border-white/30 p-1.5 sm:p-2 md:p-2.5 text-white transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 lg:hidden backdrop-blur-sm absolute right-2 sm:right-4 md:right-6 lg:right-8 z-20"
           onClick={() => setIsMenuOpen((prev) => !prev)}
           aria-expanded={isMenuOpen}
           aria-controls="primary-navigation"
         >
           <span className="sr-only">{t('navigation.toggleNavigation')}</span>
           <svg
-            className="h-6 w-6 transition-transform duration-300"
+            className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300"
             style={{ transform: isMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
             viewBox="0 0 24 24"
             fill="none"

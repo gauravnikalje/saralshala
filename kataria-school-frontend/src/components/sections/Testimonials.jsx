@@ -10,9 +10,9 @@ export default function Testimonials() {
   const testimonials = t('testimonials.sampleTestimonials', { returnObjects: true });
 
   // Add placeholder images to testimonials
-  const testimonialsWithImages = testimonials.map((testimonial, index) => ({
+  const testimonialsWithImages = testimonials.map((testimonial) => ({
     ...testimonial,
-    image: `https://via.placeholder.com/100/${['3b82f6', 'f97316', '10b981', '8b5cf6', 'ec4899'][index]}/ffffff?text=${testimonial.name.charAt(0)}`,
+    image: "/assets/Logo.png", // Using local logo instead of placeholder
     rating: 5
   }));
 

@@ -27,7 +27,7 @@ export default function PrincipalMessage() {
             <div className="relative">
               <div className="overflow-hidden rounded-2xl border-4 border-blue-100 shadow-xl">
                 <img
-                  src="https://via.placeholder.com/350x400/1e3a8a/ffffff?text=Principal"
+                  src="/assets/20231026_105702.jpg"
                   alt="Principal of Late. Surajbai kisandas kataria English Medium School and Jr. College Kalewadi"
                   className="h-auto w-full object-cover transition-transform duration-300 hover:scale-105"
                 />

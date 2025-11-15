@@ -26,12 +26,17 @@
 /* Smooth scrolling for all navigation */
 html {
   scroll-behavior: smooth;
+  /* Enable momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   font-family: 'Inter', sans-serif;
   color: var(--color-text-dark); /* charcoal */
   background-color: var(--color-base-white); /* light-bg */
+  /* Improve touch scrolling */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -39,5 +44,144 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-dark); /* charcoal-dark */
 }
 
+/* ===== RESPONSIVE DESIGN - MOBILE FIRST ===== */
 
+/* Base mobile styles (320px and up) */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Improve momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Smooth scrolling for all scrollable elements */
+* {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Prevent text from being too small on mobile */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  h2 {
+    font-size: 20px;
+  }
+  
+  h3 {
+    font-size: 18px;
+  }
+}
+
+/* Touch targets - minimum 44x44px for mobile accessibility */
+@media (max-width: 768px) {
+  button, a, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent tap highlight flash on mobile */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Mobile-friendly images and media */
+img, video, picture {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive container padding */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Prevent zoom on input focus (mobile) */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* SVG responsive sizing */
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive text scaling */
+@media (max-width: 480px) {
+  .text-xs { font-size: 12px; }
+  .text-sm { font-size: 13px; }
+  .text-base { font-size: 14px; }
+}
+
+/* No overlapping content on zoom */
+@media (min-zoom: 1.25) {
+  body {
+    overflow-x: auto;
+  }
+}
+
+/* Responsive breakpoints for consistent layout */
+@media (max-width: 320px) {
+  /* Extra small mobile (320px) */
+  .hidden-xs { display: none; }
+}
+
+@media (max-width: 480px) {
+  /* Small mobile (480px) */
+  .hidden-sm { display: none; }
+}
+
+@media (max-width: 640px) {
+  /* Mobile (640px) */
+  .hidden-md { display: none; }
+}
+
+@media (max-width: 768px) {
+  /* Tablet (768px) */
+  .hidden-lg { display: none; }
+}
+
+@media (max-width: 1024px) {
+  /* Small desktop (1024px) */
+  .hidden-xl { display: none; }
+}
+
+@media (min-width: 1025px) {
+  /* Large desktop (1025px+) */
+  .hidden-desktop { display: none; }
+}
 

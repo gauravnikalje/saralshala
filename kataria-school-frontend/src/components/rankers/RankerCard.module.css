@@ -1,29 +1,55 @@
 /* src/components/rankers/RankerCard.module.css */
 .card {
   background: #FFFFFF;
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   border: 1px solid #EDEFF3;
   position: relative;
-  width: 280px;
+  width: 100%;
+  max-width: 100%;
   text-align: center;
-  transition: all 180ms cubic-bezier(.2,.8,.2,1);
+  transition: all 180ms cubic-bezier(.2, .8, .2, 1);
   overflow: visible;
+}
+
+/* Responsive card sizing */
+@media (min-width: 640px) {
+  .card {
+    border-radius: 10px;
+    padding: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    border-radius: 12px;
+    padding: 12px;
+  }
 }
 
 .card:hover,
 .card:focus-within {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
   outline: none;
+}
+
+/* Enhanced hover for larger screens */
+@media (min-width: 768px) {
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-4px) scale(1.02);
+  }
 }
 
 .imageFrame {
   position: relative;
-  border-radius: 8px; /* Inner frame radius */
+  border-radius: 8px;
+  /* Inner frame radius */
   overflow: hidden;
-  background: #FAF8F0; /* Ivory */
+  background: #FAF8F0;
+  /* Ivory */
 }
 
 .photo {
@@ -31,34 +57,72 @@
   display: block;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 8px; /* Match frame radius */
+  border-radius: 8px;
+  /* Match frame radius */
   cursor: pointer;
 }
 
 .badge {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 44px;
-  height: 44px;
+  top: 6px;
+  right: 6px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: #F2C230; /* Gold */
+  background: #F2C230;
+  /* Gold */
   color: #FFFFFF;
   display: grid;
   place-items: center;
   font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 12px rgba(242,194,40,0.25);
+  font-size: 0.7rem;
+  box-shadow: 0 2px 12px rgba(242, 194, 40, 0.25);
   border: 2px solid #FFFFFF;
   z-index: 1;
 }
 
+/* Responsive badge sizing */
+@media (min-width: 640px) {
+  .badge {
+    top: 8px;
+    right: 8px;
+    width: 38px;
+    height: 38px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .badge {
+    top: 10px;
+    right: 10px;
+    width: 44px;
+    height: 44px;
+    font-size: 0.9rem;
+  }
+}
+
 .divider {
   width: 30%;
-  height: 3px;
+  height: 2px;
   background: #EDEFF3;
-  margin: 20px auto 16px;
+  margin: 10px auto 8px;
   border-radius: 2px;
+}
+
+/* Responsive divider sizing */
+@media (min-width: 640px) {
+  .divider {
+    height: 2.5px;
+    margin: 14px auto 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .divider {
+    height: 3px;
+    margin: 20px auto 16px;
+  }
 }
 
 .details {
@@ -67,17 +131,63 @@
 
 .name {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: #1F2326; /* Charcoal Dark */
+  color: #1F2326;
+  /* Charcoal Dark */
   margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .score {
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  color: #4B4F54; /* Charcoal */
+  font-size: 0.65rem;
+  color: #4B4F54;
+  /* Charcoal */
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive text sizing */
+@media (min-width: 640px) {
+  .name {
+    font-size: 0.9rem;
+  }
+  
+  .score {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .name {
+    font-size: 1.1rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+  
+  .score {
+    font-size: 0.9rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+}
+
+@media (min-width: 1024px) {
+  .name {
+    font-size: 1.5rem;
+  }
+  
+  .score {
+    font-size: 1rem;
+  }
 }
 
 .vacant,
@@ -102,10 +212,23 @@
 
 .fallbackInitials {
   font-family: 'Poppins', sans-serif;
-  font-size: 3rem;
+  font-size: 2rem;
   color: #4B4F54;
   font-weight: 700;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive fallback initials */
+@media (min-width: 640px) {
+  .fallbackInitials {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .fallbackInitials {
+    font-size: 3rem;
+  }
 }
 
 /* Modal / Lightbox Styles */
@@ -115,7 +238,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(31, 35, 38, 0.8); /* Charcoal Dark with opacity */
+  background: rgba(31, 35, 38, 0.8);
+  /* Charcoal Dark with opacity */
   display: grid;
   place-items: center;
   z-index: 1000;
@@ -129,7 +253,7 @@
   background: #FFFFFF;
   border-radius: 16px;
   padding: 1rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   cursor: default;
   max-width: 90vw;
   max-height: 90vh;
@@ -168,7 +292,8 @@
 
 .closeButton:hover {
   transform: scale(1.1);
-  background-color: #F2C230; /* Gold */
+  background-color: #F2C230;
+  /* Gold */
   color: #FFFFFF;
   border-color: #F2C230;
 }

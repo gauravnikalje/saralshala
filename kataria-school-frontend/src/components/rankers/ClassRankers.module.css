@@ -4,8 +4,9 @@
   padding: 3rem 1.5rem;
   box-sizing: border-box;
   position: relative;
-  isolation: isolate;    /* important */
-  background: #f8fafc; 
+  isolation: isolate;
+  /* important */
+  background: #f8fafc;
 }
 
 .heading {
@@ -19,21 +20,20 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
 }
 
-/* Tablet */
-@media (min-width: 768px) {
+/* Responsive adjustments for smaller screens */
+@media (min-width: 640px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 
-/* Desktop */
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
   }
 }
 
@@ -44,6 +44,7 @@
     color: #000;
     border-color: #ccc;
   }
+
   .grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
@@ -53,13 +54,15 @@
 
 
 /* keep images contained, circular and not overflowing */
-._image_13viw_54, .imageFrame img {
+._image_13viw_54,
+.imageFrame img {
   display: block;
   width: 110px;
   height: 110px;
   object-fit: cover;
   border-radius: 50%;
-  box-shadow: 0 6px 14px rgba(16,24,40,0.06); /* reduce spread */
+  box-shadow: 0 6px 14px rgba(16, 24, 40, 0.06);
+  /* reduce spread */
 }
 
 /* RankersPreview.module.css */
@@ -68,8 +71,10 @@
 .card {
   display: block;
   position: relative;
-  overflow: hidden;          /* clip any stray pseudo-elements/shadows */
-  isolation: isolate;        /* create a new stacking context */
+  overflow: hidden;
+  /* clip any stray pseudo-elements/shadows */
+  isolation: isolate;
+  /* create a new stacking context */
   border-radius: 14px;
   background: #ffffff;
   box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
@@ -104,6 +109,3 @@
   display: none !important;
   pointer-events: none !important;
 }
-
-
-

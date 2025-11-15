@@ -1,0 +1,6 @@
+<svg viewBox="0 0 100 100" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="#f0f0f0"/>
+  <circle cx="50" cy="50" r="40" fill="#1e3a8a"/>
+  <text x="50" y="55" text-anchor="middle" fill="white" font-size="12" font-weight="bold">LOGO</text>
+  <text x="50" y="80" text-anchor="middle" fill="#333" font-size="8">PNG Fallback</text>
+</svg>
